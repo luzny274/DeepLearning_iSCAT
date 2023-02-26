@@ -1,0 +1,49 @@
+Particle generation done in 3.194002628326416 s
+Datatype: fl64
+	 Threads: 1--- Convolutions done in 53.21683120727539 s
+	 Threads: 2--- Convolutions done in 28.38896131515503 s
+	 Threads: 3--- Convolutions done in 22.219325065612793 s
+	 Threads: 4--- Convolutions done in 18.75241231918335 s
+	 Threads: 5--- Convolutions done in 17.00173592567444 s
+	 Threads: 6--- Convolutions done in 13.779551267623901 s
+	 Threads: 7--- Convolutions done in 14.090007781982422 s
+	 Threads: 8--- Convolutions done in 13.106576442718506 s
+	 Threads: 9--- Convolutions done in 13.761250734329224 s
+	 Threads: 10--- Convolutions done in 14.660014867782593 s
+	 Threads: 11--- Convolutions done in 16.030767917633057 s
+Datatype: fl32
+	 Threads: 1--- Convolutions done in 23.89229989051819 s
+	 Threads: 2--- Convolutions done in 13.387365579605103 s
+	 Threads: 3--- Convolutions done in 10.910561084747314 s
+	 Threads: 4--- Convolutions done in 8.94798493385315 s
+	 Threads: 5--- Convolutions done in 8.141768455505371 s
+	 Threads: 6--- Convolutions done in 7.532548427581787 s
+	 Threads: 7--- Convolutions done in 7.445096492767334 s
+	 Threads: 8--- Convolutions done in 6.835848808288574 s
+	 Threads: 9--- Convolutions done in 6.689347982406616 s
+	 Threads: 10--- Convolutions done in 6.418465852737427 s
+	 Threads: 11--- Convolutions done in 6.527186155319214 s
+Datatype: ui32
+	 Threads: 1--- Convolutions done in 28.12605881690979 s
+	 Threads: 2--- Convolutions done in 16.072876453399658 s
+	 Threads: 3--- Convolutions done in 12.399078130722046 s
+	 Threads: 4--- Convolutions done in 9.838327407836914 s
+	 Threads: 5--- Convolutions done in 9.423471212387085 s
+	 Threads: 6--- Convolutions done in 8.162920951843262 s
+	 Threads: 7--- Convolutions done in 8.068719625473022 s
+	 Threads: 8--- Convolutions done in 7.569053411483765 s
+	 Threads: 9--- Convolutions done in 7.455594062805176 s
+	 Threads: 10--- Convolutions done in 7.256475448608398 s
+	 Threads: 11--- Convolutions done in 7.319911479949951 s
+Datatype: ui16
+	 Threads: 1--- Convolutions done in 13.875069856643677 s
+	 Threads: 2--- Convolutions done in 8.426499605178833 s
+	 Threads: 3--- Convolutions done in 6.669496774673462 s
+	 Threads: 4--- Convolutions done in 5.4045000076293945 s
+	 Threads: 5--- Convolutions done in 5.142815351486206 s
+	 Threads: 6--- Convolutions done in 4.553208827972412 s
+	 Threads: 7--- Convolutions done in 4.606207609176636 s
+	 Threads: 8--- Convolutions done in 4.324331998825073 s
+	 Threads: 9--- Convolutions done in 4.273523569107056 s
+	 Threads: 10--- Convolutions done in 4.103909730911255 s
+	 Threads: 11--- Convolutions done in 4.1147541999816895 s
