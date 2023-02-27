@@ -12,8 +12,6 @@ pip install tensorflow==2.10
 #Test CPU: python -c "import tensorflow as tf; print(tf.reduce_sum(tf.random.normal([1000, 1000])))"
 #Test GPU: python -c "import tensorflow as tf; print(tf.config.list_physical_devices('GPU'))"
 
-pip install cython
-pip install scipy
-pip install pillow
+pip install cython scipy pillow jupyter matplotlib ipywidgets
 
 pip install tensorflow-addons tensorflow-probability tensorflow-hub transformersy
