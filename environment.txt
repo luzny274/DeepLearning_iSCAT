@@ -1,0 +1,19 @@
+conda create --name DeepLearning_iSCAT python=3.9
+conda activate DeepLearning_iSCAT
+
+conda install -c conda-forge cudatoolkit=11.2 cudnn=8.1.0
+pip install --upgrade pip
+
+pip install numpy==1.24.2
+pip install tensorflow==2.10
+
+#########Maybe edit envs\DeepLearning_iSCAT\Lib\site-packages\tensorflow\python\platform\self_check.py
+
+#Test CPU: python -c "import tensorflow as tf; print(tf.reduce_sum(tf.random.normal([1000, 1000])))"
+#Test GPU: python -c "import tensorflow as tf; print(tf.config.list_physical_devices('GPU'))"
+
+pip install cython
+pip install scipy
+pip install pillow
+
+pip install tensorflow-addons tensorflow-probability tensorflow-hub transformersy
