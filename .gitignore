@@ -1,17 +1,2 @@
 *.npy
 
-# Jupyter Notebook
-.ipynb_checkpoints
-
-# IPython
-profile_default/
-ipython_config.py
-
-# PEP 582; used by e.g. github.com/David-OConnor/pyflow
-__pypackages__/
-
-
-# Spyder project settings
-.spyderproject
-.spyproject
-
