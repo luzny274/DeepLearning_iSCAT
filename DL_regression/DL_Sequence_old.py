@@ -7,62 +7,6 @@ import Sparse_Subpixel_Convolution as SpConv
 import time
 
 import keras
-import tensorflow as tf
-
-
-class iSCAT_DataGenerator(tf.data.Dataset):
-    def __init__(self, batch_size=128, epoch_size=4096, res=32, frames=32, thread_count=10,
-                PSF_path="../PSF_subpx_fl32.npy", exD=5000, devD=4000, exPT_cnt=1000, devPT_cnt=999, exIntensity=1.0, devIntensity=0.9, target_step=31,
-                target_mode="count_particles"):
-        
-        self.batch_size = batch_size
-        self.epoch_size = epoch_size
-
-        self.nm_per_px = 46
-
-        self.dt = 0.1
-        self.t_max = frames * self.dt
-
-        self.psf_peak_px_sz = 32
-
-        self.cam_fov_px = res
-
-        self.step_cnt = int(self.t_max / self.dt)
-
-        PSF = np.load(PSF_path)
-
-        self.conv_calc = SpConv.ConvolutionCalculator_fl32(PSF, 1, verbose=1)
-        self.thread_count = thread_count
-
-        self.sample_sz_px = PSF.shape[2] - self.cam_fov_px
-        self.FOV_edge = self.sample_sz_px / 2 - self.cam_fov_px / 2
-
-        self.exD          = exD         
-        self.devD         = devD        
-        self.exPT_cnt     = exPT_cnt    
-        self.devPT_cnt    = devPT_cnt   
-        self.exIntensity  = exIntensity 
-        self.devIntensity = devIntensity
-        self.target_step  = target_step 
-
-        self.target_mode  = target_mode
-        
-        print("Sample width: ", self.sample_sz_px)
-
-        
-        self.on_epoch_end()
-
-
-    def _generator(self):
-        for item in self._data:
-            yield item
-
-    def __iter__(self):
-        return self._generator()
-
-    def __len__(self):
-        return len(self._data)
-
 
 class iSCAT_DataGenerator(keras.utils.Sequence):
 
