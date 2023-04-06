@@ -52,7 +52,6 @@ class SaveBestModel(tf.keras.callbacks.Callback):
         f.close()
 
         self.model.save(model_filename, include_optimizer=False)
-        # self.model.save_weights(self.name, include_optimizer=False)
 
 
     def on_epoch_end(self, epoch, logs=None):
@@ -60,6 +59,60 @@ class SaveBestModel(tf.keras.callbacks.Callback):
             print("\tSaving...")
             self.set_best(logs)
 
+
+class Model(tf.keras.Model):
+    def _activation(self, inputs):
+        if self.activation == "relu":
+            return tf.keras.layers.Activation(tf.nn.relu)(inputs)
+        if self.activation == "lrelu":
+            return tf.keras.layers.Activation(tf.nn.leaky_relu)(inputs)
+        if self.activation == "elu":
+            return tf.keras.layers.Activation(tf.nn.elu)(inputs)
+        if self.activation == "swish":
+            return tf.keras.layers.Activation(tf.nn.swish)(inputs)
+        if self.activation == "gelu":
+            return tf.keras.layers.Activation(tf.nn.gelu)(inputs)
+        raise ValueError("Unknown activation '{}'".format(self.activation))
+
+
+class ResNet(Model):
+    def _cnn(self, inputs, filters, kernel_size, stride, activation):
+        hidden = tf.keras.layers.Conv2D(filters, kernel_size=kernel_size, strides=stride, padding="same", use_bias=False)(inputs)
+        hidden = tf.keras.layers.BatchNormalization()(hidden)
+        hidden = self._activation(hidden) if activation else hidden
+        return hidden
+
+    def _block(self, inputs, filters, stride, layer_index):
+        hidden = self._cnn(inputs, filters, self.kernel_size, stride, activation=True)
+        hidden = self._cnn(hidden, filters, self.kernel_size, 1, activation=False)
+        if stride > 1:
+            residual = self._cnn(inputs, filters, 1, stride, activation=False)
+        else:
+            residual = inputs
+        hidden = residual + hidden
+        hidden = self._activation(hidden)
+        return hidden
+
+    def __init__(self, shape, num_classes, activation, depth, filters_start, kernel_size):
+        self.shape = shape
+        self.num_classes = num_classes
+        self.activation = activation
+        self.depth = depth
+
+        self.filters_start = filters_start
+        self.kernel_size = kernel_size
+
+        n = (depth - 2) // 6
+
+
+        inputs = tf.keras.Input(shape=shape, dtype=tf.float32)
+        hidden = self._cnn(inputs, filters_start, kernel_size, 1, activation=True)
+        for stage in range(3):
+            for block in range(n):
+                hidden = self._block(hidden, filters_start * (1 << stage), 2 if stage > 0 and block == 0 else 1, (stage * n + block) / (3 * n - 1))
+        hidden = tf.keras.layers.GlobalAvgPool2D()(hidden)
+        outputs = tf.keras.layers.Dense(num_classes, activation=tf.nn.softmax)(hidden)
+        super().__init__(inputs, outputs)
 
 def main(args):
     num_classes = 5
@@ -74,76 +127,54 @@ def main(args):
     res=32
     frames=32
 
-    train_epoch_size = 8192
-    train_batch_size = 16
+    train_epoch_size = 16384
+    test_epoch_size = 8192
+    batch_size = 32
     epochs = 200
 
     seed = int(datetime.datetime.now().timestamp()) % 1000000
     tf.keras.utils.set_random_seed(seed)
 
-    hidden_layer = 5000
+    tf.keras.backend.image_data_format()
 
     print(tf.keras.backend.image_data_format())
     tf.keras.backend.set_image_data_format('channels_first')
     print(tf.keras.backend.image_data_format())
-    mode = "static"
+
+    mode = "dynamic"
     print("Mode: " + mode)
-    
-    model_comment = "_simple_" + mode
-    model_name = "models/model_dense_" + str(hidden_layer) + model_comment
+
+    activation = "relu"
+    depth = 152
+    kernel_size = 3
+
+    model_comment = "_" + mode
+    model_name = "models/model_resnet_k" + str(kernel_size) + model_comment
 
     if args.finetune or args.evaluate:
         model = tf.keras.models.load_model(model_name + ".h5")
     else:
-        model = tf.keras.Sequential([
-            tf.keras.layers.Flatten(input_shape=[frames, res, res]),
-            tf.keras.layers.Dense(hidden_layer, activation=tf.nn.relu),
-            tf.keras.layers.Dense(num_classes, activation=tf.nn.softmax)
-        ])
+        model = ResNet((frames, res, res), num_classes, activation, depth, frames, kernel_size)
 
-    decay_steps = train_epoch_size / train_batch_size * epochs
+        # model_keras = tf.keras.applications.ResNet152(
+        #     include_top=True,
+        #     weights=None,
+        #     input_shape=(frames, res, res),
+        #     classes=num_classes,
+        # )
+        # def offresnetprint(s):
+        #     with open('offresnetsummary.txt','a') as f:
+        #         print(s, file=f)
+        # model_keras.summary(print_fn=offresnetprint)
+
+
+    decay_steps = train_epoch_size / batch_size * epochs
     start_lr = 0.0001
     end_lr = 0.0
     alpha = end_lr / start_lr
     learning_rate = tf.optimizers.schedules.CosineDecay(start_lr, decay_steps, alpha)
 
     optimizer = tf.optimizers.Adam(learning_rate=learning_rate)
-
-    def smooth_crossentropy(y_true, y_pred):
-        mask = tf.constant([[1.0, 0.5, 0.0, 0.0, 0.0],
-                            [0.5, 1.0, 0.5, 0.0, 0.0],
-                            [0.0, 0.5, 1.0, 0.5, 0.0],
-                            [0.0, 0.0, 0.5, 1.0, 0.5],
-                            [0.0, 0.0, 0.0, 0.5, 1.0]])
-
-        # mask = tf.constant([[1.0  , 0.5  , 0.25 , 0.125, 0.0  ],
-        #                     [0.5  , 1.0  , 0.5  , 0.25 , 0.125],
-        #                     [0.25 , 0.5  , 1.0  , 0.5  , 0.25 ],
-        #                     [0.125, 0.25 , 0.5  , 1.0  , 0.5  ],
-        #                     [0.0  , 0.125, 0.25 , 0.5  , 1.0  ]])
-                            
-        sum_elems = - tf.math.log(y_pred) * tf.gather(mask, y_true[:,0], axis=0)
-        loss=tf.math.reduce_mean(tf.math.reduce_sum(sum_elems, axis = 1))
-
-        return loss
-
-    def sparse_categorical_crossentropy(y_true, y_pred):
-        mask = tf.constant([[1.0, 0.0, 0.0, 0.0, 0.0],
-                            [0.0, 1.0, 0.0, 0.0, 0.0],
-                            [0.0, 0.0, 1.0, 0.0, 0.0],
-                            [0.0, 0.0, 0.0, 1.0, 0.0],
-                            [0.0, 0.0, 0.0, 0.0, 1.0]])
-
-        sum_elems = - tf.math.log(y_pred) * tf.gather(mask, y_true[:,0], axis=0)
-        loss=tf.math.reduce_mean(tf.math.reduce_sum(sum_elems, axis = 1))
-
-        # sum_elems = - tf.math.log(y_pred) * tf.one_hot(y_true[:,0], y_pred.shape[1])
-        # loss=tf.math.reduce_mean(tf.math.reduce_sum(sum_elems, axis = 1))
-
-        # sum_elems = - tf.math.log(tf.gather(params=y_pred, indices=y_true[:,0], batch_dims=1))
-        # loss = tf.math.reduce_mean(sum_elems)
-
-        return loss
 
     def mean_deviation(y_true, y_pred):
         pred_class = tf.cast(tf.math.argmax(y_pred, axis=-1), tf.float32)
@@ -155,10 +186,16 @@ def main(args):
         deviations = tf.abs(y_true[:, 0] - pred_class)
         return tf.math.reduce_std(deviations)
 
+    with open('resnetsummary.txt','w') as f:
+        print("", file=f)
 
-    model.summary()
+    def myprint(s):
+        with open('resnetsummary.txt','a') as f:
+            print(s, file=f)
 
-    test_gen = DL_Sequence.iSCAT_DataGenerator(batch_size=256, epoch_size=8192, res=res, frames=frames, thread_count=20,
+    model.summary(print_fn=myprint)
+
+    test_gen = DL_Sequence.iSCAT_DataGenerator(batch_size=batch_size, epoch_size=test_epoch_size, res=res, frames=frames, thread_count=20,
                     PSF_path="../PSF_subpx_fl32.npy", exD=exD, devD=devD, exPT_cnt=exPT_cnt, devPT_cnt=devPT_cnt, exIntensity=exIntensity, devIntensity=devIntensity, target_frame=target_frame,
                     num_classes=num_classes, verbose = 0, noise_func = None, mode = mode, regen = False)
 
@@ -166,8 +203,6 @@ def main(args):
         model.compile(
             optimizer=optimizer,
             loss=tf.losses.SparseCategoricalCrossentropy(),
-            # loss=sparse_categorical_crossentropy,
-            # loss=smooth_crossentropy,
             metrics=[tf.metrics.SparseCategoricalAccuracy(name="accuracy"), mean_deviation, std_deviation],
         )
         model.evaluate(test_gen)
@@ -178,7 +213,7 @@ def main(args):
             metrics=[tf.metrics.SparseCategoricalAccuracy(name="accuracy")],
         )
 
-        train_gen = DL_Sequence.iSCAT_DataGenerator(batch_size=train_batch_size, epoch_size=train_epoch_size, res=res, frames=frames, thread_count=20,
+        train_gen = DL_Sequence.iSCAT_DataGenerator(batch_size=batch_size, epoch_size=train_epoch_size, res=res, frames=frames, thread_count=20,
                         PSF_path="../PSF_subpx_fl32.npy", exD=exD, devD=devD, exPT_cnt=exPT_cnt, devPT_cnt=devPT_cnt, exIntensity=exIntensity, devIntensity=devIntensity, target_frame=target_frame,
                         num_classes=num_classes, verbose = 1, noise_func = None, mode = mode, regen = True)
                         

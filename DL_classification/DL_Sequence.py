@@ -14,7 +14,7 @@ import datetime
 class SampleGenerator:
     def __init__(self, epoch_size, res, frames, thread_count,
                 PSF_path, exD, devD, exPT_cnt, devPT_cnt, exIntensity, devIntensity, target_frame,
-                num_classes, verbose):
+                num_classes, verbose, noise_func, mode):
         self.verbose = verbose
         self.epoch_size = epoch_size
 
@@ -27,7 +27,7 @@ class SampleGenerator:
 
         self.cam_fov_px = res
 
-        self.step_cnt = int(self.t_max / self.dt)
+        self.step_cnt = frames
 
         PSF = np.load(PSF_path)
 
@@ -37,15 +37,24 @@ class SampleGenerator:
         self.sample_sz_px = PSF.shape[2] - self.cam_fov_px
         self.FOV_edge = self.sample_sz_px / 2 - self.cam_fov_px / 2
 
-        self.exD          = exD         
-        self.devD         = devD        
-        self.exPT_cnt     = exPT_cnt    
-        self.devPT_cnt    = devPT_cnt   
-        self.exIntensity  = exIntensity 
-        self.devIntensity = devIntensity
+        self.exD           = exD         
+        self.devD          = devD        
+        self.exPT_cnt      = exPT_cnt    
+        self.devPT_cnt     = devPT_cnt   
+        self.exIntensity   = exIntensity 
+        self.devIntensity  = devIntensity
         self.target_frame  = target_frame 
+ 
+        self.num_classes   = num_classes
+         
+        self.noise_func    = noise_func
+        self.mode          = mode
 
-        self.num_classes  = num_classes
+        self.full_step_cnt = frames
+
+        if self.mode == "static":
+            self.step_cnt = 1
+            self.target_frame = 0
         
         print("Sample width: ", self.sample_sz_px)
         
@@ -127,7 +136,18 @@ class SampleGenerator:
         if self.verbose > 0:
             print("Whole generation time: {:.3f}s".format(time.time() - start))
 
-        return [np.array(samples),
+        samples = np.array(samples)
+
+        if self.step_cnt == 1 and self.step_cnt < self.full_step_cnt:
+            broadcasted_samples = np.zeros((sample_cnt, self.full_step_cnt, self.cam_fov_px, self.cam_fov_px))
+            broadcasted_samples[:, :, :, :] = samples[:, :, :, :]
+            samples = broadcasted_samples   
+
+        if self.noise_func != None:
+            samples = self.noise_func(samples)
+
+
+        return [samples,
                 particle_positions,
                 diffusion_coefs,
                 pt_cnts,
@@ -135,11 +155,11 @@ class SampleGenerator:
 
 def sampleWorker(input_queue, output_queue, epoch_size, res, frames, thread_count,
                 PSF_path, exD, devD, exPT_cnt, devPT_cnt, exIntensity, devIntensity, target_frame,
-                num_classes, verbose):
+                num_classes, verbose, noise_func, mode):
     
     sampleGenerator = SampleGenerator(epoch_size, res, frames, thread_count,
                 PSF_path, exD, devD, exPT_cnt, devPT_cnt, exIntensity, devIntensity, target_frame,
-                num_classes, verbose)
+                num_classes, verbose, noise_func, mode)
     while True:
         input_val = input_queue.get()
         if verbose > 0:
@@ -168,9 +188,11 @@ class iSCAT_DataGenerator(keras.utils.Sequence):
     
     def __init__(self, batch_size=128, epoch_size=4096, res=32, frames=32, thread_count=10,
                 PSF_path="../PSF_subpx_fl32.npy", exD=5000, devD=4000, exPT_cnt=1000, devPT_cnt=999, exIntensity=1.0, devIntensity=0.9, target_frame=15,
-                num_classes = 16, verbose = 0):
+                num_classes = 16, verbose = 0, noise_func = None, mode = "dynamic", regen = True):
 
         np.random.seed(int(datetime.datetime.now().timestamp()) % 1000000)
+
+        self.regen = regen
 
         self.verbose = verbose
         self.indices = np.array(range(epoch_size))
@@ -196,19 +218,26 @@ class iSCAT_DataGenerator(keras.utils.Sequence):
         self.target_frame = target_frame 
 
         self.num_classes  = num_classes
+
+        self.noise_func   = noise_func
+        self.mode         = mode
         
         if self.parallel:
             self.input_queue = multiprocessing.Queue()
             self.output_queue = multiprocessing.Queue()
             self.p = multiprocessing.Process(target=sampleWorker, args=(self.input_queue, self.output_queue, epoch_size, res, frames, thread_count,
                 PSF_path, exD, devD, exPT_cnt, devPT_cnt, exIntensity, devIntensity, target_frame,
-                num_classes, self.verbose - 1))
+                num_classes, self.verbose - 1, noise_func, mode))
             self.p.start()
 
             self.input_queue.put("Run")
             self.samples, self.particle_positions, self.diffusion_coefs, self.pt_cnts, self.particles_in_sight_cnt = self.output_queue.get()
             self.new_dataset_time = time.time()
-            self.input_queue.put("Run")
+
+            if self.regen:
+                self.input_queue.put("Run")
+            else:
+                self.input_queue.put("Die")
 
             print("Min particle in sight cnt:", self.particles_in_sight_cnt.min())
             print("Max particle in sight cnt:", self.particles_in_sight_cnt.max())
@@ -224,15 +253,25 @@ class iSCAT_DataGenerator(keras.utils.Sequence):
         else:
             self.sampleGenerator = SampleGenerator(epoch_size, res, frames, thread_count,
                 PSF_path, exD, devD, exPT_cnt, devPT_cnt, exIntensity, devIntensity, target_frame,
-                num_classes, self.verbose - 1)
+                num_classes, self.verbose - 1, noise_func, mode)
             
             self.samples, self.particle_positions, self.diffusion_coefs, self.pt_cnts, self.particles_in_sight_cnt = self.sampleGenerator.GenSamples()
             self.new_dataset_time = time.time()
+
+            del self.sampleGenerator
             
             print("Min particle in sight cnt:", self.particles_in_sight_cnt.min())
             print("Max particle in sight cnt:", self.particles_in_sight_cnt.max())
             print("Avg particle in sight cnt:", self.particles_in_sight_cnt.mean())
             print("Std particle in sight cnt:", self.particles_in_sight_cnt.std())
+
+            classes = "class: "
+            cl_cnts = "count: "
+            for k in range(num_classes):
+                classes += "{0: <6}|".format(k)
+                cl_cnts += "{0: <6}|".format(np.sum(self.particles_in_sight_cnt == k))
+            print(classes)
+            print(cl_cnts)
 
         
         self.on_epoch_end()
@@ -251,7 +290,7 @@ class iSCAT_DataGenerator(keras.utils.Sequence):
 
     def on_epoch_end(self):
         # print("Epoch ended")
-        if self.parallel and self.output_queue.qsize() > 0:
+        if self.parallel and self.output_queue.qsize() > 0 and self.regen:
             if self.verbose > 0:
                 print()
                 print("New dataset generated! Generation time: {:.2f}s".format(time.time() - self.new_dataset_time))
@@ -259,10 +298,11 @@ class iSCAT_DataGenerator(keras.utils.Sequence):
             self.samples, self.particle_positions, self.diffusion_coefs, self.pt_cnts, self.particles_in_sight_cnt = self.output_queue.get()
             self.new_dataset_time = time.time()
             self.input_queue.put("Run")
+
         np.random.shuffle(self.indices)
 
     def destroy(self):
-        if self.parallel:
+        if self.parallel and self.regen:
             self.output_queue.get()
             self.input_queue.put("Die")
 
