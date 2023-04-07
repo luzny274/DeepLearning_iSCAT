@@ -11,6 +11,84 @@ import keras
 import multiprocessing
 import datetime 
 
+DT = 0.1
+NM_PER_PX = 46
+PSF_PEAK_SIZE = 32
+
+class SampleParticlePregenerator:
+    def __init__(self, epoch_size, res, frames, sample_sz_px, loop,
+                exD, devD, exPT_cnt, devPT_cnt, exIntensity, devIntensity, target_frame,
+                num_classes, verbose, mode):
+
+        self.verbose = verbose
+        self.sample_cnt = epoch_size
+
+        self.nm_per_px = NM_PER_PX
+
+        self.dt = DT
+        self.t_max = frames * self.dt
+
+        self.psf_peak_px_sz = PSF_PEAK_SIZE
+
+        self.cam_fov_px = res
+
+        self.step_cnt = frames
+        self.loop = loop
+
+        self.sample_sz_px = sample_sz_px
+        self.FOV_edge = self.sample_sz_px / 2 - self.cam_fov_px / 2
+
+        self.exD           = exD         
+        self.devD          = devD        
+        self.exPT_cnt      = exPT_cnt    
+        self.devPT_cnt     = devPT_cnt   
+        self.exIntensity   = exIntensity 
+        self.devIntensity  = devIntensity
+        self.target_frame  = target_frame 
+ 
+        self.num_classes   = num_classes
+         
+        self.mode          = mode
+
+        self.full_step_cnt = frames
+
+        if self.mode == "static":
+            self.step_cnt = 1
+            self.target_frame = 0
+
+    
+    def GenParticlePositions(self):
+        start = time.time()
+        
+        pt_cnts = np.random.uniform(self.exPT_cnt - self.devPT_cnt, self.exPT_cnt + self.devPT_cnt, (self.sample_cnt)).astype(np.int32)
+        
+        particle_count = np.sum(pt_cnts)
+        diffusion_coefs = np.random.uniform(self.exD - self.devD, self.exD + self.devD, (particle_count))
+        intensities = np.random.uniform(self.exIntensity - self.devIntensity, self.exIntensity + self.devIntensity, (particle_count)).astype(np.float32)
+        
+
+        variance = 4 * diffusion_coefs * self.dt / (self.nm_per_px ** 2)
+
+        start_poss = np.random.uniform(0, self.sample_sz_px, (particle_count, 2))
+        dposs = np.random.normal(0, variance[None, :, None], (self.step_cnt, particle_count, 2))
+
+        poss = start_poss[None, :, :] + np.cumsum(dposs, axis = 0)
+
+        s = self.sample_sz_px
+
+        if(self.loop):
+            poss[poss < 0] = poss[poss < 0] + np.floor(-poss[poss < 0] / s + 1) * s
+            poss[poss > s] = poss[poss > s] - np.floor( poss[poss > s] / s + 0) * s
+
+        poss -= self.FOV_edge
+        
+        if self.verbose > 0:
+            print("Particle generation time: {:.3f}s".format(time.time() - start))
+            
+
+        return poss, diffusion_coefs, pt_cnts, particle_count, intensities
+    
+
 class SampleGenerator:
     def __init__(self, epoch_size, res, frames, thread_count,
                 PSF_path, exD, devD, exPT_cnt, devPT_cnt, exIntensity, devIntensity, target_frame,
@@ -18,12 +96,12 @@ class SampleGenerator:
         self.verbose = verbose
         self.epoch_size = epoch_size
 
-        self.nm_per_px = 46
+        self.nm_per_px = NM_PER_PX
 
-        self.dt = 0.1
+        self.dt = DT
         self.t_max = frames * self.dt
 
-        self.psf_peak_px_sz = 32
+        self.psf_peak_px_sz = PSF_PEAK_SIZE
 
         self.cam_fov_px = res
 
@@ -59,25 +137,6 @@ class SampleGenerator:
         print("Sample width: ", self.sample_sz_px)
         
 
-    def GenParticlePositions(self, D : np.ndarray, particle_count : int, loop : bool):
-        variance = 4 * D * self.dt / (self.nm_per_px ** 2)
-
-        start_poss = np.random.uniform(0, self.sample_sz_px, (particle_count, 2))
-        dposs = np.random.normal(0, variance[None, :, None], (self.step_cnt, particle_count, 2))
-
-        poss = start_poss[None, :, :] + np.cumsum(dposs, axis = 0)
-
-        s = self.sample_sz_px
-
-        if(loop):
-            poss[poss < 0] = poss[poss < 0] + np.floor(-poss[poss < 0] / s + 1) * s
-            poss[poss > s] = poss[poss > s] - np.floor( poss[poss > s] / s + 0) * s
-
-        poss -= self.FOV_edge
-
-        return poss
-    
-    
     def GetTargets(self, particle_positions, pt_cnts, step):
         start = time.time()
         xc_in_sight = (particle_positions[step, :, 0] > 0) & (particle_positions[step, :, 0] < self.cam_fov_px)
@@ -95,7 +154,7 @@ class SampleGenerator:
             
         return particles_in_sight_cnt
     
-    def GenSamples(self):
+    def GenSamples(self, particle_positions, diffusion_coefs, pt_cnts, particle_count, intensities):
         start = time.time()
         
         exD          = self.exD         
@@ -108,18 +167,6 @@ class SampleGenerator:
 
         sample_cnt   = self.epoch_size
 
-
-        pt_cnts = np.random.uniform(exPT_cnt - devPT_cnt, exPT_cnt + devPT_cnt, (sample_cnt)).astype(np.int32)
-        
-        pt_cnt = np.sum(pt_cnts)
-        diffusion_coefs = np.random.uniform(exD - devD, exD + devD, (pt_cnt))
-        intensities = np.random.uniform(exIntensity - devIntensity, exIntensity + devIntensity, (pt_cnt)).astype(np.float32)
-        
-        particle_positions = self.GenParticlePositions(diffusion_coefs, pt_cnt, True)
-        
-        if self.verbose > 0:
-            print("Particle generation time: {:.3f}s".format(time.time() - start))
-            
         start_conv = time.time()
         samples = self.conv_calc.convolve(self.thread_count, self.cam_fov_px, particle_positions, pt_cnts, intensities, verbose=self.verbose)
         
@@ -153,6 +200,21 @@ class SampleGenerator:
                 pt_cnts,
                 np.minimum(np.array(particles_in_sight_cnt), self.num_classes - 1)]
 
+def particlesWorker(input_queue, output_queue, epoch_size, res, frames, sample_sz_px, loop, 
+                exD, devD, exPT_cnt, devPT_cnt, exIntensity, devIntensity, target_frame,
+                num_classes, verbose, mode):
+    
+    sampleParticlePregenerator = SampleParticlePregenerator(epoch_size, res, frames, sample_sz_px, loop,
+                exD, devD, exPT_cnt, devPT_cnt, exIntensity, devIntensity, target_frame,
+                num_classes, verbose, mode)
+    while True:
+        input_val = input_queue.get()
+        if verbose > 0:
+            print("particlesWorker:", input_val)
+        if input_val == "Die":
+            break
+        output_queue.put(sampleParticlePregenerator.GenParticlePositions())
+
 def sampleWorker(input_queue, output_queue, epoch_size, res, frames, thread_count,
                 PSF_path, exD, devD, exPT_cnt, devPT_cnt, exIntensity, devIntensity, target_frame,
                 num_classes, verbose, noise_func, mode):
@@ -160,13 +222,28 @@ def sampleWorker(input_queue, output_queue, epoch_size, res, frames, thread_coun
     sampleGenerator = SampleGenerator(epoch_size, res, frames, thread_count,
                 PSF_path, exD, devD, exPT_cnt, devPT_cnt, exIntensity, devIntensity, target_frame,
                 num_classes, verbose, noise_func, mode)
+
+    poss_input_queue = multiprocessing.Queue()
+    poss_output_queue = multiprocessing.Queue()
+    poss_p = multiprocessing.Process(target=particlesWorker, args=(poss_input_queue, poss_output_queue, 
+                                                                epoch_size, res, frames, sampleGenerator.sample_sz_px, True,
+                                                                exD, devD, exPT_cnt, devPT_cnt, exIntensity, devIntensity, target_frame,
+                                                                num_classes, verbose, mode))
+    poss_p.start()
+
+    poss_input_queue.put("Run")
+
     while True:
+        poss, diffusion_coefs, pt_cnts, particle_count, intensities = poss_output_queue.get()
         input_val = input_queue.get()
+
+        poss_input_queue.put(input_val)
+
         if verbose > 0:
-            print(input_val)
+            print("sampleWorker:", input_val)
         if input_val == "Die":
             break
-        output_queue.put(sampleGenerator.GenSamples())
+        output_queue.put(sampleGenerator.GenSamples(poss, diffusion_coefs, pt_cnts, particle_count, intensities))
 
 
 class iSCAT_DataGenerator(keras.utils.Sequence):
@@ -200,10 +277,10 @@ class iSCAT_DataGenerator(keras.utils.Sequence):
         self.batch_size = batch_size
         self.epoch_size = epoch_size
 
-        self.nm_per_px = 46
-        self.dt = 0.1
+        self.nm_per_px = NM_PER_PX
+        self.dt = DT
         self.t_max = frames * self.dt
-        self.psf_peak_px_sz = 32
+        self.psf_peak_px_sz = PSF_PEAK_SIZE
         self.cam_fov_px = res
         self.step_cnt = frames
 

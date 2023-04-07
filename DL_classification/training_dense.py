@@ -18,6 +18,8 @@ from ipywidgets import Layout, interact, IntSlider, FloatSlider
 
 import tensorflow as tf
 
+import multiprocessing
+
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--finetune", default=False, action="store_true", help="Train new/finetune")
@@ -74,8 +76,9 @@ def main(args):
     res=32
     frames=32
 
-    train_epoch_size = 8192
-    train_batch_size = 16
+    train_epoch_size = 16384
+    test_epoch_size = 8192
+    batch_size = 32
     epochs = 200
 
     seed = int(datetime.datetime.now().timestamp()) % 1000000
@@ -86,7 +89,7 @@ def main(args):
     print(tf.keras.backend.image_data_format())
     tf.keras.backend.set_image_data_format('channels_first')
     print(tf.keras.backend.image_data_format())
-    mode = "static"
+    mode = "dynamic"
     print("Mode: " + mode)
     
     model_comment = "_simple_" + mode
@@ -101,7 +104,7 @@ def main(args):
             tf.keras.layers.Dense(num_classes, activation=tf.nn.softmax)
         ])
 
-    decay_steps = train_epoch_size / train_batch_size * epochs
+    decay_steps = train_epoch_size / batch_size * epochs
     start_lr = 0.0001
     end_lr = 0.0
     alpha = end_lr / start_lr
@@ -157,8 +160,10 @@ def main(args):
 
 
     model.summary()
+    
+    number_of_threads = multiprocessing.cpu_count()
 
-    test_gen = DL_Sequence.iSCAT_DataGenerator(batch_size=256, epoch_size=8192, res=res, frames=frames, thread_count=20,
+    test_gen = DL_Sequence.iSCAT_DataGenerator(batch_size=batch_size, epoch_size=test_epoch_size, res=res, frames=frames, thread_count = int(number_of_threads * 2 / 3),
                     PSF_path="../PSF_subpx_fl32.npy", exD=exD, devD=devD, exPT_cnt=exPT_cnt, devPT_cnt=devPT_cnt, exIntensity=exIntensity, devIntensity=devIntensity, target_frame=target_frame,
                     num_classes=num_classes, verbose = 0, noise_func = None, mode = mode, regen = False)
 
@@ -178,7 +183,7 @@ def main(args):
             metrics=[tf.metrics.SparseCategoricalAccuracy(name="accuracy")],
         )
 
-        train_gen = DL_Sequence.iSCAT_DataGenerator(batch_size=train_batch_size, epoch_size=train_epoch_size, res=res, frames=frames, thread_count=20,
+        train_gen = DL_Sequence.iSCAT_DataGenerator(batch_size=batch_size, epoch_size=train_epoch_size, res=res, frames=frames, thread_count = int(number_of_threads * 2 / 3),
                         PSF_path="../PSF_subpx_fl32.npy", exD=exD, devD=devD, exPT_cnt=exPT_cnt, devPT_cnt=devPT_cnt, exIntensity=exIntensity, devIntensity=devIntensity, target_frame=target_frame,
                         num_classes=num_classes, verbose = 1, noise_func = None, mode = mode, regen = True)
                         

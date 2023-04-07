@@ -18,6 +18,8 @@ from ipywidgets import Layout, interact, IntSlider, FloatSlider
 
 import tensorflow as tf
 
+import multiprocessing
+
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--finetune", default=False, action="store_true", help="Train new/finetune")
@@ -83,12 +85,13 @@ class WideNet(Model):
 
     def _block(self, inputs, filters, stride, layer_index):
         hidden = self._bn_activation(inputs)
-        residual = hidden if stride > 1 or filters != inputs.shape[-1] else inputs
+        # residual = hidden if stride > 1 or filters != inputs.shape[-1] else inputs
+        residual = hidden
         hidden = self._cnn(hidden, filters, self.kernel_size, stride)
         hidden = self._bn_activation(hidden)
         hidden = self._cnn(hidden, filters, self.kernel_size, 1)
 
-        if stride > 1 or filters != inputs.shape[-1]:
+        if stride > 1 or filters != inputs.shape[0]:
             residual = self._cnn(residual, filters, 1, stride)
         hidden = residual + hidden
         return hidden
@@ -186,9 +189,11 @@ def main(args):
             print(s, file=f)
 
     model.summary(print_fn=myprint)
+    
+    number_of_threads = multiprocessing.cpu_count()
 
 
-    test_gen = DL_Sequence.iSCAT_DataGenerator(batch_size=batch_size, epoch_size=test_epoch_size, res=res, frames=frames, thread_count=20,
+    test_gen = DL_Sequence.iSCAT_DataGenerator(batch_size=batch_size, epoch_size=test_epoch_size, res=res, frames=frames, thread_count = int(number_of_threads * 2 / 3),
                     PSF_path="../PSF_subpx_fl32.npy", exD=exD, devD=devD, exPT_cnt=exPT_cnt, devPT_cnt=devPT_cnt, exIntensity=exIntensity, devIntensity=devIntensity, target_frame=target_frame,
                     num_classes=num_classes, verbose = 0, noise_func = None, mode = mode, regen = False)
 
@@ -206,7 +211,7 @@ def main(args):
             metrics=[tf.metrics.SparseCategoricalAccuracy(name="accuracy")],
         )
 
-        train_gen = DL_Sequence.iSCAT_DataGenerator(batch_size=batch_size, epoch_size=train_epoch_size, res=res, frames=frames, thread_count=20,
+        train_gen = DL_Sequence.iSCAT_DataGenerator(batch_size=batch_size, epoch_size=train_epoch_size, res=res, frames=frames, thread_count = int(number_of_threads * 2 / 3),
                         PSF_path="../PSF_subpx_fl32.npy", exD=exD, devD=devD, exPT_cnt=exPT_cnt, devPT_cnt=devPT_cnt, exIntensity=exIntensity, devIntensity=devIntensity, target_frame=target_frame,
                         num_classes=num_classes, verbose = 1, noise_func = None, mode = mode, regen = True)
                         
