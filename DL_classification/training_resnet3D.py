@@ -75,9 +75,9 @@ class Model(tf.keras.Model):
         raise ValueError("Unknown activation '{}'".format(self.activation))
 
 
-class ResNet(Model):
+class ResNet3D(Model):
     def _cnn(self, inputs, filters, kernel_size, stride, activation):
-        hidden = tf.keras.layers.Conv2D(filters, kernel_size=kernel_size, strides=stride, padding="same", use_bias=False)(inputs)
+        hidden = tf.keras.layers.Conv3D(filters, kernel_size=kernel_size, strides=stride, padding="same", use_bias=False)(inputs)
         hidden = tf.keras.layers.BatchNormalization()(hidden)
         hidden = self._activation(hidden) if activation else hidden
         return hidden
@@ -106,11 +106,12 @@ class ResNet(Model):
 
 
         inputs = tf.keras.Input(shape=shape, dtype=tf.float32)
-        hidden = self._cnn(inputs, filters_start, kernel_size, 1, activation=True)
+        hidden = tf.keras.layers.Reshape((1, shape[0], shape[1], shape[2]), input_shape=shape)(inputs)
+        hidden = self._cnn(hidden, filters_start, kernel_size, 1, activation=True)
         for stage in range(3):
             for block in range(n):
                 hidden = self._block(hidden, filters_start * (1 << stage), 2 if stage > 0 and block == 0 else 1, (stage * n + block) / (3 * n - 1))
-        hidden = tf.keras.layers.GlobalAvgPool2D()(hidden)
+        hidden = tf.keras.layers.GlobalAvgPool3D()(hidden)
         outputs = tf.keras.layers.Dense(num_classes, activation=tf.nn.softmax)(hidden)
         super().__init__(inputs, outputs)
 
@@ -130,7 +131,7 @@ def main(args):
     train_epoch_size = 16384
     test_epoch_size = 8192
     batch_size = 32
-    epochs = 200
+    epochs = 100
 
     seed = int(datetime.datetime.now().timestamp()) % 1000000
     tf.keras.utils.set_random_seed(seed)
@@ -144,28 +145,18 @@ def main(args):
     mode = "dynamic"
     print("Mode: " + mode)
 
-    activation = "relu"
-    depth = 152
-    kernel_size = 3
+    activation = "swish"
+    depth = 62
+    filters_start = 16
+    kernel_size = (5, 3, 3)
 
     model_comment = "_" + mode
-    model_name = "models/model_resnet_k" + str(kernel_size) + model_comment
+    model_name = "models/model_resnet3d_tk" + str(kernel_size[0]) + model_comment
 
     if args.finetune or args.evaluate:
         model = tf.keras.models.load_model(model_name + ".h5")
     else:
-        model = ResNet((frames, res, res), num_classes, activation, depth, frames, kernel_size)
-
-        # model_keras = tf.keras.applications.ResNet152(
-        #     include_top=True,
-        #     weights=None,
-        #     input_shape=(frames, res, res),
-        #     classes=num_classes,
-        # )
-        # def offresnetprint(s):
-        #     with open('offresnetsummary.txt','a') as f:
-        #         print(s, file=f)
-        # model_keras.summary(print_fn=offresnetprint)
+        model = ResNet3D((frames, res, res), num_classes, activation, depth, filters_start, kernel_size)
 
 
     decay_steps = train_epoch_size / batch_size * epochs
@@ -186,11 +177,11 @@ def main(args):
         deviations = tf.abs(y_true[:, 0] - pred_class)
         return tf.math.reduce_std(deviations)
 
-    with open('resnetsummary.txt','w') as f:
+    with open('resnet3dsummary.txt','w') as f:
         print("", file=f)
 
     def myprint(s):
-        with open('resnetsummary.txt','a') as f:
+        with open('resnet3dsummary.txt','a') as f:
             print(s, file=f)
 
     model.summary(print_fn=myprint)

@@ -144,8 +144,8 @@ def main(args):
     mode = "dynamic"
     print("Mode: " + mode)
 
-    activation = "relu"
-    depth = 152
+    activation = "swish"
+    depth = 62
     kernel_size = 3
 
     model_comment = "_" + mode
