@@ -18,8 +18,6 @@ from ipywidgets import Layout, interact, IntSlider, FloatSlider
 
 import tensorflow as tf
 
-import multiprocessing
-
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--finetune", default=False, action="store_true", help="Train new/finetune")
@@ -76,46 +74,65 @@ class Model(tf.keras.Model):
             return tf.keras.layers.Activation(tf.nn.gelu)(inputs)
         raise ValueError("Unknown activation '{}'".format(self.activation))
 
-class WideNet(Model):
-    def _cnn(self, inputs, filters, kernel_size, stride):
-        return tf.keras.layers.Conv2D(filters, kernel_size=kernel_size, strides=stride, padding="same", use_bias=False)(inputs)
 
-    def _bn_activation(self, inputs):
-        return self._activation(tf.keras.layers.BatchNormalization()(inputs))
-
-    def _block(self, inputs, filters, stride, layer_index):
-        hidden = self._bn_activation(inputs)
-        # residual = hidden if stride > 1 or filters != inputs.shape[1] else inputs
-        residual = hidden if stride > 1 else inputs
-        # residual = hidden
-        hidden = self._cnn(hidden, filters, self.kernel_size, stride)
-        hidden = self._bn_activation(hidden)
-        hidden = self._cnn(hidden, filters, self.kernel_size, 1)
-
-        if stride > 1:
-            residual = self._cnn(residual, filters, 1, stride)
-        hidden = residual + hidden
+class ResNet2p1D(Model):
+    def _cnn_1(self, inputs, filters, stride, activation):
+        hidden = inputs
+        hidden = tf.keras.layers.Conv3D(filters, kernel_size=1, strides=stride, padding="same", use_bias=False)(hidden)
+        hidden = tf.keras.layers.BatchNormalization()(hidden)
+        hidden = self._activation(hidden) if activation else hidden
         return hidden
 
-    def __init__(self, shape, num_classes, activation, depth, width, filters_start, kernel_size):
+    def _cnn(self, inputs, filters, stride, activation):
+        hidden = inputs
+        hidden = tf.keras.layers.Conv3D(filters, kernel_size=self.spatial_kernel_size, strides=(1, stride, stride), padding="same", use_bias=False)(hidden)
+        hidden = tf.keras.layers.Conv3D(filters, kernel_size=self.temporal_kernel_size, strides=(stride, 1, 1), padding="same", use_bias=False)(hidden)
+        hidden = tf.keras.layers.BatchNormalization()(hidden)
+        hidden = self._activation(hidden) if activation else hidden
+        return hidden
+
+    def _block(self, inputs, filters, stride, layer_index):
+        hidden = self._cnn(inputs, filters, stride, activation=True)
+        hidden = self._cnn(hidden, filters, 1, activation=False)
+
+        # print("hidden", hidden)
+        
+        if stride > 1:
+            residual = self._cnn_1(inputs, filters, stride, activation=False)
+        else:
+            residual = inputs
+
+        # print("residual", residual)
+
+        hidden = residual + hidden
+        hidden = self._activation(hidden)
+        return hidden
+
+    def __init__(self, shape, num_classes, activation, depth, filters_start, temporal_ker, spatial_ker):
         self.shape = shape
         self.num_classes = num_classes
         self.activation = activation
         self.depth = depth
-        self.width = width
 
         self.filters_start = filters_start
-        self.kernel_size = kernel_size
+        self.temporal_ker = temporal_ker
+        self.spatial_ker = spatial_ker
 
-        n = (depth - 4) // 6
+        n = (depth - 2) // 6
+
+        self.temporal_kernel_size = (temporal_ker, 1, 1)
+        self.spatial_kernel_size = (1, spatial_ker, spatial_ker)
+
+        whole_kernel = (temporal_ker, spatial_ker, spatial_ker)
+
 
         inputs = tf.keras.Input(shape=shape, dtype=tf.float32)
-        hidden = self._cnn(inputs, filters_start * width, kernel_size, 1)
+        hidden = tf.keras.layers.Reshape((1, shape[0], shape[1], shape[2]), input_shape=shape)(inputs)
+        hidden = self._cnn_1(hidden, filters_start, 1, activation=True)
         for stage in range(3):
             for block in range(n):
-                hidden = self._block(hidden, filters_start * width * (1 << stage), 2 if stage > 0 and block == 0 else 1, (stage * n + block) / (3 * n - 1))
-        hidden = self._bn_activation(hidden)
-        hidden = tf.keras.layers.GlobalAvgPool2D()(hidden)
+                hidden = self._block(hidden, filters_start * (1 << stage), 2 if stage > 0 and block == 0 else 1, (stage * n + block) / (3 * n - 1))
+        hidden = tf.keras.layers.GlobalAvgPool3D()(hidden)
         outputs = tf.keras.layers.Dense(num_classes, activation=tf.nn.softmax)(hidden)
         super().__init__(inputs, outputs)
 
@@ -132,16 +149,17 @@ def main(args):
     res=32
     frames=32
 
-    tf.config.run_functions_eagerly(False)
-    print("Executing eagerly: ", tf.executing_eagerly())
-
     train_epoch_size = 16384
     test_epoch_size = 8192
+    # train_epoch_size = 128
+    # test_epoch_size = 128
     batch_size = 32
     epochs = 200
 
     seed = int(datetime.datetime.now().timestamp()) % 1000000
     tf.keras.utils.set_random_seed(seed)
+
+    tf.keras.backend.image_data_format()
 
     print(tf.keras.backend.image_data_format())
     tf.keras.backend.set_image_data_format('channels_first')
@@ -151,17 +169,20 @@ def main(args):
     print("Mode: " + mode)
 
     activation = "swish"
-    depth = 154
-    width = 2
-    kernel_size = 3
+    depth = 62
+    filters_start = 16
+
+    spatial_kernel_size = 3
+    temporal_kernel_size = 3
 
     model_comment = "_" + mode
-    model_name = "models/model_widenet_k" + str(kernel_size)  + "_w" + str(width) + model_comment
+    model_name = "models/model_resnet(2+1)d_big_tk" + str(temporal_kernel_size) + model_comment
 
     if args.finetune or args.evaluate:
         model = tf.keras.models.load_model(model_name + ".h5")
     else:
-        model = WideNet((frames, res, res), num_classes, activation, depth, width, frames, kernel_size)
+        model = ResNet2p1D((frames, res, res), num_classes, activation, depth, filters_start, temporal_kernel_size, spatial_kernel_size)
+
 
     decay_steps = train_epoch_size / batch_size * epochs
     start_lr = 0.0001
@@ -181,20 +202,16 @@ def main(args):
         deviations = tf.abs(y_true[:, 0] - pred_class)
         return tf.math.reduce_std(deviations)
 
-
-    with open('widenetsummary.txt','w') as f:
+    with open('resnet(2+1)d_big_summary.txt','w') as f:
         print("", file=f)
-        
+
     def myprint(s):
-        with open('widenetsummary.txt','a') as f:
+        with open('resnet(2+1)d_big_summary.txt','a') as f:
             print(s, file=f)
 
     model.summary(print_fn=myprint)
-    
-    number_of_threads = multiprocessing.cpu_count()
 
-
-    test_gen = DL_Sequence.iSCAT_DataGenerator(batch_size=batch_size, epoch_size=test_epoch_size, res=res, frames=frames, thread_count = int(number_of_threads * 2 / 3),
+    test_gen = DL_Sequence.iSCAT_DataGenerator(batch_size=batch_size, epoch_size=test_epoch_size, res=res, frames=frames, thread_count=20,
                     PSF_path="../PSF_subpx_fl32.npy", exD=exD, devD=devD, exPT_cnt=exPT_cnt, devPT_cnt=devPT_cnt, exIntensity=exIntensity, devIntensity=devIntensity, target_frame=target_frame,
                     num_classes=num_classes, verbose = 0, noise_func = None, mode = mode, regen = False)
 
@@ -212,7 +229,7 @@ def main(args):
             metrics=[tf.metrics.SparseCategoricalAccuracy(name="accuracy")],
         )
 
-        train_gen = DL_Sequence.iSCAT_DataGenerator(batch_size=batch_size, epoch_size=train_epoch_size, res=res, frames=frames, thread_count = int(number_of_threads * 2 / 3),
+        train_gen = DL_Sequence.iSCAT_DataGenerator(batch_size=batch_size, epoch_size=train_epoch_size, res=res, frames=frames, thread_count=20,
                         PSF_path="../PSF_subpx_fl32.npy", exD=exD, devD=devD, exPT_cnt=exPT_cnt, devPT_cnt=devPT_cnt, exIntensity=exIntensity, devIntensity=devIntensity, target_frame=target_frame,
                         num_classes=num_classes, verbose = 1, noise_func = None, mode = mode, regen = True)
                         
