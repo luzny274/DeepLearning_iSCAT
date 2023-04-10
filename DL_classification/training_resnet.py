@@ -17,11 +17,70 @@ import datetime
 from ipywidgets import Layout, interact, IntSlider, FloatSlider
 
 import tensorflow as tf
+import multiprocessing
 
 
 parser = argparse.ArgumentParser()
+parser.add_argument("--dataset", default=0, type=int, help="Dataset (0/1/2)")
 parser.add_argument("--finetune", default=False, action="store_true", help="Train new/finetune")
 parser.add_argument("--evaluate", default=False, action="store_true", help="Evaluate/train")
+
+
+def getDatasetGen0(epoch_size, batch_size, verbose, mode, regen):
+    #Low resolution and high particle density
+    num_classes = 5
+
+    exD=5000
+    devD=4000
+    exPT_cnt=500
+    devPT_cnt=499
+    exIntensity=1.0
+    devIntensity=0.3
+
+    target_frame=15
+    res=32
+    frames=32
+    
+    number_of_threads = multiprocessing.cpu_count()
+
+    data_generator = DL_Sequence.iSCAT_DataGenerator(batch_size=batch_size, epoch_size=epoch_size, res=res, frames=frames, thread_count=int(number_of_threads * 2 / 3),
+                        PSF_path="../PSF_subpx_fl32.npy", exD=exD, devD=devD, exPT_cnt=exPT_cnt, devPT_cnt=devPT_cnt, exIntensity=exIntensity, devIntensity=devIntensity, target_frame=target_frame,
+                        num_classes=num_classes, verbose = verbose, noise_func = None, mode = mode, regen = regen)
+
+    return num_classes, frames, res, data_generator
+
+    
+def getDatasetGen1(epoch_size, batch_size, verbose, mode, regen):
+    #High resolution and low particle density
+    num_classes = 5
+
+    exD=5000
+    devD=4000
+    exPT_cnt=100
+    devPT_cnt=99
+    exIntensity=1.0
+    devIntensity=0.3
+
+    target_frame=15
+    res=64
+    frames=32
+    
+    number_of_threads = multiprocessing.cpu_count()
+
+    data_generator = DL_Sequence.iSCAT_DataGenerator(batch_size=batch_size, epoch_size=epoch_size, res=res, frames=frames, thread_count=int(number_of_threads * 2 / 3),
+                        PSF_path="../PSF_subpx_fl32.npy", exD=exD, devD=devD, exPT_cnt=exPT_cnt, devPT_cnt=devPT_cnt, exIntensity=exIntensity, devIntensity=devIntensity, target_frame=target_frame,
+                        num_classes=num_classes, verbose = verbose, noise_func = None, mode = mode, regen = regen)
+
+    return num_classes, frames, res, data_generator
+
+def getDatasetGen(args, epoch_size, batch_size, verbose, mode, regen):
+    if args.dataset == 0:
+        return getDatasetGen0(epoch_size, batch_size, verbose, mode, regen) 
+    elif args.dataset == 1:
+        return getDatasetGen1(epoch_size, batch_size, verbose, mode, regen) 
+    else:
+        print("Error: Wrong dataset number")
+
 
 class SaveBestModel(tf.keras.callbacks.Callback):
     def __init__(self, name="model_seed", metric="val_accuracy", this_max=True):
@@ -114,23 +173,12 @@ class ResNet(Model):
         outputs = tf.keras.layers.Dense(num_classes, activation=tf.nn.softmax)(hidden)
         super().__init__(inputs, outputs)
 
+
 def main(args):
-    num_classes = 5
-
-    exD=5000
-    devD=4000
-    exPT_cnt=500
-    devPT_cnt=499
-    exIntensity=1.0
-    devIntensity=0.3
-    target_frame=15
-    res=32
-    frames=32
-
+    epochs = 70
+    batch_size = 32
     train_epoch_size = 16384
     test_epoch_size = 8192
-    batch_size = 32
-    epochs = 200
 
     seed = int(datetime.datetime.now().timestamp()) % 1000000
     tf.keras.utils.set_random_seed(seed)
@@ -143,12 +191,16 @@ def main(args):
 
     mode = "dynamic"
     print("Mode: " + mode)
+    print("Dataset: " + str(args.dataset))
+
+    num_classes, frames, res, test_gen = getDatasetGen(args, test_epoch_size, batch_size, verbose=0, mode=mode, regen=False)
+
 
     activation = "swish"
     depth = 62
     kernel_size = 3
 
-    model_comment = "_" + mode
+    model_comment = "_dataset-" + str(args.dataset)
     model_name = "models/model_resnet_k" + str(kernel_size) + model_comment
 
     if args.finetune or args.evaluate:
@@ -195,9 +247,9 @@ def main(args):
 
     model.summary(print_fn=myprint)
 
-    test_gen = DL_Sequence.iSCAT_DataGenerator(batch_size=batch_size, epoch_size=test_epoch_size, res=res, frames=frames, thread_count=20,
-                    PSF_path="../PSF_subpx_fl32.npy", exD=exD, devD=devD, exPT_cnt=exPT_cnt, devPT_cnt=devPT_cnt, exIntensity=exIntensity, devIntensity=devIntensity, target_frame=target_frame,
-                    num_classes=num_classes, verbose = 0, noise_func = None, mode = mode, regen = False)
+    # test_gen = DL_Sequence.iSCAT_DataGenerator(batch_size=batch_size, epoch_size=test_epoch_size, res=res, frames=frames, thread_count=20,
+    #                 PSF_path="../PSF_subpx_fl32.npy", exD=exD, devD=devD, exPT_cnt=exPT_cnt, devPT_cnt=devPT_cnt, exIntensity=exIntensity, devIntensity=devIntensity, target_frame=target_frame,
+    #                 num_classes=num_classes, verbose = 0, noise_func = None, mode = mode, regen = False)
 
     if args.evaluate:
         model.compile(
@@ -213,10 +265,11 @@ def main(args):
             metrics=[tf.metrics.SparseCategoricalAccuracy(name="accuracy")],
         )
 
-        train_gen = DL_Sequence.iSCAT_DataGenerator(batch_size=batch_size, epoch_size=train_epoch_size, res=res, frames=frames, thread_count=20,
-                        PSF_path="../PSF_subpx_fl32.npy", exD=exD, devD=devD, exPT_cnt=exPT_cnt, devPT_cnt=devPT_cnt, exIntensity=exIntensity, devIntensity=devIntensity, target_frame=target_frame,
-                        num_classes=num_classes, verbose = 1, noise_func = None, mode = mode, regen = True)
-                        
+        # train_gen = DL_Sequence.iSCAT_DataGenerator(batch_size=batch_size, epoch_size=train_epoch_size, res=res, frames=frames, thread_count=20,
+        #                 PSF_path="../PSF_subpx_fl32.npy", exD=exD, devD=devD, exPT_cnt=exPT_cnt, devPT_cnt=devPT_cnt, exIntensity=exIntensity, devIntensity=devIntensity, target_frame=target_frame,
+        #                 num_classes=num_classes, verbose = 1, noise_func = None, mode = mode, regen = True)
+        num_classes, frames, res, train_gen = getDatasetGen(args, train_epoch_size, batch_size, verbose=1, mode=mode, regen=True)
+                     
 
         save_best_callback = SaveBestModel(name=model_name, metric="val_loss", this_max=False)
         model.fit(x=train_gen, validation_data=test_gen, epochs=epochs, callbacks=[save_best_callback])
