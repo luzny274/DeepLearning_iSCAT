@@ -2,7 +2,7 @@
 import os
 os.environ.setdefault("TF_CPP_MIN_LOG_LEVEL", "2")  # Report only TF errors by default
 
-import DL_Sequence
+import iSCAT_Datasets
 
 import argparse
 
@@ -22,6 +22,7 @@ import multiprocessing
 
 
 parser = argparse.ArgumentParser()
+parser.add_argument("--dataset", default=0, type=int, help="Dataset (0/1/2)")
 parser.add_argument("--finetune", default=False, action="store_true", help="Train new/finetune")
 parser.add_argument("--evaluate", default=False, action="store_true", help="Evaluate/train")
 

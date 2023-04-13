@@ -203,7 +203,7 @@ class SampleGenerator:
 def particlesWorker(input_queue, output_queue, epoch_size, res, frames, sample_sz_px, loop, 
                 exD, devD, exPT_cnt, devPT_cnt, exIntensity, devIntensity, target_frame,
                 num_classes, verbose, mode):
-
+    
     sampleParticlePregenerator = SampleParticlePregenerator(epoch_size, res, frames, sample_sz_px, loop,
                 exD, devD, exPT_cnt, devPT_cnt, exIntensity, devIntensity, target_frame,
                 num_classes, verbose, mode)
