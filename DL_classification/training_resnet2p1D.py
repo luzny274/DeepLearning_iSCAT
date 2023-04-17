@@ -167,7 +167,7 @@ def main(args):
     model_name = "models/model_resnet(2+1)d_tk" + str(temporal_kernel_size) + model_comment
 
     if args.finetune or args.evaluate:
-        model = tf.keras.models.load_model(model_name + ".h5")
+        model = tf.keras.models.load_model(model_name + ".h5", custom_objects={"ResNet2p1D" : ResNet2p1D})
     else:
         model = ResNet2p1D((frames, res, res), num_classes, activation, depth, filters_start, temporal_kernel_size, spatial_kernel_size)
 

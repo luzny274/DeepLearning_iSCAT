@@ -110,6 +110,8 @@ class SampleGenerator:
         PSF = np.load(PSF_path)
 
         self.conv_calc = SpConv.ConvolutionCalculator_fl32(PSF, 1, verbose=self.verbose)
+        self.pt_conv_calc = SpConv.ConvolutionCalculator_fl32(np.ones((1, 1, 1, 1), dtype=np.float32), 1, verbose=1)
+
         self.thread_count = thread_count
 
         self.sample_sz_px = PSF.shape[2] - self.cam_fov_px
@@ -169,7 +171,10 @@ class SampleGenerator:
 
         start_conv = time.time()
         samples = self.conv_calc.convolve(self.thread_count, self.cam_fov_px, particle_positions, pt_cnts, intensities, verbose=self.verbose)
-        
+
+        target_intensities = np.full((particle_count), 1, dtype=np.float32)
+        target_masks = self.pt_conv_calc.convolve(self.thread_count, self.cam_fov_px, particle_positions, pt_cnts, target_intensities, verbose=self.verbose)
+
         if self.verbose > 0:
             print("Conv generation time: {:.3f}s".format(time.time() - start_conv))
         #Normalization
@@ -198,12 +203,13 @@ class SampleGenerator:
                 particle_positions,
                 diffusion_coefs,
                 pt_cnts,
-                np.minimum(np.array(particles_in_sight_cnt), self.num_classes - 1)]
+                np.minimum(np.array(particles_in_sight_cnt), self.num_classes - 1),
+                target_masks]
 
 def particlesWorker(input_queue, output_queue, epoch_size, res, frames, sample_sz_px, loop, 
                 exD, devD, exPT_cnt, devPT_cnt, exIntensity, devIntensity, target_frame,
                 num_classes, verbose, mode):
-    
+
     sampleParticlePregenerator = SampleParticlePregenerator(epoch_size, res, frames, sample_sz_px, loop,
                 exD, devD, exPT_cnt, devPT_cnt, exIntensity, devIntensity, target_frame,
                 num_classes, verbose, mode)
@@ -308,7 +314,7 @@ class iSCAT_DataGenerator(keras.utils.Sequence):
             self.p.start()
 
             self.input_queue.put("Run")
-            self.samples, self.particle_positions, self.diffusion_coefs, self.pt_cnts, self.particles_in_sight_cnt = self.output_queue.get()
+            self.samples, self.particle_positions, self.diffusion_coefs, self.pt_cnts, self.particles_in_sight_cnt, self.target_masks = self.output_queue.get()
             self.new_dataset_time = time.time()
 
             if self.regen:
@@ -332,7 +338,7 @@ class iSCAT_DataGenerator(keras.utils.Sequence):
                 PSF_path, exD, devD, exPT_cnt, devPT_cnt, exIntensity, devIntensity, target_frame,
                 num_classes, self.verbose - 1, noise_func, mode)
             
-            self.samples, self.particle_positions, self.diffusion_coefs, self.pt_cnts, self.particles_in_sight_cnt = self.sampleGenerator.GenSamples()
+            self.samples, self.particle_positions, self.diffusion_coefs, self.pt_cnts, self.particles_in_sight_cnt, self.target_masks = self.sampleGenerator.GenSamples()
             self.new_dataset_time = time.time()
 
             del self.sampleGenerator
@@ -363,7 +369,7 @@ class iSCAT_DataGenerator(keras.utils.Sequence):
         batch_end = np.minimum(self.epoch_size, (index + 1) * self.batch_size)
 
         batch_indices = self.indices[batch_begin:batch_end]
-        return self.samples[batch_indices], self.particles_in_sight_cnt[batch_indices]
+        return self.samples[batch_indices], self.target_masks[batch_indices]
 
     def on_epoch_end(self):
         # print("Epoch ended")
@@ -372,7 +378,7 @@ class iSCAT_DataGenerator(keras.utils.Sequence):
                 print()
                 print("New dataset generated! Generation time: {:.2f}s".format(time.time() - self.new_dataset_time))
                 print()
-            self.samples, self.particle_positions, self.diffusion_coefs, self.pt_cnts, self.particles_in_sight_cnt = self.output_queue.get()
+            self.samples, self.particle_positions, self.diffusion_coefs, self.pt_cnts, self.particles_in_sight_cnt, self.target_masks = self.output_queue.get()
             self.new_dataset_time = time.time()
             self.input_queue.put("Run")
 

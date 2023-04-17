@@ -1,0 +1,2 @@
+model_checkpoint_path: "model_resnet_k3_dataset-1_weights"
+all_model_checkpoint_paths: "model_resnet_k3_dataset-1_weights"

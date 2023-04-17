@@ -53,7 +53,8 @@ class SaveBestModel(tf.keras.callbacks.Callback):
         f.write(str(vals['val_loss']) + " ; " + str(vals['val_accuracy']))
         f.close()
 
-        self.model.save(model_filename, include_optimizer=False)
+        # self.model.save(model_filename, include_optimizer=False)
+        self.model.save_weights(self.name + "_weights")
 
 
     def on_epoch_end(self, epoch, logs=None):
@@ -118,7 +119,7 @@ class ResNet(Model):
 
 
 def main(args):
-    epochs = 70
+    epochs = 200
     batch_size = 32
     train_epoch_size = 16384
     test_epoch_size = 8192
@@ -147,7 +148,7 @@ def main(args):
     model_name = "models/model_resnet_k" + str(kernel_size) + model_comment
 
     if args.finetune or args.evaluate:
-        model = tf.keras.models.load_model(model_name + ".h5")
+        model = tf.keras.models.load_model(model_name + ".h5", custom_objects={"ResNet" : ResNet})
     else:
         model = ResNet((frames, res, res), num_classes, activation, depth, frames, kernel_size)
 

@@ -147,7 +147,7 @@ def main(args):
     model_name = "models/model_resnet3d_tk" + str(kernel_size[0]) + model_comment
 
     if args.finetune or args.evaluate:
-        model = tf.keras.models.load_model(model_name + ".h5")
+        model = tf.keras.models.load_model(model_name + ".h5", custom_objects={"ResNet3D" : ResNet3D})
     else:
         model = ResNet3D((frames, res, res), num_classes, activation, depth, filters_start, kernel_size)
 
