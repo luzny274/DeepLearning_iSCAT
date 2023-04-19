@@ -2,7 +2,7 @@ import os
 os.environ.setdefault("TF_CPP_MIN_LOG_LEVEL", "2")  # Report only TF errors by default
 
 import DL_Sequence
-
+import multiprocessing
 
 def getDatasetGen0(epoch_size, batch_size, verbose, mode, regen):
     #Low resolution and higher particle density

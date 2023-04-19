@@ -369,7 +369,7 @@ class iSCAT_DataGenerator(keras.utils.Sequence):
         batch_end = np.minimum(self.epoch_size, (index + 1) * self.batch_size)
 
         batch_indices = self.indices[batch_begin:batch_end]
-        return self.samples[batch_indices], self.target_masks[batch_indices]
+        return self.samples[batch_indices], self.target_masks[batch_indices, self.target_frame][:, None, :, :]
 
     def on_epoch_end(self):
         # print("Epoch ended")

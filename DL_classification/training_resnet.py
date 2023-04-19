@@ -54,7 +54,7 @@ class SaveBestModel(tf.keras.callbacks.Callback):
         f.close()
 
         # self.model.save(model_filename, include_optimizer=False)
-        self.model.save_weights(self.name + "_weights")
+        self.model.save_weights(self.name + "_weights/")
 
 
     def on_epoch_end(self, epoch, logs=None):
@@ -148,7 +148,8 @@ def main(args):
     model_name = "models/model_resnet_k" + str(kernel_size) + model_comment
 
     if args.finetune or args.evaluate:
-        model = tf.keras.models.load_model(model_name + ".h5", custom_objects={"ResNet" : ResNet})
+        model = ResNet((frames, res, res), num_classes, activation, depth, frames, kernel_size)
+        model.load_weights(model_name + "_weights/")
     else:
         model = ResNet((frames, res, res), num_classes, activation, depth, frames, kernel_size)
 
