@@ -536,11 +536,11 @@ ________________________________________________________________________________
  global_average_pooling2d (Glob  (None, 128)         0           ['activation_60[0][0]']          
  alAveragePooling2D)                                                                              
                                                                                                   
- dense (Dense)                  (None, 5)            645         ['global_average_pooling2d[0][0]'
+ dense (Dense)                  (None, 8)            1032        ['global_average_pooling2d[0][0]'
                                                                  ]                                
                                                                                                   
 ==================================================================================================
-Total params: 3,808,069
-Trainable params: 3,803,365
+Total params: 3,808,456
+Trainable params: 3,803,752
 Non-trainable params: 4,704
 __________________________________________________________________________________________________

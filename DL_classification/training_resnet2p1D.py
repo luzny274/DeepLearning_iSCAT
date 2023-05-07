@@ -54,7 +54,7 @@ class SaveBestModel(tf.keras.callbacks.Callback):
         f.write(str(vals['val_loss']) + " ; " + str(vals['val_accuracy']))
         f.close()
 
-        self.model.save(model_filename, include_optimizer=False)
+        self.model.save_weights(self.name + "_weights/")
 
 
     def on_epoch_end(self, epoch, logs=None):
@@ -157,7 +157,7 @@ def main(args):
     num_classes, frames, res, test_gen = iSCAT_Datasets.getDatasetGen(args.dataset, test_epoch_size, batch_size, verbose=0, mode=mode, regen=False)
 
     activation = "swish"
-    depth = 52
+    depth = 62
     filters_start = 8
 
     spatial_kernel_size = 3
