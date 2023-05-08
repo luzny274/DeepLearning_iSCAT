@@ -22,7 +22,7 @@ import multiprocessing
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--dataset", default=0, type=int, help="Dataset (0/1/2)")
+parser.add_argument("--dataset", default=0, type=int, help="Dataset (0)")
 parser.add_argument("--finetune", default=False, action="store_true", help="Train new/finetune")
 parser.add_argument("--evaluate", default=False, action="store_true", help="Evaluate/train")
 
@@ -115,8 +115,8 @@ class ResNet3D(tf.keras.Model):
         super().__init__(inputs, outputs)
 
 def main(args):
-    epochs = 200
-    batch_size = 16
+    epochs = 100
+    batch_size = 12
     train_epoch_size = 16384
     test_epoch_size = 16384#8192
 
