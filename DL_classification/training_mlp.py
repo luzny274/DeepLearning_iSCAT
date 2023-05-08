@@ -22,7 +22,7 @@ import multiprocessing
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--dataset", default=0, type=int, help="Dataset (0/1/2)")
+parser.add_argument("--dataset", default=0, type=int, help="Dataset (0)")
 parser.add_argument("--finetune", default=False, action="store_true", help="Train new/finetune")
 parser.add_argument("--evaluate", default=False, action="store_true", help="Evaluate/train")
 
@@ -31,6 +31,11 @@ class SaveBestModel(tf.keras.callbacks.Callback):
         self.name = name
         self.metric = metric
         self.max = (float(this_max) - 0.5) * 2.0
+
+        
+        f = open(self.name + "_progress.txt", "w")
+        f.write("")
+        f.close()
 
     def get_best(self):
         filename = self.name + ".txt"
@@ -54,8 +59,7 @@ class SaveBestModel(tf.keras.callbacks.Callback):
         f.write(str(vals['val_loss']) + " ; " + str(vals['val_accuracy']))
         f.close()
 
-        self.model.save(model_filename, include_optimizer=False)
-        # self.model.save_weights(self.name, include_optimizer=False)
+        self.model.save_weights(self.name + "_weights/")
 
 
     def on_epoch_end(self, epoch, logs=None):
@@ -63,31 +67,42 @@ class SaveBestModel(tf.keras.callbacks.Callback):
             print("\tSaving...")
             self.set_best(logs)
 
+        f = open(self.name + "_progress.txt", "a")
+        f.write(str(logs['val_loss']) + " ; " + str(logs['val_accuracy']) + "\n")
+        f.close()
+
 
 def main(args):
+    epochs = 200
+    batch_size = 12
+    train_epoch_size = 16384
+    test_epoch_size = 16384
 
     seed = int(datetime.datetime.now().timestamp()) % 1000000
     tf.keras.utils.set_random_seed(seed)
 
-    hidden_layer = 5000
+    hidden_layer = 2000
 
     print(tf.keras.backend.image_data_format())
     tf.keras.backend.set_image_data_format('channels_first')
     print(tf.keras.backend.image_data_format())
     
     model_name = "models/model_mlp" + "_dataset-" + str(args.dataset)
+    
+    num_classes, frames, res, test_gen = iSCAT_Datasets.getDatasetGen(args.dataset, test_epoch_size, batch_size, verbose=0, regen=False)
+
 
     if args.finetune or args.evaluate:
         model = tf.keras.models.load_model(model_name + ".h5")
     else:
         model = tf.keras.Sequential([
             tf.keras.layers.Flatten(input_shape=[frames, res, res]),
-            tf.keras.layers.Dense(hidden_layer, activation=tf.nn.relu),
+            tf.keras.layers.Dense(hidden_layer, activation=tf.nn.swish),
             tf.keras.layers.Dense(num_classes, activation=tf.nn.softmax)
         ])
 
     decay_steps = train_epoch_size / batch_size * epochs
-    start_lr = 0.00005
+    start_lr = 0.0005
     end_lr = 0.0
     alpha = end_lr / start_lr
     learning_rate = tf.optimizers.schedules.CosineDecay(start_lr, decay_steps, alpha)
@@ -104,11 +119,14 @@ def main(args):
         deviations = tf.abs(y_true[:, 0] - pred_class)
         return tf.math.reduce_std(deviations)
 
-    model.summary()
-    
-    number_of_threads = multiprocessing.cpu_count()
+    with open('mlpsummary.txt','w') as f:
+        print("", file=f)
 
-    num_classes, frames, res, test_gen = iSCAT_Datasets.getDatasetGen(args.dataset, test_epoch_size, batch_size, verbose=0, regen=False)
+    def myprint(s):
+        with open('mlpsummary.txt','a') as f:
+            print(s, file=f)
+
+    model.summary(print_fn=myprint)
 
     if args.evaluate:
         model.compile(
@@ -124,9 +142,7 @@ def main(args):
             metrics=[tf.metrics.SparseCategoricalAccuracy(name="accuracy")],
         )
 
-        train_gen = DL_Sequence.iSCAT_DataGenerator(batch_size=batch_size, epoch_size=train_epoch_size, res=res, frames=frames, thread_count = int(number_of_threads * 2 / 3),
-                        PSF_path="../PSF_subpx_fl32.npy", exD=exD, devD=devD, exPT_cnt=exPT_cnt, devPT_cnt=devPT_cnt, exIntensity=exIntensity, devIntensity=devIntensity, target_frame=target_frame,
-                        num_classes=num_classes, verbose = 1, noise_func = None, mode = mode, regen = True)
+        num_classes, frames, res, train_gen = iSCAT_Datasets.getDatasetGen(args.dataset, train_epoch_size, batch_size, verbose=1, regen=True)
                         
 
         save_best_callback = SaveBestModel(name=model_name, metric="val_loss", this_max=False)
