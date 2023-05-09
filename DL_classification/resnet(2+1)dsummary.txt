@@ -234,89 +234,89 @@ ________________________________________________________________________________
  activation_16 (Activation)     (None, 8, 32, 64, 6  0           ['tf.__operators__.add_7[0][0]'] 
                                 4)                                                                
                                                                                                   
- conv3d_33 (Conv3D)             (None, 16, 32, 32,   1152        ['activation_16[0][0]']          
+ conv3d_33 (Conv3D)             (None, 8, 32, 64, 6  576         ['activation_16[0][0]']          
+                                4)                                                                
+                                                                                                  
+ conv3d_34 (Conv3D)             (None, 8, 32, 64, 6  192         ['conv3d_33[0][0]']              
+                                4)                                                                
+                                                                                                  
+ batch_normalization_17 (BatchN  (None, 8, 32, 64, 6  256        ['conv3d_34[0][0]']              
+ ormalization)                  4)                                                                
+                                                                                                  
+ activation_17 (Activation)     (None, 8, 32, 64, 6  0           ['batch_normalization_17[0][0]'] 
+                                4)                                                                
+                                                                                                  
+ conv3d_35 (Conv3D)             (None, 8, 32, 64, 6  576         ['activation_17[0][0]']          
+                                4)                                                                
+                                                                                                  
+ conv3d_36 (Conv3D)             (None, 8, 32, 64, 6  192         ['conv3d_35[0][0]']              
+                                4)                                                                
+                                                                                                  
+ batch_normalization_18 (BatchN  (None, 8, 32, 64, 6  256        ['conv3d_36[0][0]']              
+ ormalization)                  4)                                                                
+                                                                                                  
+ tf.__operators__.add_8 (TFOpLa  (None, 8, 32, 64, 6  0          ['activation_16[0][0]',          
+ mbda)                          4)                                'batch_normalization_18[0][0]'] 
+                                                                                                  
+ activation_18 (Activation)     (None, 8, 32, 64, 6  0           ['tf.__operators__.add_8[0][0]'] 
+                                4)                                                                
+                                                                                                  
+ conv3d_37 (Conv3D)             (None, 8, 32, 64, 6  576         ['activation_18[0][0]']          
+                                4)                                                                
+                                                                                                  
+ conv3d_38 (Conv3D)             (None, 8, 32, 64, 6  192         ['conv3d_37[0][0]']              
+                                4)                                                                
+                                                                                                  
+ batch_normalization_19 (BatchN  (None, 8, 32, 64, 6  256        ['conv3d_38[0][0]']              
+ ormalization)                  4)                                                                
+                                                                                                  
+ activation_19 (Activation)     (None, 8, 32, 64, 6  0           ['batch_normalization_19[0][0]'] 
+                                4)                                                                
+                                                                                                  
+ conv3d_39 (Conv3D)             (None, 8, 32, 64, 6  576         ['activation_19[0][0]']          
+                                4)                                                                
+                                                                                                  
+ conv3d_40 (Conv3D)             (None, 8, 32, 64, 6  192         ['conv3d_39[0][0]']              
+                                4)                                                                
+                                                                                                  
+ batch_normalization_20 (BatchN  (None, 8, 32, 64, 6  256        ['conv3d_40[0][0]']              
+ ormalization)                  4)                                                                
+                                                                                                  
+ tf.__operators__.add_9 (TFOpLa  (None, 8, 32, 64, 6  0          ['activation_18[0][0]',          
+ mbda)                          4)                                'batch_normalization_20[0][0]'] 
+                                                                                                  
+ activation_20 (Activation)     (None, 8, 32, 64, 6  0           ['tf.__operators__.add_9[0][0]'] 
+                                4)                                                                
+                                                                                                  
+ conv3d_41 (Conv3D)             (None, 16, 32, 32,   1152        ['activation_20[0][0]']          
                                 32)                                                               
                                                                                                   
- conv3d_34 (Conv3D)             (None, 16, 16, 32,   768         ['conv3d_33[0][0]']              
+ conv3d_42 (Conv3D)             (None, 16, 16, 32,   768         ['conv3d_41[0][0]']              
                                 32)                                                               
                                                                                                   
- batch_normalization_17 (BatchN  (None, 16, 16, 32,   128        ['conv3d_34[0][0]']              
+ batch_normalization_21 (BatchN  (None, 16, 16, 32,   128        ['conv3d_42[0][0]']              
  ormalization)                  32)                                                               
                                                                                                   
- activation_17 (Activation)     (None, 16, 16, 32,   0           ['batch_normalization_17[0][0]'] 
+ activation_21 (Activation)     (None, 16, 16, 32,   0           ['batch_normalization_21[0][0]'] 
                                 32)                                                               
                                                                                                   
- conv3d_35 (Conv3D)             (None, 16, 16, 32,   2304        ['activation_17[0][0]']          
+ conv3d_43 (Conv3D)             (None, 16, 16, 32,   2304        ['activation_21[0][0]']          
                                 32)                                                               
                                                                                                   
- conv3d_37 (Conv3D)             (None, 16, 16, 32,   128         ['activation_16[0][0]']          
+ conv3d_45 (Conv3D)             (None, 16, 16, 32,   128         ['activation_20[0][0]']          
                                 32)                                                               
                                                                                                   
- conv3d_36 (Conv3D)             (None, 16, 16, 32,   768         ['conv3d_35[0][0]']              
-                                32)                                                               
-                                                                                                  
- batch_normalization_19 (BatchN  (None, 16, 16, 32,   128        ['conv3d_37[0][0]']              
- ormalization)                  32)                                                               
-                                                                                                  
- batch_normalization_18 (BatchN  (None, 16, 16, 32,   128        ['conv3d_36[0][0]']              
- ormalization)                  32)                                                               
-                                                                                                  
- tf.__operators__.add_8 (TFOpLa  (None, 16, 16, 32,   0          ['batch_normalization_19[0][0]', 
- mbda)                          32)                               'batch_normalization_18[0][0]'] 
-                                                                                                  
- activation_18 (Activation)     (None, 16, 16, 32,   0           ['tf.__operators__.add_8[0][0]'] 
-                                32)                                                               
-                                                                                                  
- conv3d_38 (Conv3D)             (None, 16, 16, 32,   2304        ['activation_18[0][0]']          
-                                32)                                                               
-                                                                                                  
- conv3d_39 (Conv3D)             (None, 16, 16, 32,   768         ['conv3d_38[0][0]']              
-                                32)                                                               
-                                                                                                  
- batch_normalization_20 (BatchN  (None, 16, 16, 32,   128        ['conv3d_39[0][0]']              
- ormalization)                  32)                                                               
-                                                                                                  
- activation_19 (Activation)     (None, 16, 16, 32,   0           ['batch_normalization_20[0][0]'] 
-                                32)                                                               
-                                                                                                  
- conv3d_40 (Conv3D)             (None, 16, 16, 32,   2304        ['activation_19[0][0]']          
-                                32)                                                               
-                                                                                                  
- conv3d_41 (Conv3D)             (None, 16, 16, 32,   768         ['conv3d_40[0][0]']              
-                                32)                                                               
-                                                                                                  
- batch_normalization_21 (BatchN  (None, 16, 16, 32,   128        ['conv3d_41[0][0]']              
- ormalization)                  32)                                                               
-                                                                                                  
- tf.__operators__.add_9 (TFOpLa  (None, 16, 16, 32,   0          ['activation_18[0][0]',          
- mbda)                          32)                               'batch_normalization_21[0][0]'] 
-                                                                                                  
- activation_20 (Activation)     (None, 16, 16, 32,   0           ['tf.__operators__.add_9[0][0]'] 
-                                32)                                                               
-                                                                                                  
- conv3d_42 (Conv3D)             (None, 16, 16, 32,   2304        ['activation_20[0][0]']          
-                                32)                                                               
-                                                                                                  
- conv3d_43 (Conv3D)             (None, 16, 16, 32,   768         ['conv3d_42[0][0]']              
-                                32)                                                               
-                                                                                                  
- batch_normalization_22 (BatchN  (None, 16, 16, 32,   128        ['conv3d_43[0][0]']              
- ormalization)                  32)                                                               
-                                                                                                  
- activation_21 (Activation)     (None, 16, 16, 32,   0           ['batch_normalization_22[0][0]'] 
-                                32)                                                               
-                                                                                                  
- conv3d_44 (Conv3D)             (None, 16, 16, 32,   2304        ['activation_21[0][0]']          
-                                32)                                                               
-                                                                                                  
- conv3d_45 (Conv3D)             (None, 16, 16, 32,   768         ['conv3d_44[0][0]']              
+ conv3d_44 (Conv3D)             (None, 16, 16, 32,   768         ['conv3d_43[0][0]']              
                                 32)                                                               
                                                                                                   
  batch_normalization_23 (BatchN  (None, 16, 16, 32,   128        ['conv3d_45[0][0]']              
  ormalization)                  32)                                                               
                                                                                                   
- tf.__operators__.add_10 (TFOpL  (None, 16, 16, 32,   0          ['activation_20[0][0]',          
- ambda)                         32)                               'batch_normalization_23[0][0]'] 
+ batch_normalization_22 (BatchN  (None, 16, 16, 32,   128        ['conv3d_44[0][0]']              
+ ormalization)                  32)                                                               
+                                                                                                  
+ tf.__operators__.add_10 (TFOpL  (None, 16, 16, 32,   0          ['batch_normalization_23[0][0]', 
+ ambda)                         32)                               'batch_normalization_22[0][0]'] 
                                                                                                   
  activation_22 (Activation)     (None, 16, 16, 32,   0           ['tf.__operators__.add_10[0][0]']
                                 32)                                                               
@@ -456,143 +456,143 @@ ________________________________________________________________________________
  activation_32 (Activation)     (None, 16, 16, 32,   0           ['tf.__operators__.add_15[0][0]']
                                 32)                                                               
                                                                                                   
- conv3d_66 (Conv3D)             (None, 32, 16, 16,   4608        ['activation_32[0][0]']          
+ conv3d_66 (Conv3D)             (None, 16, 16, 32,   2304        ['activation_32[0][0]']          
+                                32)                                                               
+                                                                                                  
+ conv3d_67 (Conv3D)             (None, 16, 16, 32,   768         ['conv3d_66[0][0]']              
+                                32)                                                               
+                                                                                                  
+ batch_normalization_34 (BatchN  (None, 16, 16, 32,   128        ['conv3d_67[0][0]']              
+ ormalization)                  32)                                                               
+                                                                                                  
+ activation_33 (Activation)     (None, 16, 16, 32,   0           ['batch_normalization_34[0][0]'] 
+                                32)                                                               
+                                                                                                  
+ conv3d_68 (Conv3D)             (None, 16, 16, 32,   2304        ['activation_33[0][0]']          
+                                32)                                                               
+                                                                                                  
+ conv3d_69 (Conv3D)             (None, 16, 16, 32,   768         ['conv3d_68[0][0]']              
+                                32)                                                               
+                                                                                                  
+ batch_normalization_35 (BatchN  (None, 16, 16, 32,   128        ['conv3d_69[0][0]']              
+ ormalization)                  32)                                                               
+                                                                                                  
+ tf.__operators__.add_16 (TFOpL  (None, 16, 16, 32,   0          ['activation_32[0][0]',          
+ ambda)                         32)                               'batch_normalization_35[0][0]'] 
+                                                                                                  
+ activation_34 (Activation)     (None, 16, 16, 32,   0           ['tf.__operators__.add_16[0][0]']
+                                32)                                                               
+                                                                                                  
+ conv3d_70 (Conv3D)             (None, 16, 16, 32,   2304        ['activation_34[0][0]']          
+                                32)                                                               
+                                                                                                  
+ conv3d_71 (Conv3D)             (None, 16, 16, 32,   768         ['conv3d_70[0][0]']              
+                                32)                                                               
+                                                                                                  
+ batch_normalization_36 (BatchN  (None, 16, 16, 32,   128        ['conv3d_71[0][0]']              
+ ormalization)                  32)                                                               
+                                                                                                  
+ activation_35 (Activation)     (None, 16, 16, 32,   0           ['batch_normalization_36[0][0]'] 
+                                32)                                                               
+                                                                                                  
+ conv3d_72 (Conv3D)             (None, 16, 16, 32,   2304        ['activation_35[0][0]']          
+                                32)                                                               
+                                                                                                  
+ conv3d_73 (Conv3D)             (None, 16, 16, 32,   768         ['conv3d_72[0][0]']              
+                                32)                                                               
+                                                                                                  
+ batch_normalization_37 (BatchN  (None, 16, 16, 32,   128        ['conv3d_73[0][0]']              
+ ormalization)                  32)                                                               
+                                                                                                  
+ tf.__operators__.add_17 (TFOpL  (None, 16, 16, 32,   0          ['activation_34[0][0]',          
+ ambda)                         32)                               'batch_normalization_37[0][0]'] 
+                                                                                                  
+ activation_36 (Activation)     (None, 16, 16, 32,   0           ['tf.__operators__.add_17[0][0]']
+                                32)                                                               
+                                                                                                  
+ conv3d_74 (Conv3D)             (None, 16, 16, 32,   2304        ['activation_36[0][0]']          
+                                32)                                                               
+                                                                                                  
+ conv3d_75 (Conv3D)             (None, 16, 16, 32,   768         ['conv3d_74[0][0]']              
+                                32)                                                               
+                                                                                                  
+ batch_normalization_38 (BatchN  (None, 16, 16, 32,   128        ['conv3d_75[0][0]']              
+ ormalization)                  32)                                                               
+                                                                                                  
+ activation_37 (Activation)     (None, 16, 16, 32,   0           ['batch_normalization_38[0][0]'] 
+                                32)                                                               
+                                                                                                  
+ conv3d_76 (Conv3D)             (None, 16, 16, 32,   2304        ['activation_37[0][0]']          
+                                32)                                                               
+                                                                                                  
+ conv3d_77 (Conv3D)             (None, 16, 16, 32,   768         ['conv3d_76[0][0]']              
+                                32)                                                               
+                                                                                                  
+ batch_normalization_39 (BatchN  (None, 16, 16, 32,   128        ['conv3d_77[0][0]']              
+ ormalization)                  32)                                                               
+                                                                                                  
+ tf.__operators__.add_18 (TFOpL  (None, 16, 16, 32,   0          ['activation_36[0][0]',          
+ ambda)                         32)                               'batch_normalization_39[0][0]'] 
+                                                                                                  
+ activation_38 (Activation)     (None, 16, 16, 32,   0           ['tf.__operators__.add_18[0][0]']
+                                32)                                                               
+                                                                                                  
+ conv3d_78 (Conv3D)             (None, 16, 16, 32,   2304        ['activation_38[0][0]']          
+                                32)                                                               
+                                                                                                  
+ conv3d_79 (Conv3D)             (None, 16, 16, 32,   768         ['conv3d_78[0][0]']              
+                                32)                                                               
+                                                                                                  
+ batch_normalization_40 (BatchN  (None, 16, 16, 32,   128        ['conv3d_79[0][0]']              
+ ormalization)                  32)                                                               
+                                                                                                  
+ activation_39 (Activation)     (None, 16, 16, 32,   0           ['batch_normalization_40[0][0]'] 
+                                32)                                                               
+                                                                                                  
+ conv3d_80 (Conv3D)             (None, 16, 16, 32,   2304        ['activation_39[0][0]']          
+                                32)                                                               
+                                                                                                  
+ conv3d_81 (Conv3D)             (None, 16, 16, 32,   768         ['conv3d_80[0][0]']              
+                                32)                                                               
+                                                                                                  
+ batch_normalization_41 (BatchN  (None, 16, 16, 32,   128        ['conv3d_81[0][0]']              
+ ormalization)                  32)                                                               
+                                                                                                  
+ tf.__operators__.add_19 (TFOpL  (None, 16, 16, 32,   0          ['activation_38[0][0]',          
+ ambda)                         32)                               'batch_normalization_41[0][0]'] 
+                                                                                                  
+ activation_40 (Activation)     (None, 16, 16, 32,   0           ['tf.__operators__.add_19[0][0]']
+                                32)                                                               
+                                                                                                  
+ conv3d_82 (Conv3D)             (None, 32, 16, 16,   4608        ['activation_40[0][0]']          
                                 16)                                                               
                                                                                                   
- conv3d_67 (Conv3D)             (None, 32, 8, 16, 1  3072        ['conv3d_66[0][0]']              
+ conv3d_83 (Conv3D)             (None, 32, 8, 16, 1  3072        ['conv3d_82[0][0]']              
                                 6)                                                                
                                                                                                   
- batch_normalization_34 (BatchN  (None, 32, 8, 16, 1  64         ['conv3d_67[0][0]']              
+ batch_normalization_42 (BatchN  (None, 32, 8, 16, 1  64         ['conv3d_83[0][0]']              
  ormalization)                  6)                                                                
                                                                                                   
- activation_33 (Activation)     (None, 32, 8, 16, 1  0           ['batch_normalization_34[0][0]'] 
+ activation_41 (Activation)     (None, 32, 8, 16, 1  0           ['batch_normalization_42[0][0]'] 
                                 6)                                                                
                                                                                                   
- conv3d_68 (Conv3D)             (None, 32, 8, 16, 1  9216        ['activation_33[0][0]']          
+ conv3d_84 (Conv3D)             (None, 32, 8, 16, 1  9216        ['activation_41[0][0]']          
                                 6)                                                                
                                                                                                   
- conv3d_70 (Conv3D)             (None, 32, 8, 16, 1  512         ['activation_32[0][0]']          
+ conv3d_86 (Conv3D)             (None, 32, 8, 16, 1  512         ['activation_40[0][0]']          
                                 6)                                                                
                                                                                                   
- conv3d_69 (Conv3D)             (None, 32, 8, 16, 1  3072        ['conv3d_68[0][0]']              
-                                6)                                                                
-                                                                                                  
- batch_normalization_36 (BatchN  (None, 32, 8, 16, 1  64         ['conv3d_70[0][0]']              
- ormalization)                  6)                                                                
-                                                                                                  
- batch_normalization_35 (BatchN  (None, 32, 8, 16, 1  64         ['conv3d_69[0][0]']              
- ormalization)                  6)                                                                
-                                                                                                  
- tf.__operators__.add_16 (TFOpL  (None, 32, 8, 16, 1  0          ['batch_normalization_36[0][0]', 
- ambda)                         6)                                'batch_normalization_35[0][0]'] 
-                                                                                                  
- activation_34 (Activation)     (None, 32, 8, 16, 1  0           ['tf.__operators__.add_16[0][0]']
-                                6)                                                                
-                                                                                                  
- conv3d_71 (Conv3D)             (None, 32, 8, 16, 1  9216        ['activation_34[0][0]']          
-                                6)                                                                
-                                                                                                  
- conv3d_72 (Conv3D)             (None, 32, 8, 16, 1  3072        ['conv3d_71[0][0]']              
-                                6)                                                                
-                                                                                                  
- batch_normalization_37 (BatchN  (None, 32, 8, 16, 1  64         ['conv3d_72[0][0]']              
- ormalization)                  6)                                                                
-                                                                                                  
- activation_35 (Activation)     (None, 32, 8, 16, 1  0           ['batch_normalization_37[0][0]'] 
-                                6)                                                                
-                                                                                                  
- conv3d_73 (Conv3D)             (None, 32, 8, 16, 1  9216        ['activation_35[0][0]']          
-                                6)                                                                
-                                                                                                  
- conv3d_74 (Conv3D)             (None, 32, 8, 16, 1  3072        ['conv3d_73[0][0]']              
-                                6)                                                                
-                                                                                                  
- batch_normalization_38 (BatchN  (None, 32, 8, 16, 1  64         ['conv3d_74[0][0]']              
- ormalization)                  6)                                                                
-                                                                                                  
- tf.__operators__.add_17 (TFOpL  (None, 32, 8, 16, 1  0          ['activation_34[0][0]',          
- ambda)                         6)                                'batch_normalization_38[0][0]'] 
-                                                                                                  
- activation_36 (Activation)     (None, 32, 8, 16, 1  0           ['tf.__operators__.add_17[0][0]']
-                                6)                                                                
-                                                                                                  
- conv3d_75 (Conv3D)             (None, 32, 8, 16, 1  9216        ['activation_36[0][0]']          
-                                6)                                                                
-                                                                                                  
- conv3d_76 (Conv3D)             (None, 32, 8, 16, 1  3072        ['conv3d_75[0][0]']              
-                                6)                                                                
-                                                                                                  
- batch_normalization_39 (BatchN  (None, 32, 8, 16, 1  64         ['conv3d_76[0][0]']              
- ormalization)                  6)                                                                
-                                                                                                  
- activation_37 (Activation)     (None, 32, 8, 16, 1  0           ['batch_normalization_39[0][0]'] 
-                                6)                                                                
-                                                                                                  
- conv3d_77 (Conv3D)             (None, 32, 8, 16, 1  9216        ['activation_37[0][0]']          
-                                6)                                                                
-                                                                                                  
- conv3d_78 (Conv3D)             (None, 32, 8, 16, 1  3072        ['conv3d_77[0][0]']              
-                                6)                                                                
-                                                                                                  
- batch_normalization_40 (BatchN  (None, 32, 8, 16, 1  64         ['conv3d_78[0][0]']              
- ormalization)                  6)                                                                
-                                                                                                  
- tf.__operators__.add_18 (TFOpL  (None, 32, 8, 16, 1  0          ['activation_36[0][0]',          
- ambda)                         6)                                'batch_normalization_40[0][0]'] 
-                                                                                                  
- activation_38 (Activation)     (None, 32, 8, 16, 1  0           ['tf.__operators__.add_18[0][0]']
-                                6)                                                                
-                                                                                                  
- conv3d_79 (Conv3D)             (None, 32, 8, 16, 1  9216        ['activation_38[0][0]']          
-                                6)                                                                
-                                                                                                  
- conv3d_80 (Conv3D)             (None, 32, 8, 16, 1  3072        ['conv3d_79[0][0]']              
-                                6)                                                                
-                                                                                                  
- batch_normalization_41 (BatchN  (None, 32, 8, 16, 1  64         ['conv3d_80[0][0]']              
- ormalization)                  6)                                                                
-                                                                                                  
- activation_39 (Activation)     (None, 32, 8, 16, 1  0           ['batch_normalization_41[0][0]'] 
-                                6)                                                                
-                                                                                                  
- conv3d_81 (Conv3D)             (None, 32, 8, 16, 1  9216        ['activation_39[0][0]']          
-                                6)                                                                
-                                                                                                  
- conv3d_82 (Conv3D)             (None, 32, 8, 16, 1  3072        ['conv3d_81[0][0]']              
-                                6)                                                                
-                                                                                                  
- batch_normalization_42 (BatchN  (None, 32, 8, 16, 1  64         ['conv3d_82[0][0]']              
- ormalization)                  6)                                                                
-                                                                                                  
- tf.__operators__.add_19 (TFOpL  (None, 32, 8, 16, 1  0          ['activation_38[0][0]',          
- ambda)                         6)                                'batch_normalization_42[0][0]'] 
-                                                                                                  
- activation_40 (Activation)     (None, 32, 8, 16, 1  0           ['tf.__operators__.add_19[0][0]']
-                                6)                                                                
-                                                                                                  
- conv3d_83 (Conv3D)             (None, 32, 8, 16, 1  9216        ['activation_40[0][0]']          
-                                6)                                                                
-                                                                                                  
- conv3d_84 (Conv3D)             (None, 32, 8, 16, 1  3072        ['conv3d_83[0][0]']              
-                                6)                                                                
-                                                                                                  
- batch_normalization_43 (BatchN  (None, 32, 8, 16, 1  64         ['conv3d_84[0][0]']              
- ormalization)                  6)                                                                
-                                                                                                  
- activation_41 (Activation)     (None, 32, 8, 16, 1  0           ['batch_normalization_43[0][0]'] 
-                                6)                                                                
-                                                                                                  
- conv3d_85 (Conv3D)             (None, 32, 8, 16, 1  9216        ['activation_41[0][0]']          
-                                6)                                                                
-                                                                                                  
- conv3d_86 (Conv3D)             (None, 32, 8, 16, 1  3072        ['conv3d_85[0][0]']              
+ conv3d_85 (Conv3D)             (None, 32, 8, 16, 1  3072        ['conv3d_84[0][0]']              
                                 6)                                                                
                                                                                                   
  batch_normalization_44 (BatchN  (None, 32, 8, 16, 1  64         ['conv3d_86[0][0]']              
  ormalization)                  6)                                                                
                                                                                                   
- tf.__operators__.add_20 (TFOpL  (None, 32, 8, 16, 1  0          ['activation_40[0][0]',          
- ambda)                         6)                                'batch_normalization_44[0][0]'] 
+ batch_normalization_43 (BatchN  (None, 32, 8, 16, 1  64         ['conv3d_85[0][0]']              
+ ormalization)                  6)                                                                
+                                                                                                  
+ tf.__operators__.add_20 (TFOpL  (None, 32, 8, 16, 1  0          ['batch_normalization_44[0][0]', 
+ ambda)                         6)                                'batch_normalization_43[0][0]'] 
                                                                                                   
  activation_42 (Activation)     (None, 32, 8, 16, 1  0           ['tf.__operators__.add_20[0][0]']
                                 6)                                                                
@@ -678,14 +678,176 @@ ________________________________________________________________________________
  activation_48 (Activation)     (None, 32, 8, 16, 1  0           ['tf.__operators__.add_23[0][0]']
                                 6)                                                                
                                                                                                   
- global_average_pooling3d (Glob  (None, 32)          0           ['activation_48[0][0]']          
+ conv3d_99 (Conv3D)             (None, 32, 8, 16, 1  9216        ['activation_48[0][0]']          
+                                6)                                                                
+                                                                                                  
+ conv3d_100 (Conv3D)            (None, 32, 8, 16, 1  3072        ['conv3d_99[0][0]']              
+                                6)                                                                
+                                                                                                  
+ batch_normalization_51 (BatchN  (None, 32, 8, 16, 1  64         ['conv3d_100[0][0]']             
+ ormalization)                  6)                                                                
+                                                                                                  
+ activation_49 (Activation)     (None, 32, 8, 16, 1  0           ['batch_normalization_51[0][0]'] 
+                                6)                                                                
+                                                                                                  
+ conv3d_101 (Conv3D)            (None, 32, 8, 16, 1  9216        ['activation_49[0][0]']          
+                                6)                                                                
+                                                                                                  
+ conv3d_102 (Conv3D)            (None, 32, 8, 16, 1  3072        ['conv3d_101[0][0]']             
+                                6)                                                                
+                                                                                                  
+ batch_normalization_52 (BatchN  (None, 32, 8, 16, 1  64         ['conv3d_102[0][0]']             
+ ormalization)                  6)                                                                
+                                                                                                  
+ tf.__operators__.add_24 (TFOpL  (None, 32, 8, 16, 1  0          ['activation_48[0][0]',          
+ ambda)                         6)                                'batch_normalization_52[0][0]'] 
+                                                                                                  
+ activation_50 (Activation)     (None, 32, 8, 16, 1  0           ['tf.__operators__.add_24[0][0]']
+                                6)                                                                
+                                                                                                  
+ conv3d_103 (Conv3D)            (None, 32, 8, 16, 1  9216        ['activation_50[0][0]']          
+                                6)                                                                
+                                                                                                  
+ conv3d_104 (Conv3D)            (None, 32, 8, 16, 1  3072        ['conv3d_103[0][0]']             
+                                6)                                                                
+                                                                                                  
+ batch_normalization_53 (BatchN  (None, 32, 8, 16, 1  64         ['conv3d_104[0][0]']             
+ ormalization)                  6)                                                                
+                                                                                                  
+ activation_51 (Activation)     (None, 32, 8, 16, 1  0           ['batch_normalization_53[0][0]'] 
+                                6)                                                                
+                                                                                                  
+ conv3d_105 (Conv3D)            (None, 32, 8, 16, 1  9216        ['activation_51[0][0]']          
+                                6)                                                                
+                                                                                                  
+ conv3d_106 (Conv3D)            (None, 32, 8, 16, 1  3072        ['conv3d_105[0][0]']             
+                                6)                                                                
+                                                                                                  
+ batch_normalization_54 (BatchN  (None, 32, 8, 16, 1  64         ['conv3d_106[0][0]']             
+ ormalization)                  6)                                                                
+                                                                                                  
+ tf.__operators__.add_25 (TFOpL  (None, 32, 8, 16, 1  0          ['activation_50[0][0]',          
+ ambda)                         6)                                'batch_normalization_54[0][0]'] 
+                                                                                                  
+ activation_52 (Activation)     (None, 32, 8, 16, 1  0           ['tf.__operators__.add_25[0][0]']
+                                6)                                                                
+                                                                                                  
+ conv3d_107 (Conv3D)            (None, 32, 8, 16, 1  9216        ['activation_52[0][0]']          
+                                6)                                                                
+                                                                                                  
+ conv3d_108 (Conv3D)            (None, 32, 8, 16, 1  3072        ['conv3d_107[0][0]']             
+                                6)                                                                
+                                                                                                  
+ batch_normalization_55 (BatchN  (None, 32, 8, 16, 1  64         ['conv3d_108[0][0]']             
+ ormalization)                  6)                                                                
+                                                                                                  
+ activation_53 (Activation)     (None, 32, 8, 16, 1  0           ['batch_normalization_55[0][0]'] 
+                                6)                                                                
+                                                                                                  
+ conv3d_109 (Conv3D)            (None, 32, 8, 16, 1  9216        ['activation_53[0][0]']          
+                                6)                                                                
+                                                                                                  
+ conv3d_110 (Conv3D)            (None, 32, 8, 16, 1  3072        ['conv3d_109[0][0]']             
+                                6)                                                                
+                                                                                                  
+ batch_normalization_56 (BatchN  (None, 32, 8, 16, 1  64         ['conv3d_110[0][0]']             
+ ormalization)                  6)                                                                
+                                                                                                  
+ tf.__operators__.add_26 (TFOpL  (None, 32, 8, 16, 1  0          ['activation_52[0][0]',          
+ ambda)                         6)                                'batch_normalization_56[0][0]'] 
+                                                                                                  
+ activation_54 (Activation)     (None, 32, 8, 16, 1  0           ['tf.__operators__.add_26[0][0]']
+                                6)                                                                
+                                                                                                  
+ conv3d_111 (Conv3D)            (None, 32, 8, 16, 1  9216        ['activation_54[0][0]']          
+                                6)                                                                
+                                                                                                  
+ conv3d_112 (Conv3D)            (None, 32, 8, 16, 1  3072        ['conv3d_111[0][0]']             
+                                6)                                                                
+                                                                                                  
+ batch_normalization_57 (BatchN  (None, 32, 8, 16, 1  64         ['conv3d_112[0][0]']             
+ ormalization)                  6)                                                                
+                                                                                                  
+ activation_55 (Activation)     (None, 32, 8, 16, 1  0           ['batch_normalization_57[0][0]'] 
+                                6)                                                                
+                                                                                                  
+ conv3d_113 (Conv3D)            (None, 32, 8, 16, 1  9216        ['activation_55[0][0]']          
+                                6)                                                                
+                                                                                                  
+ conv3d_114 (Conv3D)            (None, 32, 8, 16, 1  3072        ['conv3d_113[0][0]']             
+                                6)                                                                
+                                                                                                  
+ batch_normalization_58 (BatchN  (None, 32, 8, 16, 1  64         ['conv3d_114[0][0]']             
+ ormalization)                  6)                                                                
+                                                                                                  
+ tf.__operators__.add_27 (TFOpL  (None, 32, 8, 16, 1  0          ['activation_54[0][0]',          
+ ambda)                         6)                                'batch_normalization_58[0][0]'] 
+                                                                                                  
+ activation_56 (Activation)     (None, 32, 8, 16, 1  0           ['tf.__operators__.add_27[0][0]']
+                                6)                                                                
+                                                                                                  
+ conv3d_115 (Conv3D)            (None, 32, 8, 16, 1  9216        ['activation_56[0][0]']          
+                                6)                                                                
+                                                                                                  
+ conv3d_116 (Conv3D)            (None, 32, 8, 16, 1  3072        ['conv3d_115[0][0]']             
+                                6)                                                                
+                                                                                                  
+ batch_normalization_59 (BatchN  (None, 32, 8, 16, 1  64         ['conv3d_116[0][0]']             
+ ormalization)                  6)                                                                
+                                                                                                  
+ activation_57 (Activation)     (None, 32, 8, 16, 1  0           ['batch_normalization_59[0][0]'] 
+                                6)                                                                
+                                                                                                  
+ conv3d_117 (Conv3D)            (None, 32, 8, 16, 1  9216        ['activation_57[0][0]']          
+                                6)                                                                
+                                                                                                  
+ conv3d_118 (Conv3D)            (None, 32, 8, 16, 1  3072        ['conv3d_117[0][0]']             
+                                6)                                                                
+                                                                                                  
+ batch_normalization_60 (BatchN  (None, 32, 8, 16, 1  64         ['conv3d_118[0][0]']             
+ ormalization)                  6)                                                                
+                                                                                                  
+ tf.__operators__.add_28 (TFOpL  (None, 32, 8, 16, 1  0          ['activation_56[0][0]',          
+ ambda)                         6)                                'batch_normalization_60[0][0]'] 
+                                                                                                  
+ activation_58 (Activation)     (None, 32, 8, 16, 1  0           ['tf.__operators__.add_28[0][0]']
+                                6)                                                                
+                                                                                                  
+ conv3d_119 (Conv3D)            (None, 32, 8, 16, 1  9216        ['activation_58[0][0]']          
+                                6)                                                                
+                                                                                                  
+ conv3d_120 (Conv3D)            (None, 32, 8, 16, 1  3072        ['conv3d_119[0][0]']             
+                                6)                                                                
+                                                                                                  
+ batch_normalization_61 (BatchN  (None, 32, 8, 16, 1  64         ['conv3d_120[0][0]']             
+ ormalization)                  6)                                                                
+                                                                                                  
+ activation_59 (Activation)     (None, 32, 8, 16, 1  0           ['batch_normalization_61[0][0]'] 
+                                6)                                                                
+                                                                                                  
+ conv3d_121 (Conv3D)            (None, 32, 8, 16, 1  9216        ['activation_59[0][0]']          
+                                6)                                                                
+                                                                                                  
+ conv3d_122 (Conv3D)            (None, 32, 8, 16, 1  3072        ['conv3d_121[0][0]']             
+                                6)                                                                
+                                                                                                  
+ batch_normalization_62 (BatchN  (None, 32, 8, 16, 1  64         ['conv3d_122[0][0]']             
+ ormalization)                  6)                                                                
+                                                                                                  
+ tf.__operators__.add_29 (TFOpL  (None, 32, 8, 16, 1  0          ['activation_58[0][0]',          
+ ambda)                         6)                                'batch_normalization_62[0][0]'] 
+                                                                                                  
+ activation_60 (Activation)     (None, 32, 8, 16, 1  0           ['tf.__operators__.add_29[0][0]']
+                                6)                                                                
+                                                                                                  
+ global_average_pooling3d (Glob  (None, 32)          0           ['activation_60[0][0]']          
  alAveragePooling3D)                                                                              
                                                                                                   
- dense (Dense)                  (None, 5)            165         ['global_average_pooling3d[0][0]'
+ dense (Dense)                  (None, 8)            264         ['global_average_pooling3d[0][0]'
                                                                  ]                                
                                                                                                   
 ==================================================================================================
-Total params: 260,717
-Trainable params: 256,909
-Non-trainable params: 3,808
+Total params: 327,120
+Trainable params: 322,416
+Non-trainable params: 4,704
 __________________________________________________________________________________________________

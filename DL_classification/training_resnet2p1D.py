@@ -32,6 +32,11 @@ class SaveBestModel(tf.keras.callbacks.Callback):
         self.metric = metric
         self.max = (float(this_max) - 0.5) * 2.0
 
+        
+        f = open(self.name + "_progress.txt", "w")
+        f.write("")
+        f.close()
+
     def get_best(self):
         filename = self.name + ".txt"
         vals_dic = {}
@@ -62,23 +67,14 @@ class SaveBestModel(tf.keras.callbacks.Callback):
             print("\tSaving...")
             self.set_best(logs)
 
+        f = open(self.name + "_progress.txt", "a")
+        f.write(str(logs['val_loss']) + " ; " + str(logs['val_accuracy']) + "\n")
+        f.close()
 
-class Model(tf.keras.Model):
+class ResNet2p1D(tf.keras.Model):
     def _activation(self, inputs):
-        if self.activation == "relu":
-            return tf.keras.layers.Activation(tf.nn.relu)(inputs)
-        if self.activation == "lrelu":
-            return tf.keras.layers.Activation(tf.nn.leaky_relu)(inputs)
-        if self.activation == "elu":
-            return tf.keras.layers.Activation(tf.nn.elu)(inputs)
-        if self.activation == "swish":
-            return tf.keras.layers.Activation(tf.nn.swish)(inputs)
-        if self.activation == "gelu":
-            return tf.keras.layers.Activation(tf.nn.gelu)(inputs)
-        raise ValueError("Unknown activation '{}'".format(self.activation))
+        return tf.keras.layers.Activation(tf.nn.swish)(inputs)
 
-
-class ResNet2p1D(Model):
     def _cnn_1(self, inputs, filters, stride, activation):
         hidden = inputs
         hidden = tf.keras.layers.Conv3D(filters, kernel_size=1, strides=stride, padding="same", use_bias=False)(hidden)
@@ -107,10 +103,9 @@ class ResNet2p1D(Model):
         hidden = self._activation(hidden)
         return hidden
 
-    def __init__(self, shape, num_classes, activation, depth, filters_start, temporal_ker, spatial_ker):
+    def __init__(self, shape, num_classes, depth, filters_start, temporal_ker, spatial_ker):
         self.shape = shape
         self.num_classes = num_classes
-        self.activation = activation
         self.depth = depth
 
         self.filters_start = filters_start
@@ -137,9 +132,9 @@ class ResNet2p1D(Model):
 
 def main(args):
     epochs = 100
-    batch_size = 16
+    batch_size = 12
     train_epoch_size = 16384
-    test_epoch_size = 8192
+    test_epoch_size = 16384
 
     seed = int(datetime.datetime.now().timestamp()) % 1000000
     tf.keras.utils.set_random_seed(seed)
@@ -150,30 +145,26 @@ def main(args):
     tf.keras.backend.set_image_data_format('channels_first')
     print(tf.keras.backend.image_data_format())
 
-    mode = "dynamic"
-    print("Mode: " + mode)
     print("Dataset: " + str(args.dataset))
 
-    num_classes, frames, res, test_gen = iSCAT_Datasets.getDatasetGen(args.dataset, test_epoch_size, batch_size, verbose=0, mode=mode, regen=False)
+    num_classes, frames, res, test_gen = iSCAT_Datasets.getDatasetGen(args.dataset, test_epoch_size, batch_size, verbose=0, regen=False)
 
-    activation = "swish"
     depth = 62
     filters_start = 8
 
     spatial_kernel_size = 3
     temporal_kernel_size = 3
 
-    model_comment = "_dataset-" + str(args.dataset)
-    model_name = "models/model_resnet(2+1)d_tk" + str(temporal_kernel_size) + model_comment
+    model_name = "models/model_resnet(2+1)d" + "_dataset-" + str(args.dataset)
 
     if args.finetune or args.evaluate:
         model = tf.keras.models.load_model(model_name + ".h5", custom_objects={"ResNet2p1D" : ResNet2p1D})
     else:
-        model = ResNet2p1D((frames, res, res), num_classes, activation, depth, filters_start, temporal_kernel_size, spatial_kernel_size)
+        model = ResNet2p1D((frames, res, res), num_classes, depth, filters_start, temporal_kernel_size, spatial_kernel_size)
 
 
     decay_steps = train_epoch_size / batch_size * epochs
-    start_lr = 0.0001
+    start_lr = 0.00005
     end_lr = 0.0
     alpha = end_lr / start_lr
     learning_rate = tf.optimizers.schedules.CosineDecay(start_lr, decay_steps, alpha)
@@ -199,10 +190,6 @@ def main(args):
 
     model.summary(print_fn=myprint)
 
-    # test_gen = DL_Sequence.iSCAT_DataGenerator(batch_size=batch_size, epoch_size=test_epoch_size, res=res, frames=frames, thread_count=20,
-    #                 PSF_path="../PSF_subpx_fl32.npy", exD=exD, devD=devD, exPT_cnt=exPT_cnt, devPT_cnt=devPT_cnt, exIntensity=exIntensity, devIntensity=devIntensity, target_frame=target_frame,
-    #                 num_classes=num_classes, verbose = 0, noise_func = None, mode = mode, regen = False)
-    
     if args.evaluate:
         model.compile(
             optimizer=optimizer,
@@ -217,10 +204,7 @@ def main(args):
             metrics=[tf.metrics.SparseCategoricalAccuracy(name="accuracy")],
         )
 
-        # train_gen = DL_Sequence.iSCAT_DataGenerator(batch_size=batch_size, epoch_size=train_epoch_size, res=res, frames=frames, thread_count=20,
-        #                 PSF_path="../PSF_subpx_fl32.npy", exD=exD, devD=devD, exPT_cnt=exPT_cnt, devPT_cnt=devPT_cnt, exIntensity=exIntensity, devIntensity=devIntensity, target_frame=target_frame,
-        #                 num_classes=num_classes, verbose = 1, noise_func = None, mode = mode, regen = True)
-        num_classes, frames, res, train_gen = iSCAT_Datasets.getDatasetGen(args.dataset, train_epoch_size, batch_size, verbose=1, mode=mode, regen=True)
+        num_classes, frames, res, train_gen = iSCAT_Datasets.getDatasetGen(args.dataset, train_epoch_size, batch_size, verbose=1, regen=True)
                         
 
         save_best_callback = SaveBestModel(name=model_name, metric="val_loss", this_max=False)
