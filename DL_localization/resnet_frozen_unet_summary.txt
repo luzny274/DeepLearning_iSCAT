@@ -544,526 +544,526 @@ ________________________________________________________________________________
  batch_normalization_63 (BatchN  (None, 128, 32, 32)  128        ['concatenate[0][0]']            
  ormalization)                                                                                    
                                                                                                   
- re_lu (ReLU)                   (None, 128, 32, 32)  0           ['batch_normalization_63[0][0]'] 
+ activation_61 (Activation)     (None, 128, 32, 32)  0           ['batch_normalization_63[0][0]'] 
                                                                                                   
- conv2d_64 (Conv2D)             (None, 64, 32, 32)   73792       ['re_lu[0][0]']                  
+ conv2d_64 (Conv2D)             (None, 64, 32, 32)   73728       ['activation_61[0][0]']          
                                                                                                   
  batch_normalization_64 (BatchN  (None, 64, 32, 32)  128         ['conv2d_64[0][0]']              
  ormalization)                                                                                    
                                                                                                   
- re_lu_1 (ReLU)                 (None, 64, 32, 32)   0           ['batch_normalization_64[0][0]'] 
+ activation_62 (Activation)     (None, 64, 32, 32)   0           ['batch_normalization_64[0][0]'] 
                                                                                                   
- conv2d_65 (Conv2D)             (None, 64, 32, 32)   36928       ['re_lu_1[0][0]']                
+ conv2d_65 (Conv2D)             (None, 64, 32, 32)   36864       ['activation_62[0][0]']          
                                                                                                   
  batch_normalization_65 (BatchN  (None, 64, 32, 32)  128         ['conv2d_65[0][0]']              
  ormalization)                                                                                    
                                                                                                   
- re_lu_2 (ReLU)                 (None, 64, 32, 32)   0           ['batch_normalization_65[0][0]'] 
+ activation_63 (Activation)     (None, 64, 32, 32)   0           ['batch_normalization_65[0][0]'] 
                                                                                                   
- conv2d_66 (Conv2D)             (None, 64, 32, 32)   36928       ['re_lu_2[0][0]']                
+ conv2d_66 (Conv2D)             (None, 64, 32, 32)   36864       ['activation_63[0][0]']          
                                                                                                   
  batch_normalization_66 (BatchN  (None, 64, 32, 32)  128         ['conv2d_66[0][0]']              
  ormalization)                                                                                    
                                                                                                   
  tf.__operators__.add_30 (TFOpL  (None, 64, 32, 32)  0           ['batch_normalization_66[0][0]', 
- ambda)                                                           're_lu_1[0][0]']                
+ ambda)                                                           'activation_62[0][0]']          
                                                                                                   
- re_lu_3 (ReLU)                 (None, 64, 32, 32)   0           ['tf.__operators__.add_30[0][0]']
+ activation_64 (Activation)     (None, 64, 32, 32)   0           ['tf.__operators__.add_30[0][0]']
                                                                                                   
- conv2d_67 (Conv2D)             (None, 64, 32, 32)   36928       ['re_lu_3[0][0]']                
+ conv2d_67 (Conv2D)             (None, 64, 32, 32)   36864       ['activation_64[0][0]']          
                                                                                                   
  batch_normalization_67 (BatchN  (None, 64, 32, 32)  128         ['conv2d_67[0][0]']              
  ormalization)                                                                                    
                                                                                                   
- re_lu_4 (ReLU)                 (None, 64, 32, 32)   0           ['batch_normalization_67[0][0]'] 
+ activation_65 (Activation)     (None, 64, 32, 32)   0           ['batch_normalization_67[0][0]'] 
                                                                                                   
- conv2d_68 (Conv2D)             (None, 64, 32, 32)   36928       ['re_lu_4[0][0]']                
+ conv2d_68 (Conv2D)             (None, 64, 32, 32)   36864       ['activation_65[0][0]']          
                                                                                                   
  batch_normalization_68 (BatchN  (None, 64, 32, 32)  128         ['conv2d_68[0][0]']              
  ormalization)                                                                                    
                                                                                                   
  tf.__operators__.add_31 (TFOpL  (None, 64, 32, 32)  0           ['batch_normalization_68[0][0]', 
- ambda)                                                           're_lu_3[0][0]']                
+ ambda)                                                           'activation_64[0][0]']          
                                                                                                   
- re_lu_5 (ReLU)                 (None, 64, 32, 32)   0           ['tf.__operators__.add_31[0][0]']
+ activation_66 (Activation)     (None, 64, 32, 32)   0           ['tf.__operators__.add_31[0][0]']
                                                                                                   
- conv2d_69 (Conv2D)             (None, 64, 32, 32)   36928       ['re_lu_5[0][0]']                
+ conv2d_69 (Conv2D)             (None, 64, 32, 32)   36864       ['activation_66[0][0]']          
                                                                                                   
  batch_normalization_69 (BatchN  (None, 64, 32, 32)  128         ['conv2d_69[0][0]']              
  ormalization)                                                                                    
                                                                                                   
- re_lu_6 (ReLU)                 (None, 64, 32, 32)   0           ['batch_normalization_69[0][0]'] 
+ activation_67 (Activation)     (None, 64, 32, 32)   0           ['batch_normalization_69[0][0]'] 
                                                                                                   
- conv2d_70 (Conv2D)             (None, 64, 32, 32)   36928       ['re_lu_6[0][0]']                
+ conv2d_70 (Conv2D)             (None, 64, 32, 32)   36864       ['activation_67[0][0]']          
                                                                                                   
  batch_normalization_70 (BatchN  (None, 64, 32, 32)  128         ['conv2d_70[0][0]']              
  ormalization)                                                                                    
                                                                                                   
  tf.__operators__.add_32 (TFOpL  (None, 64, 32, 32)  0           ['batch_normalization_70[0][0]', 
- ambda)                                                           're_lu_5[0][0]']                
+ ambda)                                                           'activation_66[0][0]']          
                                                                                                   
- re_lu_7 (ReLU)                 (None, 64, 32, 32)   0           ['tf.__operators__.add_32[0][0]']
+ activation_68 (Activation)     (None, 64, 32, 32)   0           ['tf.__operators__.add_32[0][0]']
                                                                                                   
- conv2d_71 (Conv2D)             (None, 64, 32, 32)   36928       ['re_lu_7[0][0]']                
+ conv2d_71 (Conv2D)             (None, 64, 32, 32)   36864       ['activation_68[0][0]']          
                                                                                                   
  batch_normalization_71 (BatchN  (None, 64, 32, 32)  128         ['conv2d_71[0][0]']              
  ormalization)                                                                                    
                                                                                                   
- re_lu_8 (ReLU)                 (None, 64, 32, 32)   0           ['batch_normalization_71[0][0]'] 
+ activation_69 (Activation)     (None, 64, 32, 32)   0           ['batch_normalization_71[0][0]'] 
                                                                                                   
- conv2d_72 (Conv2D)             (None, 64, 32, 32)   36928       ['re_lu_8[0][0]']                
+ conv2d_72 (Conv2D)             (None, 64, 32, 32)   36864       ['activation_69[0][0]']          
                                                                                                   
  batch_normalization_72 (BatchN  (None, 64, 32, 32)  128         ['conv2d_72[0][0]']              
  ormalization)                                                                                    
                                                                                                   
  tf.__operators__.add_33 (TFOpL  (None, 64, 32, 32)  0           ['batch_normalization_72[0][0]', 
- ambda)                                                           're_lu_7[0][0]']                
+ ambda)                                                           'activation_68[0][0]']          
                                                                                                   
- re_lu_9 (ReLU)                 (None, 64, 32, 32)   0           ['tf.__operators__.add_33[0][0]']
+ activation_70 (Activation)     (None, 64, 32, 32)   0           ['tf.__operators__.add_33[0][0]']
                                                                                                   
- conv2d_73 (Conv2D)             (None, 64, 32, 32)   36928       ['re_lu_9[0][0]']                
+ conv2d_73 (Conv2D)             (None, 64, 32, 32)   36864       ['activation_70[0][0]']          
                                                                                                   
  batch_normalization_73 (BatchN  (None, 64, 32, 32)  128         ['conv2d_73[0][0]']              
  ormalization)                                                                                    
                                                                                                   
- re_lu_10 (ReLU)                (None, 64, 32, 32)   0           ['batch_normalization_73[0][0]'] 
+ activation_71 (Activation)     (None, 64, 32, 32)   0           ['batch_normalization_73[0][0]'] 
                                                                                                   
- conv2d_74 (Conv2D)             (None, 64, 32, 32)   36928       ['re_lu_10[0][0]']               
+ conv2d_74 (Conv2D)             (None, 64, 32, 32)   36864       ['activation_71[0][0]']          
                                                                                                   
  batch_normalization_74 (BatchN  (None, 64, 32, 32)  128         ['conv2d_74[0][0]']              
  ormalization)                                                                                    
                                                                                                   
  tf.__operators__.add_34 (TFOpL  (None, 64, 32, 32)  0           ['batch_normalization_74[0][0]', 
- ambda)                                                           're_lu_9[0][0]']                
+ ambda)                                                           'activation_70[0][0]']          
                                                                                                   
- re_lu_11 (ReLU)                (None, 64, 32, 32)   0           ['tf.__operators__.add_34[0][0]']
+ activation_72 (Activation)     (None, 64, 32, 32)   0           ['tf.__operators__.add_34[0][0]']
                                                                                                   
- conv2d_75 (Conv2D)             (None, 64, 32, 32)   36928       ['re_lu_11[0][0]']               
+ conv2d_75 (Conv2D)             (None, 64, 32, 32)   36864       ['activation_72[0][0]']          
                                                                                                   
  batch_normalization_75 (BatchN  (None, 64, 32, 32)  128         ['conv2d_75[0][0]']              
  ormalization)                                                                                    
                                                                                                   
- re_lu_12 (ReLU)                (None, 64, 32, 32)   0           ['batch_normalization_75[0][0]'] 
+ activation_73 (Activation)     (None, 64, 32, 32)   0           ['batch_normalization_75[0][0]'] 
                                                                                                   
- conv2d_76 (Conv2D)             (None, 64, 32, 32)   36928       ['re_lu_12[0][0]']               
+ conv2d_76 (Conv2D)             (None, 64, 32, 32)   36864       ['activation_73[0][0]']          
                                                                                                   
  batch_normalization_76 (BatchN  (None, 64, 32, 32)  128         ['conv2d_76[0][0]']              
  ormalization)                                                                                    
                                                                                                   
  tf.__operators__.add_35 (TFOpL  (None, 64, 32, 32)  0           ['batch_normalization_76[0][0]', 
- ambda)                                                           're_lu_11[0][0]']               
+ ambda)                                                           'activation_72[0][0]']          
                                                                                                   
- re_lu_13 (ReLU)                (None, 64, 32, 32)   0           ['tf.__operators__.add_35[0][0]']
+ activation_74 (Activation)     (None, 64, 32, 32)   0           ['tf.__operators__.add_35[0][0]']
                                                                                                   
- conv2d_77 (Conv2D)             (None, 64, 32, 32)   36928       ['re_lu_13[0][0]']               
+ conv2d_77 (Conv2D)             (None, 64, 32, 32)   36864       ['activation_74[0][0]']          
                                                                                                   
  batch_normalization_77 (BatchN  (None, 64, 32, 32)  128         ['conv2d_77[0][0]']              
  ormalization)                                                                                    
                                                                                                   
- re_lu_14 (ReLU)                (None, 64, 32, 32)   0           ['batch_normalization_77[0][0]'] 
+ activation_75 (Activation)     (None, 64, 32, 32)   0           ['batch_normalization_77[0][0]'] 
                                                                                                   
- conv2d_78 (Conv2D)             (None, 64, 32, 32)   36928       ['re_lu_14[0][0]']               
+ conv2d_78 (Conv2D)             (None, 64, 32, 32)   36864       ['activation_75[0][0]']          
                                                                                                   
  batch_normalization_78 (BatchN  (None, 64, 32, 32)  128         ['conv2d_78[0][0]']              
  ormalization)                                                                                    
                                                                                                   
  tf.__operators__.add_36 (TFOpL  (None, 64, 32, 32)  0           ['batch_normalization_78[0][0]', 
- ambda)                                                           're_lu_13[0][0]']               
+ ambda)                                                           'activation_74[0][0]']          
                                                                                                   
- re_lu_15 (ReLU)                (None, 64, 32, 32)   0           ['tf.__operators__.add_36[0][0]']
+ activation_76 (Activation)     (None, 64, 32, 32)   0           ['tf.__operators__.add_36[0][0]']
                                                                                                   
- conv2d_79 (Conv2D)             (None, 64, 32, 32)   36928       ['re_lu_15[0][0]']               
+ conv2d_79 (Conv2D)             (None, 64, 32, 32)   36864       ['activation_76[0][0]']          
                                                                                                   
  batch_normalization_79 (BatchN  (None, 64, 32, 32)  128         ['conv2d_79[0][0]']              
  ormalization)                                                                                    
                                                                                                   
- re_lu_16 (ReLU)                (None, 64, 32, 32)   0           ['batch_normalization_79[0][0]'] 
+ activation_77 (Activation)     (None, 64, 32, 32)   0           ['batch_normalization_79[0][0]'] 
                                                                                                   
- conv2d_80 (Conv2D)             (None, 64, 32, 32)   36928       ['re_lu_16[0][0]']               
+ conv2d_80 (Conv2D)             (None, 64, 32, 32)   36864       ['activation_77[0][0]']          
                                                                                                   
  batch_normalization_80 (BatchN  (None, 64, 32, 32)  128         ['conv2d_80[0][0]']              
  ormalization)                                                                                    
                                                                                                   
  tf.__operators__.add_37 (TFOpL  (None, 64, 32, 32)  0           ['batch_normalization_80[0][0]', 
- ambda)                                                           're_lu_15[0][0]']               
+ ambda)                                                           'activation_76[0][0]']          
                                                                                                   
- re_lu_17 (ReLU)                (None, 64, 32, 32)   0           ['tf.__operators__.add_37[0][0]']
+ activation_78 (Activation)     (None, 64, 32, 32)   0           ['tf.__operators__.add_37[0][0]']
                                                                                                   
- conv2d_81 (Conv2D)             (None, 64, 32, 32)   36928       ['re_lu_17[0][0]']               
+ conv2d_81 (Conv2D)             (None, 64, 32, 32)   36864       ['activation_78[0][0]']          
                                                                                                   
  batch_normalization_81 (BatchN  (None, 64, 32, 32)  128         ['conv2d_81[0][0]']              
  ormalization)                                                                                    
                                                                                                   
- re_lu_18 (ReLU)                (None, 64, 32, 32)   0           ['batch_normalization_81[0][0]'] 
+ activation_79 (Activation)     (None, 64, 32, 32)   0           ['batch_normalization_81[0][0]'] 
                                                                                                   
- conv2d_82 (Conv2D)             (None, 64, 32, 32)   36928       ['re_lu_18[0][0]']               
+ conv2d_82 (Conv2D)             (None, 64, 32, 32)   36864       ['activation_79[0][0]']          
                                                                                                   
  batch_normalization_82 (BatchN  (None, 64, 32, 32)  128         ['conv2d_82[0][0]']              
  ormalization)                                                                                    
                                                                                                   
  tf.__operators__.add_38 (TFOpL  (None, 64, 32, 32)  0           ['batch_normalization_82[0][0]', 
- ambda)                                                           're_lu_17[0][0]']               
+ ambda)                                                           'activation_78[0][0]']          
                                                                                                   
- re_lu_19 (ReLU)                (None, 64, 32, 32)   0           ['tf.__operators__.add_38[0][0]']
+ activation_80 (Activation)     (None, 64, 32, 32)   0           ['tf.__operators__.add_38[0][0]']
                                                                                                   
- conv2d_83 (Conv2D)             (None, 64, 32, 32)   36928       ['re_lu_19[0][0]']               
+ conv2d_83 (Conv2D)             (None, 64, 32, 32)   36864       ['activation_80[0][0]']          
                                                                                                   
  batch_normalization_83 (BatchN  (None, 64, 32, 32)  128         ['conv2d_83[0][0]']              
  ormalization)                                                                                    
                                                                                                   
- re_lu_20 (ReLU)                (None, 64, 32, 32)   0           ['batch_normalization_83[0][0]'] 
+ activation_81 (Activation)     (None, 64, 32, 32)   0           ['batch_normalization_83[0][0]'] 
                                                                                                   
- conv2d_84 (Conv2D)             (None, 64, 32, 32)   36928       ['re_lu_20[0][0]']               
+ conv2d_84 (Conv2D)             (None, 64, 32, 32)   36864       ['activation_81[0][0]']          
                                                                                                   
  batch_normalization_84 (BatchN  (None, 64, 32, 32)  128         ['conv2d_84[0][0]']              
  ormalization)                                                                                    
                                                                                                   
  tf.__operators__.add_39 (TFOpL  (None, 64, 32, 32)  0           ['batch_normalization_84[0][0]', 
- ambda)                                                           're_lu_19[0][0]']               
+ ambda)                                                           'activation_80[0][0]']          
                                                                                                   
- re_lu_21 (ReLU)                (None, 64, 32, 32)   0           ['tf.__operators__.add_39[0][0]']
+ activation_82 (Activation)     (None, 64, 32, 32)   0           ['tf.__operators__.add_39[0][0]']
                                                                                                   
- conv2d_85 (Conv2D)             (None, 64, 32, 32)   36928       ['re_lu_21[0][0]']               
+ conv2d_85 (Conv2D)             (None, 64, 32, 32)   36864       ['activation_82[0][0]']          
                                                                                                   
  batch_normalization_85 (BatchN  (None, 64, 32, 32)  128         ['conv2d_85[0][0]']              
  ormalization)                                                                                    
                                                                                                   
- re_lu_22 (ReLU)                (None, 64, 32, 32)   0           ['batch_normalization_85[0][0]'] 
+ activation_83 (Activation)     (None, 64, 32, 32)   0           ['batch_normalization_85[0][0]'] 
                                                                                                   
- conv2d_86 (Conv2D)             (None, 64, 32, 32)   36928       ['re_lu_22[0][0]']               
+ conv2d_86 (Conv2D)             (None, 64, 32, 32)   36864       ['activation_83[0][0]']          
                                                                                                   
  batch_normalization_86 (BatchN  (None, 64, 32, 32)  128         ['conv2d_86[0][0]']              
  ormalization)                                                                                    
                                                                                                   
  tf.__operators__.add_40 (TFOpL  (None, 64, 32, 32)  0           ['batch_normalization_86[0][0]', 
- ambda)                                                           're_lu_21[0][0]']               
+ ambda)                                                           'activation_82[0][0]']          
                                                                                                   
- re_lu_23 (ReLU)                (None, 64, 32, 32)   0           ['tf.__operators__.add_40[0][0]']
+ activation_84 (Activation)     (None, 64, 32, 32)   0           ['tf.__operators__.add_40[0][0]']
                                                                                                   
- conv2d_87 (Conv2D)             (None, 64, 32, 32)   36928       ['re_lu_23[0][0]']               
+ conv2d_87 (Conv2D)             (None, 64, 32, 32)   36864       ['activation_84[0][0]']          
                                                                                                   
  batch_normalization_87 (BatchN  (None, 64, 32, 32)  128         ['conv2d_87[0][0]']              
  ormalization)                                                                                    
                                                                                                   
- re_lu_24 (ReLU)                (None, 64, 32, 32)   0           ['batch_normalization_87[0][0]'] 
+ activation_85 (Activation)     (None, 64, 32, 32)   0           ['batch_normalization_87[0][0]'] 
                                                                                                   
- conv2d_88 (Conv2D)             (None, 64, 32, 32)   36928       ['re_lu_24[0][0]']               
+ conv2d_88 (Conv2D)             (None, 64, 32, 32)   36864       ['activation_85[0][0]']          
                                                                                                   
  batch_normalization_88 (BatchN  (None, 64, 32, 32)  128         ['conv2d_88[0][0]']              
  ormalization)                                                                                    
                                                                                                   
  tf.__operators__.add_41 (TFOpL  (None, 64, 32, 32)  0           ['batch_normalization_88[0][0]', 
- ambda)                                                           're_lu_23[0][0]']               
+ ambda)                                                           'activation_84[0][0]']          
                                                                                                   
- re_lu_25 (ReLU)                (None, 64, 32, 32)   0           ['tf.__operators__.add_41[0][0]']
+ activation_86 (Activation)     (None, 64, 32, 32)   0           ['tf.__operators__.add_41[0][0]']
                                                                                                   
- conv2d_89 (Conv2D)             (None, 64, 32, 32)   36928       ['re_lu_25[0][0]']               
+ conv2d_89 (Conv2D)             (None, 64, 32, 32)   36864       ['activation_86[0][0]']          
                                                                                                   
  batch_normalization_89 (BatchN  (None, 64, 32, 32)  128         ['conv2d_89[0][0]']              
  ormalization)                                                                                    
                                                                                                   
- re_lu_26 (ReLU)                (None, 64, 32, 32)   0           ['batch_normalization_89[0][0]'] 
+ activation_87 (Activation)     (None, 64, 32, 32)   0           ['batch_normalization_89[0][0]'] 
                                                                                                   
- conv2d_90 (Conv2D)             (None, 64, 32, 32)   36928       ['re_lu_26[0][0]']               
+ conv2d_90 (Conv2D)             (None, 64, 32, 32)   36864       ['activation_87[0][0]']          
                                                                                                   
  batch_normalization_90 (BatchN  (None, 64, 32, 32)  128         ['conv2d_90[0][0]']              
  ormalization)                                                                                    
                                                                                                   
  tf.__operators__.add_42 (TFOpL  (None, 64, 32, 32)  0           ['batch_normalization_90[0][0]', 
- ambda)                                                           're_lu_25[0][0]']               
+ ambda)                                                           'activation_86[0][0]']          
                                                                                                   
- re_lu_27 (ReLU)                (None, 64, 32, 32)   0           ['tf.__operators__.add_42[0][0]']
+ activation_88 (Activation)     (None, 64, 32, 32)   0           ['tf.__operators__.add_42[0][0]']
                                                                                                   
- conv2d_91 (Conv2D)             (None, 64, 32, 32)   36928       ['re_lu_27[0][0]']               
+ conv2d_91 (Conv2D)             (None, 64, 32, 32)   36864       ['activation_88[0][0]']          
                                                                                                   
  batch_normalization_91 (BatchN  (None, 64, 32, 32)  128         ['conv2d_91[0][0]']              
  ormalization)                                                                                    
                                                                                                   
- re_lu_28 (ReLU)                (None, 64, 32, 32)   0           ['batch_normalization_91[0][0]'] 
+ activation_89 (Activation)     (None, 64, 32, 32)   0           ['batch_normalization_91[0][0]'] 
                                                                                                   
- conv2d_92 (Conv2D)             (None, 64, 32, 32)   36928       ['re_lu_28[0][0]']               
+ conv2d_92 (Conv2D)             (None, 64, 32, 32)   36864       ['activation_89[0][0]']          
                                                                                                   
  batch_normalization_92 (BatchN  (None, 64, 32, 32)  128         ['conv2d_92[0][0]']              
  ormalization)                                                                                    
                                                                                                   
  tf.__operators__.add_43 (TFOpL  (None, 64, 32, 32)  0           ['batch_normalization_92[0][0]', 
- ambda)                                                           're_lu_27[0][0]']               
+ ambda)                                                           'activation_88[0][0]']          
                                                                                                   
- re_lu_29 (ReLU)                (None, 64, 32, 32)   0           ['tf.__operators__.add_43[0][0]']
+ activation_90 (Activation)     (None, 64, 32, 32)   0           ['tf.__operators__.add_43[0][0]']
                                                                                                   
- conv2d_93 (Conv2D)             (None, 64, 32, 32)   36928       ['re_lu_29[0][0]']               
+ conv2d_93 (Conv2D)             (None, 64, 32, 32)   36864       ['activation_90[0][0]']          
                                                                                                   
  batch_normalization_93 (BatchN  (None, 64, 32, 32)  128         ['conv2d_93[0][0]']              
  ormalization)                                                                                    
                                                                                                   
- re_lu_30 (ReLU)                (None, 64, 32, 32)   0           ['batch_normalization_93[0][0]'] 
+ activation_91 (Activation)     (None, 64, 32, 32)   0           ['batch_normalization_93[0][0]'] 
                                                                                                   
- conv2d_94 (Conv2D)             (None, 64, 32, 32)   36928       ['re_lu_30[0][0]']               
+ conv2d_94 (Conv2D)             (None, 64, 32, 32)   36864       ['activation_91[0][0]']          
                                                                                                   
  batch_normalization_94 (BatchN  (None, 64, 32, 32)  128         ['conv2d_94[0][0]']              
  ormalization)                                                                                    
                                                                                                   
  tf.__operators__.add_44 (TFOpL  (None, 64, 32, 32)  0           ['batch_normalization_94[0][0]', 
- ambda)                                                           're_lu_29[0][0]']               
+ ambda)                                                           'activation_90[0][0]']          
                                                                                                   
- re_lu_31 (ReLU)                (None, 64, 32, 32)   0           ['tf.__operators__.add_44[0][0]']
+ activation_92 (Activation)     (None, 64, 32, 32)   0           ['tf.__operators__.add_44[0][0]']
                                                                                                   
- conv2d_95 (Conv2D)             (None, 64, 32, 32)   36928       ['re_lu_31[0][0]']               
+ conv2d_95 (Conv2D)             (None, 64, 32, 32)   36864       ['activation_92[0][0]']          
                                                                                                   
  batch_normalization_95 (BatchN  (None, 64, 32, 32)  128         ['conv2d_95[0][0]']              
  ormalization)                                                                                    
                                                                                                   
- re_lu_32 (ReLU)                (None, 64, 32, 32)   0           ['batch_normalization_95[0][0]'] 
+ activation_93 (Activation)     (None, 64, 32, 32)   0           ['batch_normalization_95[0][0]'] 
                                                                                                   
- conv2d_96 (Conv2D)             (None, 64, 32, 32)   36928       ['re_lu_32[0][0]']               
+ conv2d_96 (Conv2D)             (None, 64, 32, 32)   36864       ['activation_93[0][0]']          
                                                                                                   
  batch_normalization_96 (BatchN  (None, 64, 32, 32)  128         ['conv2d_96[0][0]']              
  ormalization)                                                                                    
                                                                                                   
  tf.__operators__.add_45 (TFOpL  (None, 64, 32, 32)  0           ['batch_normalization_96[0][0]', 
- ambda)                                                           're_lu_31[0][0]']               
+ ambda)                                                           'activation_92[0][0]']          
                                                                                                   
- re_lu_33 (ReLU)                (None, 64, 32, 32)   0           ['tf.__operators__.add_45[0][0]']
+ activation_94 (Activation)     (None, 64, 32, 32)   0           ['tf.__operators__.add_45[0][0]']
                                                                                                   
- conv2d_97 (Conv2D)             (None, 64, 32, 32)   36928       ['re_lu_33[0][0]']               
+ conv2d_97 (Conv2D)             (None, 64, 32, 32)   36864       ['activation_94[0][0]']          
                                                                                                   
  batch_normalization_97 (BatchN  (None, 64, 32, 32)  128         ['conv2d_97[0][0]']              
  ormalization)                                                                                    
                                                                                                   
- re_lu_34 (ReLU)                (None, 64, 32, 32)   0           ['batch_normalization_97[0][0]'] 
+ activation_95 (Activation)     (None, 64, 32, 32)   0           ['batch_normalization_97[0][0]'] 
                                                                                                   
- conv2d_98 (Conv2D)             (None, 64, 32, 32)   36928       ['re_lu_34[0][0]']               
+ conv2d_98 (Conv2D)             (None, 64, 32, 32)   36864       ['activation_95[0][0]']          
                                                                                                   
  batch_normalization_98 (BatchN  (None, 64, 32, 32)  128         ['conv2d_98[0][0]']              
  ormalization)                                                                                    
                                                                                                   
  tf.__operators__.add_46 (TFOpL  (None, 64, 32, 32)  0           ['batch_normalization_98[0][0]', 
- ambda)                                                           're_lu_33[0][0]']               
+ ambda)                                                           'activation_94[0][0]']          
                                                                                                   
- re_lu_35 (ReLU)                (None, 64, 32, 32)   0           ['tf.__operators__.add_46[0][0]']
+ activation_96 (Activation)     (None, 64, 32, 32)   0           ['tf.__operators__.add_46[0][0]']
                                                                                                   
- conv2d_99 (Conv2D)             (None, 64, 32, 32)   36928       ['re_lu_35[0][0]']               
+ conv2d_99 (Conv2D)             (None, 64, 32, 32)   36864       ['activation_96[0][0]']          
                                                                                                   
  batch_normalization_99 (BatchN  (None, 64, 32, 32)  128         ['conv2d_99[0][0]']              
  ormalization)                                                                                    
                                                                                                   
- re_lu_36 (ReLU)                (None, 64, 32, 32)   0           ['batch_normalization_99[0][0]'] 
+ activation_97 (Activation)     (None, 64, 32, 32)   0           ['batch_normalization_99[0][0]'] 
                                                                                                   
- conv2d_100 (Conv2D)            (None, 64, 32, 32)   36928       ['re_lu_36[0][0]']               
+ conv2d_100 (Conv2D)            (None, 64, 32, 32)   36864       ['activation_97[0][0]']          
                                                                                                   
  batch_normalization_100 (Batch  (None, 64, 32, 32)  128         ['conv2d_100[0][0]']             
  Normalization)                                                                                   
                                                                                                   
  tf.__operators__.add_47 (TFOpL  (None, 64, 32, 32)  0           ['batch_normalization_100[0][0]',
- ambda)                                                           're_lu_35[0][0]']               
+ ambda)                                                           'activation_96[0][0]']          
                                                                                                   
- re_lu_37 (ReLU)                (None, 64, 32, 32)   0           ['tf.__operators__.add_47[0][0]']
+ activation_98 (Activation)     (None, 64, 32, 32)   0           ['tf.__operators__.add_47[0][0]']
                                                                                                   
- conv2d_101 (Conv2D)            (None, 64, 32, 32)   36928       ['re_lu_37[0][0]']               
+ conv2d_101 (Conv2D)            (None, 64, 32, 32)   36864       ['activation_98[0][0]']          
                                                                                                   
  batch_normalization_101 (Batch  (None, 64, 32, 32)  128         ['conv2d_101[0][0]']             
  Normalization)                                                                                   
                                                                                                   
- re_lu_38 (ReLU)                (None, 64, 32, 32)   0           ['batch_normalization_101[0][0]']
+ activation_99 (Activation)     (None, 64, 32, 32)   0           ['batch_normalization_101[0][0]']
                                                                                                   
- conv2d_102 (Conv2D)            (None, 64, 32, 32)   36928       ['re_lu_38[0][0]']               
+ conv2d_102 (Conv2D)            (None, 64, 32, 32)   36864       ['activation_99[0][0]']          
                                                                                                   
  batch_normalization_102 (Batch  (None, 64, 32, 32)  128         ['conv2d_102[0][0]']             
  Normalization)                                                                                   
                                                                                                   
  tf.__operators__.add_48 (TFOpL  (None, 64, 32, 32)  0           ['batch_normalization_102[0][0]',
- ambda)                                                           're_lu_37[0][0]']               
+ ambda)                                                           'activation_98[0][0]']          
                                                                                                   
- re_lu_39 (ReLU)                (None, 64, 32, 32)   0           ['tf.__operators__.add_48[0][0]']
+ activation_100 (Activation)    (None, 64, 32, 32)   0           ['tf.__operators__.add_48[0][0]']
                                                                                                   
- conv2d_103 (Conv2D)            (None, 64, 32, 32)   36928       ['re_lu_39[0][0]']               
+ conv2d_103 (Conv2D)            (None, 64, 32, 32)   36864       ['activation_100[0][0]']         
                                                                                                   
  batch_normalization_103 (Batch  (None, 64, 32, 32)  128         ['conv2d_103[0][0]']             
  Normalization)                                                                                   
                                                                                                   
- re_lu_40 (ReLU)                (None, 64, 32, 32)   0           ['batch_normalization_103[0][0]']
+ activation_101 (Activation)    (None, 64, 32, 32)   0           ['batch_normalization_103[0][0]']
                                                                                                   
- conv2d_104 (Conv2D)            (None, 64, 32, 32)   36928       ['re_lu_40[0][0]']               
+ conv2d_104 (Conv2D)            (None, 64, 32, 32)   36864       ['activation_101[0][0]']         
                                                                                                   
  batch_normalization_104 (Batch  (None, 64, 32, 32)  128         ['conv2d_104[0][0]']             
  Normalization)                                                                                   
                                                                                                   
  tf.__operators__.add_49 (TFOpL  (None, 64, 32, 32)  0           ['batch_normalization_104[0][0]',
- ambda)                                                           're_lu_39[0][0]']               
+ ambda)                                                           'activation_100[0][0]']         
                                                                                                   
- re_lu_41 (ReLU)                (None, 64, 32, 32)   0           ['tf.__operators__.add_49[0][0]']
+ activation_102 (Activation)    (None, 64, 32, 32)   0           ['tf.__operators__.add_49[0][0]']
                                                                                                   
- conv2d_105 (Conv2D)            (None, 64, 32, 32)   36928       ['re_lu_41[0][0]']               
+ conv2d_105 (Conv2D)            (None, 64, 32, 32)   36864       ['activation_102[0][0]']         
                                                                                                   
  batch_normalization_105 (Batch  (None, 64, 32, 32)  128         ['conv2d_105[0][0]']             
  Normalization)                                                                                   
                                                                                                   
- re_lu_42 (ReLU)                (None, 64, 32, 32)   0           ['batch_normalization_105[0][0]']
+ activation_103 (Activation)    (None, 64, 32, 32)   0           ['batch_normalization_105[0][0]']
                                                                                                   
- conv2d_106 (Conv2D)            (None, 64, 32, 32)   36928       ['re_lu_42[0][0]']               
+ conv2d_106 (Conv2D)            (None, 64, 32, 32)   36864       ['activation_103[0][0]']         
                                                                                                   
  batch_normalization_106 (Batch  (None, 64, 32, 32)  128         ['conv2d_106[0][0]']             
  Normalization)                                                                                   
                                                                                                   
  tf.__operators__.add_50 (TFOpL  (None, 64, 32, 32)  0           ['batch_normalization_106[0][0]',
- ambda)                                                           're_lu_41[0][0]']               
+ ambda)                                                           'activation_102[0][0]']         
                                                                                                   
- re_lu_43 (ReLU)                (None, 64, 32, 32)   0           ['tf.__operators__.add_50[0][0]']
+ activation_104 (Activation)    (None, 64, 32, 32)   0           ['tf.__operators__.add_50[0][0]']
                                                                                                   
- conv2d_107 (Conv2D)            (None, 64, 32, 32)   36928       ['re_lu_43[0][0]']               
+ conv2d_107 (Conv2D)            (None, 64, 32, 32)   36864       ['activation_104[0][0]']         
                                                                                                   
  batch_normalization_107 (Batch  (None, 64, 32, 32)  128         ['conv2d_107[0][0]']             
  Normalization)                                                                                   
                                                                                                   
- re_lu_44 (ReLU)                (None, 64, 32, 32)   0           ['batch_normalization_107[0][0]']
+ activation_105 (Activation)    (None, 64, 32, 32)   0           ['batch_normalization_107[0][0]']
                                                                                                   
- conv2d_108 (Conv2D)            (None, 64, 32, 32)   36928       ['re_lu_44[0][0]']               
+ conv2d_108 (Conv2D)            (None, 64, 32, 32)   36864       ['activation_105[0][0]']         
                                                                                                   
  batch_normalization_108 (Batch  (None, 64, 32, 32)  128         ['conv2d_108[0][0]']             
  Normalization)                                                                                   
                                                                                                   
  tf.__operators__.add_51 (TFOpL  (None, 64, 32, 32)  0           ['batch_normalization_108[0][0]',
- ambda)                                                           're_lu_43[0][0]']               
+ ambda)                                                           'activation_104[0][0]']         
                                                                                                   
- re_lu_45 (ReLU)                (None, 64, 32, 32)   0           ['tf.__operators__.add_51[0][0]']
+ activation_106 (Activation)    (None, 64, 32, 32)   0           ['tf.__operators__.add_51[0][0]']
                                                                                                   
- conv2d_109 (Conv2D)            (None, 64, 32, 32)   36928       ['re_lu_45[0][0]']               
+ conv2d_109 (Conv2D)            (None, 64, 32, 32)   36864       ['activation_106[0][0]']         
                                                                                                   
  batch_normalization_109 (Batch  (None, 64, 32, 32)  128         ['conv2d_109[0][0]']             
  Normalization)                                                                                   
                                                                                                   
- re_lu_46 (ReLU)                (None, 64, 32, 32)   0           ['batch_normalization_109[0][0]']
+ activation_107 (Activation)    (None, 64, 32, 32)   0           ['batch_normalization_109[0][0]']
                                                                                                   
- conv2d_110 (Conv2D)            (None, 64, 32, 32)   36928       ['re_lu_46[0][0]']               
+ conv2d_110 (Conv2D)            (None, 64, 32, 32)   36864       ['activation_107[0][0]']         
                                                                                                   
  batch_normalization_110 (Batch  (None, 64, 32, 32)  128         ['conv2d_110[0][0]']             
  Normalization)                                                                                   
                                                                                                   
  tf.__operators__.add_52 (TFOpL  (None, 64, 32, 32)  0           ['batch_normalization_110[0][0]',
- ambda)                                                           're_lu_45[0][0]']               
+ ambda)                                                           'activation_106[0][0]']         
                                                                                                   
- re_lu_47 (ReLU)                (None, 64, 32, 32)   0           ['tf.__operators__.add_52[0][0]']
+ activation_108 (Activation)    (None, 64, 32, 32)   0           ['tf.__operators__.add_52[0][0]']
                                                                                                   
- conv2d_111 (Conv2D)            (None, 64, 32, 32)   36928       ['re_lu_47[0][0]']               
+ conv2d_111 (Conv2D)            (None, 64, 32, 32)   36864       ['activation_108[0][0]']         
                                                                                                   
  batch_normalization_111 (Batch  (None, 64, 32, 32)  128         ['conv2d_111[0][0]']             
  Normalization)                                                                                   
                                                                                                   
- re_lu_48 (ReLU)                (None, 64, 32, 32)   0           ['batch_normalization_111[0][0]']
+ activation_109 (Activation)    (None, 64, 32, 32)   0           ['batch_normalization_111[0][0]']
                                                                                                   
- conv2d_112 (Conv2D)            (None, 64, 32, 32)   36928       ['re_lu_48[0][0]']               
+ conv2d_112 (Conv2D)            (None, 64, 32, 32)   36864       ['activation_109[0][0]']         
                                                                                                   
  batch_normalization_112 (Batch  (None, 64, 32, 32)  128         ['conv2d_112[0][0]']             
  Normalization)                                                                                   
                                                                                                   
  tf.__operators__.add_53 (TFOpL  (None, 64, 32, 32)  0           ['batch_normalization_112[0][0]',
- ambda)                                                           're_lu_47[0][0]']               
+ ambda)                                                           'activation_108[0][0]']         
                                                                                                   
- re_lu_49 (ReLU)                (None, 64, 32, 32)   0           ['tf.__operators__.add_53[0][0]']
+ activation_110 (Activation)    (None, 64, 32, 32)   0           ['tf.__operators__.add_53[0][0]']
                                                                                                   
- conv2d_113 (Conv2D)            (None, 64, 32, 32)   36928       ['re_lu_49[0][0]']               
+ conv2d_113 (Conv2D)            (None, 64, 32, 32)   36864       ['activation_110[0][0]']         
                                                                                                   
  batch_normalization_113 (Batch  (None, 64, 32, 32)  128         ['conv2d_113[0][0]']             
  Normalization)                                                                                   
                                                                                                   
- re_lu_50 (ReLU)                (None, 64, 32, 32)   0           ['batch_normalization_113[0][0]']
+ activation_111 (Activation)    (None, 64, 32, 32)   0           ['batch_normalization_113[0][0]']
                                                                                                   
- conv2d_114 (Conv2D)            (None, 64, 32, 32)   36928       ['re_lu_50[0][0]']               
+ conv2d_114 (Conv2D)            (None, 64, 32, 32)   36864       ['activation_111[0][0]']         
                                                                                                   
  batch_normalization_114 (Batch  (None, 64, 32, 32)  128         ['conv2d_114[0][0]']             
  Normalization)                                                                                   
                                                                                                   
  tf.__operators__.add_54 (TFOpL  (None, 64, 32, 32)  0           ['batch_normalization_114[0][0]',
- ambda)                                                           're_lu_49[0][0]']               
+ ambda)                                                           'activation_110[0][0]']         
                                                                                                   
- re_lu_51 (ReLU)                (None, 64, 32, 32)   0           ['tf.__operators__.add_54[0][0]']
+ activation_112 (Activation)    (None, 64, 32, 32)   0           ['tf.__operators__.add_54[0][0]']
                                                                                                   
- conv2d_115 (Conv2D)            (None, 64, 32, 32)   36928       ['re_lu_51[0][0]']               
+ conv2d_115 (Conv2D)            (None, 64, 32, 32)   36864       ['activation_112[0][0]']         
                                                                                                   
  batch_normalization_115 (Batch  (None, 64, 32, 32)  128         ['conv2d_115[0][0]']             
  Normalization)                                                                                   
                                                                                                   
- re_lu_52 (ReLU)                (None, 64, 32, 32)   0           ['batch_normalization_115[0][0]']
+ activation_113 (Activation)    (None, 64, 32, 32)   0           ['batch_normalization_115[0][0]']
                                                                                                   
- conv2d_116 (Conv2D)            (None, 64, 32, 32)   36928       ['re_lu_52[0][0]']               
+ conv2d_116 (Conv2D)            (None, 64, 32, 32)   36864       ['activation_113[0][0]']         
                                                                                                   
  batch_normalization_116 (Batch  (None, 64, 32, 32)  128         ['conv2d_116[0][0]']             
  Normalization)                                                                                   
                                                                                                   
  tf.__operators__.add_55 (TFOpL  (None, 64, 32, 32)  0           ['batch_normalization_116[0][0]',
- ambda)                                                           're_lu_51[0][0]']               
+ ambda)                                                           'activation_112[0][0]']         
                                                                                                   
- re_lu_53 (ReLU)                (None, 64, 32, 32)   0           ['tf.__operators__.add_55[0][0]']
+ activation_114 (Activation)    (None, 64, 32, 32)   0           ['tf.__operators__.add_55[0][0]']
                                                                                                   
- conv2d_117 (Conv2D)            (None, 64, 32, 32)   36928       ['re_lu_53[0][0]']               
+ conv2d_117 (Conv2D)            (None, 64, 32, 32)   36864       ['activation_114[0][0]']         
                                                                                                   
  batch_normalization_117 (Batch  (None, 64, 32, 32)  128         ['conv2d_117[0][0]']             
  Normalization)                                                                                   
                                                                                                   
- re_lu_54 (ReLU)                (None, 64, 32, 32)   0           ['batch_normalization_117[0][0]']
+ activation_115 (Activation)    (None, 64, 32, 32)   0           ['batch_normalization_117[0][0]']
                                                                                                   
- conv2d_118 (Conv2D)            (None, 64, 32, 32)   36928       ['re_lu_54[0][0]']               
+ conv2d_118 (Conv2D)            (None, 64, 32, 32)   36864       ['activation_115[0][0]']         
                                                                                                   
  batch_normalization_118 (Batch  (None, 64, 32, 32)  128         ['conv2d_118[0][0]']             
  Normalization)                                                                                   
                                                                                                   
  tf.__operators__.add_56 (TFOpL  (None, 64, 32, 32)  0           ['batch_normalization_118[0][0]',
- ambda)                                                           're_lu_53[0][0]']               
+ ambda)                                                           'activation_114[0][0]']         
                                                                                                   
- re_lu_55 (ReLU)                (None, 64, 32, 32)   0           ['tf.__operators__.add_56[0][0]']
+ activation_116 (Activation)    (None, 64, 32, 32)   0           ['tf.__operators__.add_56[0][0]']
                                                                                                   
- conv2d_119 (Conv2D)            (None, 64, 32, 32)   36928       ['re_lu_55[0][0]']               
+ conv2d_119 (Conv2D)            (None, 64, 32, 32)   36864       ['activation_116[0][0]']         
                                                                                                   
  batch_normalization_119 (Batch  (None, 64, 32, 32)  128         ['conv2d_119[0][0]']             
  Normalization)                                                                                   
                                                                                                   
- re_lu_56 (ReLU)                (None, 64, 32, 32)   0           ['batch_normalization_119[0][0]']
+ activation_117 (Activation)    (None, 64, 32, 32)   0           ['batch_normalization_119[0][0]']
                                                                                                   
- conv2d_120 (Conv2D)            (None, 64, 32, 32)   36928       ['re_lu_56[0][0]']               
+ conv2d_120 (Conv2D)            (None, 64, 32, 32)   36864       ['activation_117[0][0]']         
                                                                                                   
  batch_normalization_120 (Batch  (None, 64, 32, 32)  128         ['conv2d_120[0][0]']             
  Normalization)                                                                                   
                                                                                                   
  tf.__operators__.add_57 (TFOpL  (None, 64, 32, 32)  0           ['batch_normalization_120[0][0]',
- ambda)                                                           're_lu_55[0][0]']               
+ ambda)                                                           'activation_116[0][0]']         
                                                                                                   
- re_lu_57 (ReLU)                (None, 64, 32, 32)   0           ['tf.__operators__.add_57[0][0]']
+ activation_118 (Activation)    (None, 64, 32, 32)   0           ['tf.__operators__.add_57[0][0]']
                                                                                                   
- conv2d_121 (Conv2D)            (None, 64, 32, 32)   36928       ['re_lu_57[0][0]']               
+ conv2d_121 (Conv2D)            (None, 64, 32, 32)   36864       ['activation_118[0][0]']         
                                                                                                   
  batch_normalization_121 (Batch  (None, 64, 32, 32)  128         ['conv2d_121[0][0]']             
  Normalization)                                                                                   
                                                                                                   
- re_lu_58 (ReLU)                (None, 64, 32, 32)   0           ['batch_normalization_121[0][0]']
+ activation_119 (Activation)    (None, 64, 32, 32)   0           ['batch_normalization_121[0][0]']
                                                                                                   
- conv2d_122 (Conv2D)            (None, 64, 32, 32)   36928       ['re_lu_58[0][0]']               
+ conv2d_122 (Conv2D)            (None, 64, 32, 32)   36864       ['activation_119[0][0]']         
                                                                                                   
  batch_normalization_122 (Batch  (None, 64, 32, 32)  128         ['conv2d_122[0][0]']             
  Normalization)                                                                                   
                                                                                                   
  tf.__operators__.add_58 (TFOpL  (None, 64, 32, 32)  0           ['batch_normalization_122[0][0]',
- ambda)                                                           're_lu_57[0][0]']               
+ ambda)                                                           'activation_118[0][0]']         
                                                                                                   
- re_lu_59 (ReLU)                (None, 64, 32, 32)   0           ['tf.__operators__.add_58[0][0]']
+ activation_120 (Activation)    (None, 64, 32, 32)   0           ['tf.__operators__.add_58[0][0]']
                                                                                                   
- conv2d_123 (Conv2D)            (None, 64, 32, 32)   36928       ['re_lu_59[0][0]']               
+ conv2d_123 (Conv2D)            (None, 64, 32, 32)   36864       ['activation_120[0][0]']         
                                                                                                   
  batch_normalization_123 (Batch  (None, 64, 32, 32)  128         ['conv2d_123[0][0]']             
  Normalization)                                                                                   
                                                                                                   
- re_lu_60 (ReLU)                (None, 64, 32, 32)   0           ['batch_normalization_123[0][0]']
+ activation_121 (Activation)    (None, 64, 32, 32)   0           ['batch_normalization_123[0][0]']
                                                                                                   
- conv2d_124 (Conv2D)            (None, 64, 32, 32)   36928       ['re_lu_60[0][0]']               
+ conv2d_124 (Conv2D)            (None, 64, 32, 32)   36864       ['activation_121[0][0]']         
                                                                                                   
  batch_normalization_124 (Batch  (None, 64, 32, 32)  128         ['conv2d_124[0][0]']             
  Normalization)                                                                                   
                                                                                                   
  tf.__operators__.add_59 (TFOpL  (None, 64, 32, 32)  0           ['batch_normalization_124[0][0]',
- ambda)                                                           're_lu_59[0][0]']               
+ ambda)                                                           'activation_120[0][0]']         
                                                                                                   
- re_lu_61 (ReLU)                (None, 64, 32, 32)   0           ['tf.__operators__.add_59[0][0]']
+ activation_122 (Activation)    (None, 64, 32, 32)   0           ['tf.__operators__.add_59[0][0]']
                                                                                                   
- conv2d_transpose_1 (Conv2DTran  (None, 32, 64, 64)  8224        ['re_lu_61[0][0]']               
+ conv2d_transpose_1 (Conv2DTran  (None, 32, 64, 64)  8224        ['activation_122[0][0]']         
  spose)                                                                                           
                                                                                                   
  conv2d_125 (Conv2D)            (None, 32, 64, 64)   1056        ['activation_20[0][0]']          
@@ -1074,529 +1074,529 @@ ________________________________________________________________________________
  batch_normalization_125 (Batch  (None, 64, 64, 64)  256         ['concatenate_1[0][0]']          
  Normalization)                                                                                   
                                                                                                   
- re_lu_62 (ReLU)                (None, 64, 64, 64)   0           ['batch_normalization_125[0][0]']
+ activation_123 (Activation)    (None, 64, 64, 64)   0           ['batch_normalization_125[0][0]']
                                                                                                   
- conv2d_126 (Conv2D)            (None, 32, 64, 64)   18464       ['re_lu_62[0][0]']               
+ conv2d_126 (Conv2D)            (None, 32, 64, 64)   18432       ['activation_123[0][0]']         
                                                                                                   
  batch_normalization_126 (Batch  (None, 32, 64, 64)  256         ['conv2d_126[0][0]']             
  Normalization)                                                                                   
                                                                                                   
- re_lu_63 (ReLU)                (None, 32, 64, 64)   0           ['batch_normalization_126[0][0]']
+ activation_124 (Activation)    (None, 32, 64, 64)   0           ['batch_normalization_126[0][0]']
                                                                                                   
- conv2d_127 (Conv2D)            (None, 32, 64, 64)   9248        ['re_lu_63[0][0]']               
+ conv2d_127 (Conv2D)            (None, 32, 64, 64)   9216        ['activation_124[0][0]']         
                                                                                                   
  batch_normalization_127 (Batch  (None, 32, 64, 64)  256         ['conv2d_127[0][0]']             
  Normalization)                                                                                   
                                                                                                   
- re_lu_64 (ReLU)                (None, 32, 64, 64)   0           ['batch_normalization_127[0][0]']
+ activation_125 (Activation)    (None, 32, 64, 64)   0           ['batch_normalization_127[0][0]']
                                                                                                   
- conv2d_128 (Conv2D)            (None, 32, 64, 64)   9248        ['re_lu_64[0][0]']               
+ conv2d_128 (Conv2D)            (None, 32, 64, 64)   9216        ['activation_125[0][0]']         
                                                                                                   
  batch_normalization_128 (Batch  (None, 32, 64, 64)  256         ['conv2d_128[0][0]']             
  Normalization)                                                                                   
                                                                                                   
  tf.__operators__.add_60 (TFOpL  (None, 32, 64, 64)  0           ['batch_normalization_128[0][0]',
- ambda)                                                           're_lu_63[0][0]']               
+ ambda)                                                           'activation_124[0][0]']         
                                                                                                   
- re_lu_65 (ReLU)                (None, 32, 64, 64)   0           ['tf.__operators__.add_60[0][0]']
+ activation_126 (Activation)    (None, 32, 64, 64)   0           ['tf.__operators__.add_60[0][0]']
                                                                                                   
- conv2d_129 (Conv2D)            (None, 32, 64, 64)   9248        ['re_lu_65[0][0]']               
+ conv2d_129 (Conv2D)            (None, 32, 64, 64)   9216        ['activation_126[0][0]']         
                                                                                                   
  batch_normalization_129 (Batch  (None, 32, 64, 64)  256         ['conv2d_129[0][0]']             
  Normalization)                                                                                   
                                                                                                   
- re_lu_66 (ReLU)                (None, 32, 64, 64)   0           ['batch_normalization_129[0][0]']
+ activation_127 (Activation)    (None, 32, 64, 64)   0           ['batch_normalization_129[0][0]']
                                                                                                   
- conv2d_130 (Conv2D)            (None, 32, 64, 64)   9248        ['re_lu_66[0][0]']               
+ conv2d_130 (Conv2D)            (None, 32, 64, 64)   9216        ['activation_127[0][0]']         
                                                                                                   
  batch_normalization_130 (Batch  (None, 32, 64, 64)  256         ['conv2d_130[0][0]']             
  Normalization)                                                                                   
                                                                                                   
  tf.__operators__.add_61 (TFOpL  (None, 32, 64, 64)  0           ['batch_normalization_130[0][0]',
- ambda)                                                           're_lu_65[0][0]']               
+ ambda)                                                           'activation_126[0][0]']         
                                                                                                   
- re_lu_67 (ReLU)                (None, 32, 64, 64)   0           ['tf.__operators__.add_61[0][0]']
+ activation_128 (Activation)    (None, 32, 64, 64)   0           ['tf.__operators__.add_61[0][0]']
                                                                                                   
- conv2d_131 (Conv2D)            (None, 32, 64, 64)   9248        ['re_lu_67[0][0]']               
+ conv2d_131 (Conv2D)            (None, 32, 64, 64)   9216        ['activation_128[0][0]']         
                                                                                                   
  batch_normalization_131 (Batch  (None, 32, 64, 64)  256         ['conv2d_131[0][0]']             
  Normalization)                                                                                   
                                                                                                   
- re_lu_68 (ReLU)                (None, 32, 64, 64)   0           ['batch_normalization_131[0][0]']
+ activation_129 (Activation)    (None, 32, 64, 64)   0           ['batch_normalization_131[0][0]']
                                                                                                   
- conv2d_132 (Conv2D)            (None, 32, 64, 64)   9248        ['re_lu_68[0][0]']               
+ conv2d_132 (Conv2D)            (None, 32, 64, 64)   9216        ['activation_129[0][0]']         
                                                                                                   
  batch_normalization_132 (Batch  (None, 32, 64, 64)  256         ['conv2d_132[0][0]']             
  Normalization)                                                                                   
                                                                                                   
  tf.__operators__.add_62 (TFOpL  (None, 32, 64, 64)  0           ['batch_normalization_132[0][0]',
- ambda)                                                           're_lu_67[0][0]']               
+ ambda)                                                           'activation_128[0][0]']         
                                                                                                   
- re_lu_69 (ReLU)                (None, 32, 64, 64)   0           ['tf.__operators__.add_62[0][0]']
+ activation_130 (Activation)    (None, 32, 64, 64)   0           ['tf.__operators__.add_62[0][0]']
                                                                                                   
- conv2d_133 (Conv2D)            (None, 32, 64, 64)   9248        ['re_lu_69[0][0]']               
+ conv2d_133 (Conv2D)            (None, 32, 64, 64)   9216        ['activation_130[0][0]']         
                                                                                                   
  batch_normalization_133 (Batch  (None, 32, 64, 64)  256         ['conv2d_133[0][0]']             
  Normalization)                                                                                   
                                                                                                   
- re_lu_70 (ReLU)                (None, 32, 64, 64)   0           ['batch_normalization_133[0][0]']
+ activation_131 (Activation)    (None, 32, 64, 64)   0           ['batch_normalization_133[0][0]']
                                                                                                   
- conv2d_134 (Conv2D)            (None, 32, 64, 64)   9248        ['re_lu_70[0][0]']               
+ conv2d_134 (Conv2D)            (None, 32, 64, 64)   9216        ['activation_131[0][0]']         
                                                                                                   
  batch_normalization_134 (Batch  (None, 32, 64, 64)  256         ['conv2d_134[0][0]']             
  Normalization)                                                                                   
                                                                                                   
  tf.__operators__.add_63 (TFOpL  (None, 32, 64, 64)  0           ['batch_normalization_134[0][0]',
- ambda)                                                           're_lu_69[0][0]']               
+ ambda)                                                           'activation_130[0][0]']         
                                                                                                   
- re_lu_71 (ReLU)                (None, 32, 64, 64)   0           ['tf.__operators__.add_63[0][0]']
+ activation_132 (Activation)    (None, 32, 64, 64)   0           ['tf.__operators__.add_63[0][0]']
                                                                                                   
- conv2d_135 (Conv2D)            (None, 32, 64, 64)   9248        ['re_lu_71[0][0]']               
+ conv2d_135 (Conv2D)            (None, 32, 64, 64)   9216        ['activation_132[0][0]']         
                                                                                                   
  batch_normalization_135 (Batch  (None, 32, 64, 64)  256         ['conv2d_135[0][0]']             
  Normalization)                                                                                   
                                                                                                   
- re_lu_72 (ReLU)                (None, 32, 64, 64)   0           ['batch_normalization_135[0][0]']
+ activation_133 (Activation)    (None, 32, 64, 64)   0           ['batch_normalization_135[0][0]']
                                                                                                   
- conv2d_136 (Conv2D)            (None, 32, 64, 64)   9248        ['re_lu_72[0][0]']               
+ conv2d_136 (Conv2D)            (None, 32, 64, 64)   9216        ['activation_133[0][0]']         
                                                                                                   
  batch_normalization_136 (Batch  (None, 32, 64, 64)  256         ['conv2d_136[0][0]']             
  Normalization)                                                                                   
                                                                                                   
  tf.__operators__.add_64 (TFOpL  (None, 32, 64, 64)  0           ['batch_normalization_136[0][0]',
- ambda)                                                           're_lu_71[0][0]']               
+ ambda)                                                           'activation_132[0][0]']         
                                                                                                   
- re_lu_73 (ReLU)                (None, 32, 64, 64)   0           ['tf.__operators__.add_64[0][0]']
+ activation_134 (Activation)    (None, 32, 64, 64)   0           ['tf.__operators__.add_64[0][0]']
                                                                                                   
- conv2d_137 (Conv2D)            (None, 32, 64, 64)   9248        ['re_lu_73[0][0]']               
+ conv2d_137 (Conv2D)            (None, 32, 64, 64)   9216        ['activation_134[0][0]']         
                                                                                                   
  batch_normalization_137 (Batch  (None, 32, 64, 64)  256         ['conv2d_137[0][0]']             
  Normalization)                                                                                   
                                                                                                   
- re_lu_74 (ReLU)                (None, 32, 64, 64)   0           ['batch_normalization_137[0][0]']
+ activation_135 (Activation)    (None, 32, 64, 64)   0           ['batch_normalization_137[0][0]']
                                                                                                   
- conv2d_138 (Conv2D)            (None, 32, 64, 64)   9248        ['re_lu_74[0][0]']               
+ conv2d_138 (Conv2D)            (None, 32, 64, 64)   9216        ['activation_135[0][0]']         
                                                                                                   
  batch_normalization_138 (Batch  (None, 32, 64, 64)  256         ['conv2d_138[0][0]']             
  Normalization)                                                                                   
                                                                                                   
  tf.__operators__.add_65 (TFOpL  (None, 32, 64, 64)  0           ['batch_normalization_138[0][0]',
- ambda)                                                           're_lu_73[0][0]']               
+ ambda)                                                           'activation_134[0][0]']         
                                                                                                   
- re_lu_75 (ReLU)                (None, 32, 64, 64)   0           ['tf.__operators__.add_65[0][0]']
+ activation_136 (Activation)    (None, 32, 64, 64)   0           ['tf.__operators__.add_65[0][0]']
                                                                                                   
- conv2d_139 (Conv2D)            (None, 32, 64, 64)   9248        ['re_lu_75[0][0]']               
+ conv2d_139 (Conv2D)            (None, 32, 64, 64)   9216        ['activation_136[0][0]']         
                                                                                                   
  batch_normalization_139 (Batch  (None, 32, 64, 64)  256         ['conv2d_139[0][0]']             
  Normalization)                                                                                   
                                                                                                   
- re_lu_76 (ReLU)                (None, 32, 64, 64)   0           ['batch_normalization_139[0][0]']
+ activation_137 (Activation)    (None, 32, 64, 64)   0           ['batch_normalization_139[0][0]']
                                                                                                   
- conv2d_140 (Conv2D)            (None, 32, 64, 64)   9248        ['re_lu_76[0][0]']               
+ conv2d_140 (Conv2D)            (None, 32, 64, 64)   9216        ['activation_137[0][0]']         
                                                                                                   
  batch_normalization_140 (Batch  (None, 32, 64, 64)  256         ['conv2d_140[0][0]']             
  Normalization)                                                                                   
                                                                                                   
  tf.__operators__.add_66 (TFOpL  (None, 32, 64, 64)  0           ['batch_normalization_140[0][0]',
- ambda)                                                           're_lu_75[0][0]']               
+ ambda)                                                           'activation_136[0][0]']         
                                                                                                   
- re_lu_77 (ReLU)                (None, 32, 64, 64)   0           ['tf.__operators__.add_66[0][0]']
+ activation_138 (Activation)    (None, 32, 64, 64)   0           ['tf.__operators__.add_66[0][0]']
                                                                                                   
- conv2d_141 (Conv2D)            (None, 32, 64, 64)   9248        ['re_lu_77[0][0]']               
+ conv2d_141 (Conv2D)            (None, 32, 64, 64)   9216        ['activation_138[0][0]']         
                                                                                                   
  batch_normalization_141 (Batch  (None, 32, 64, 64)  256         ['conv2d_141[0][0]']             
  Normalization)                                                                                   
                                                                                                   
- re_lu_78 (ReLU)                (None, 32, 64, 64)   0           ['batch_normalization_141[0][0]']
+ activation_139 (Activation)    (None, 32, 64, 64)   0           ['batch_normalization_141[0][0]']
                                                                                                   
- conv2d_142 (Conv2D)            (None, 32, 64, 64)   9248        ['re_lu_78[0][0]']               
+ conv2d_142 (Conv2D)            (None, 32, 64, 64)   9216        ['activation_139[0][0]']         
                                                                                                   
  batch_normalization_142 (Batch  (None, 32, 64, 64)  256         ['conv2d_142[0][0]']             
  Normalization)                                                                                   
                                                                                                   
  tf.__operators__.add_67 (TFOpL  (None, 32, 64, 64)  0           ['batch_normalization_142[0][0]',
- ambda)                                                           're_lu_77[0][0]']               
+ ambda)                                                           'activation_138[0][0]']         
                                                                                                   
- re_lu_79 (ReLU)                (None, 32, 64, 64)   0           ['tf.__operators__.add_67[0][0]']
+ activation_140 (Activation)    (None, 32, 64, 64)   0           ['tf.__operators__.add_67[0][0]']
                                                                                                   
- conv2d_143 (Conv2D)            (None, 32, 64, 64)   9248        ['re_lu_79[0][0]']               
+ conv2d_143 (Conv2D)            (None, 32, 64, 64)   9216        ['activation_140[0][0]']         
                                                                                                   
  batch_normalization_143 (Batch  (None, 32, 64, 64)  256         ['conv2d_143[0][0]']             
  Normalization)                                                                                   
                                                                                                   
- re_lu_80 (ReLU)                (None, 32, 64, 64)   0           ['batch_normalization_143[0][0]']
+ activation_141 (Activation)    (None, 32, 64, 64)   0           ['batch_normalization_143[0][0]']
                                                                                                   
- conv2d_144 (Conv2D)            (None, 32, 64, 64)   9248        ['re_lu_80[0][0]']               
+ conv2d_144 (Conv2D)            (None, 32, 64, 64)   9216        ['activation_141[0][0]']         
                                                                                                   
  batch_normalization_144 (Batch  (None, 32, 64, 64)  256         ['conv2d_144[0][0]']             
  Normalization)                                                                                   
                                                                                                   
  tf.__operators__.add_68 (TFOpL  (None, 32, 64, 64)  0           ['batch_normalization_144[0][0]',
- ambda)                                                           're_lu_79[0][0]']               
+ ambda)                                                           'activation_140[0][0]']         
                                                                                                   
- re_lu_81 (ReLU)                (None, 32, 64, 64)   0           ['tf.__operators__.add_68[0][0]']
+ activation_142 (Activation)    (None, 32, 64, 64)   0           ['tf.__operators__.add_68[0][0]']
                                                                                                   
- conv2d_145 (Conv2D)            (None, 32, 64, 64)   9248        ['re_lu_81[0][0]']               
+ conv2d_145 (Conv2D)            (None, 32, 64, 64)   9216        ['activation_142[0][0]']         
                                                                                                   
  batch_normalization_145 (Batch  (None, 32, 64, 64)  256         ['conv2d_145[0][0]']             
  Normalization)                                                                                   
                                                                                                   
- re_lu_82 (ReLU)                (None, 32, 64, 64)   0           ['batch_normalization_145[0][0]']
+ activation_143 (Activation)    (None, 32, 64, 64)   0           ['batch_normalization_145[0][0]']
                                                                                                   
- conv2d_146 (Conv2D)            (None, 32, 64, 64)   9248        ['re_lu_82[0][0]']               
+ conv2d_146 (Conv2D)            (None, 32, 64, 64)   9216        ['activation_143[0][0]']         
                                                                                                   
  batch_normalization_146 (Batch  (None, 32, 64, 64)  256         ['conv2d_146[0][0]']             
  Normalization)                                                                                   
                                                                                                   
  tf.__operators__.add_69 (TFOpL  (None, 32, 64, 64)  0           ['batch_normalization_146[0][0]',
- ambda)                                                           're_lu_81[0][0]']               
+ ambda)                                                           'activation_142[0][0]']         
                                                                                                   
- re_lu_83 (ReLU)                (None, 32, 64, 64)   0           ['tf.__operators__.add_69[0][0]']
+ activation_144 (Activation)    (None, 32, 64, 64)   0           ['tf.__operators__.add_69[0][0]']
                                                                                                   
- conv2d_147 (Conv2D)            (None, 32, 64, 64)   9248        ['re_lu_83[0][0]']               
+ conv2d_147 (Conv2D)            (None, 32, 64, 64)   9216        ['activation_144[0][0]']         
                                                                                                   
  batch_normalization_147 (Batch  (None, 32, 64, 64)  256         ['conv2d_147[0][0]']             
  Normalization)                                                                                   
                                                                                                   
- re_lu_84 (ReLU)                (None, 32, 64, 64)   0           ['batch_normalization_147[0][0]']
+ activation_145 (Activation)    (None, 32, 64, 64)   0           ['batch_normalization_147[0][0]']
                                                                                                   
- conv2d_148 (Conv2D)            (None, 32, 64, 64)   9248        ['re_lu_84[0][0]']               
+ conv2d_148 (Conv2D)            (None, 32, 64, 64)   9216        ['activation_145[0][0]']         
                                                                                                   
  batch_normalization_148 (Batch  (None, 32, 64, 64)  256         ['conv2d_148[0][0]']             
  Normalization)                                                                                   
                                                                                                   
  tf.__operators__.add_70 (TFOpL  (None, 32, 64, 64)  0           ['batch_normalization_148[0][0]',
- ambda)                                                           're_lu_83[0][0]']               
+ ambda)                                                           'activation_144[0][0]']         
                                                                                                   
- re_lu_85 (ReLU)                (None, 32, 64, 64)   0           ['tf.__operators__.add_70[0][0]']
+ activation_146 (Activation)    (None, 32, 64, 64)   0           ['tf.__operators__.add_70[0][0]']
                                                                                                   
- conv2d_149 (Conv2D)            (None, 32, 64, 64)   9248        ['re_lu_85[0][0]']               
+ conv2d_149 (Conv2D)            (None, 32, 64, 64)   9216        ['activation_146[0][0]']         
                                                                                                   
  batch_normalization_149 (Batch  (None, 32, 64, 64)  256         ['conv2d_149[0][0]']             
  Normalization)                                                                                   
                                                                                                   
- re_lu_86 (ReLU)                (None, 32, 64, 64)   0           ['batch_normalization_149[0][0]']
+ activation_147 (Activation)    (None, 32, 64, 64)   0           ['batch_normalization_149[0][0]']
                                                                                                   
- conv2d_150 (Conv2D)            (None, 32, 64, 64)   9248        ['re_lu_86[0][0]']               
+ conv2d_150 (Conv2D)            (None, 32, 64, 64)   9216        ['activation_147[0][0]']         
                                                                                                   
  batch_normalization_150 (Batch  (None, 32, 64, 64)  256         ['conv2d_150[0][0]']             
  Normalization)                                                                                   
                                                                                                   
  tf.__operators__.add_71 (TFOpL  (None, 32, 64, 64)  0           ['batch_normalization_150[0][0]',
- ambda)                                                           're_lu_85[0][0]']               
+ ambda)                                                           'activation_146[0][0]']         
                                                                                                   
- re_lu_87 (ReLU)                (None, 32, 64, 64)   0           ['tf.__operators__.add_71[0][0]']
+ activation_148 (Activation)    (None, 32, 64, 64)   0           ['tf.__operators__.add_71[0][0]']
                                                                                                   
- conv2d_151 (Conv2D)            (None, 32, 64, 64)   9248        ['re_lu_87[0][0]']               
+ conv2d_151 (Conv2D)            (None, 32, 64, 64)   9216        ['activation_148[0][0]']         
                                                                                                   
  batch_normalization_151 (Batch  (None, 32, 64, 64)  256         ['conv2d_151[0][0]']             
  Normalization)                                                                                   
                                                                                                   
- re_lu_88 (ReLU)                (None, 32, 64, 64)   0           ['batch_normalization_151[0][0]']
+ activation_149 (Activation)    (None, 32, 64, 64)   0           ['batch_normalization_151[0][0]']
                                                                                                   
- conv2d_152 (Conv2D)            (None, 32, 64, 64)   9248        ['re_lu_88[0][0]']               
+ conv2d_152 (Conv2D)            (None, 32, 64, 64)   9216        ['activation_149[0][0]']         
                                                                                                   
  batch_normalization_152 (Batch  (None, 32, 64, 64)  256         ['conv2d_152[0][0]']             
  Normalization)                                                                                   
                                                                                                   
  tf.__operators__.add_72 (TFOpL  (None, 32, 64, 64)  0           ['batch_normalization_152[0][0]',
- ambda)                                                           're_lu_87[0][0]']               
+ ambda)                                                           'activation_148[0][0]']         
                                                                                                   
- re_lu_89 (ReLU)                (None, 32, 64, 64)   0           ['tf.__operators__.add_72[0][0]']
+ activation_150 (Activation)    (None, 32, 64, 64)   0           ['tf.__operators__.add_72[0][0]']
                                                                                                   
- conv2d_153 (Conv2D)            (None, 32, 64, 64)   9248        ['re_lu_89[0][0]']               
+ conv2d_153 (Conv2D)            (None, 32, 64, 64)   9216        ['activation_150[0][0]']         
                                                                                                   
  batch_normalization_153 (Batch  (None, 32, 64, 64)  256         ['conv2d_153[0][0]']             
  Normalization)                                                                                   
                                                                                                   
- re_lu_90 (ReLU)                (None, 32, 64, 64)   0           ['batch_normalization_153[0][0]']
+ activation_151 (Activation)    (None, 32, 64, 64)   0           ['batch_normalization_153[0][0]']
                                                                                                   
- conv2d_154 (Conv2D)            (None, 32, 64, 64)   9248        ['re_lu_90[0][0]']               
+ conv2d_154 (Conv2D)            (None, 32, 64, 64)   9216        ['activation_151[0][0]']         
                                                                                                   
  batch_normalization_154 (Batch  (None, 32, 64, 64)  256         ['conv2d_154[0][0]']             
  Normalization)                                                                                   
                                                                                                   
  tf.__operators__.add_73 (TFOpL  (None, 32, 64, 64)  0           ['batch_normalization_154[0][0]',
- ambda)                                                           're_lu_89[0][0]']               
+ ambda)                                                           'activation_150[0][0]']         
                                                                                                   
- re_lu_91 (ReLU)                (None, 32, 64, 64)   0           ['tf.__operators__.add_73[0][0]']
+ activation_152 (Activation)    (None, 32, 64, 64)   0           ['tf.__operators__.add_73[0][0]']
                                                                                                   
- conv2d_155 (Conv2D)            (None, 32, 64, 64)   9248        ['re_lu_91[0][0]']               
+ conv2d_155 (Conv2D)            (None, 32, 64, 64)   9216        ['activation_152[0][0]']         
                                                                                                   
  batch_normalization_155 (Batch  (None, 32, 64, 64)  256         ['conv2d_155[0][0]']             
  Normalization)                                                                                   
                                                                                                   
- re_lu_92 (ReLU)                (None, 32, 64, 64)   0           ['batch_normalization_155[0][0]']
+ activation_153 (Activation)    (None, 32, 64, 64)   0           ['batch_normalization_155[0][0]']
                                                                                                   
- conv2d_156 (Conv2D)            (None, 32, 64, 64)   9248        ['re_lu_92[0][0]']               
+ conv2d_156 (Conv2D)            (None, 32, 64, 64)   9216        ['activation_153[0][0]']         
                                                                                                   
  batch_normalization_156 (Batch  (None, 32, 64, 64)  256         ['conv2d_156[0][0]']             
  Normalization)                                                                                   
                                                                                                   
  tf.__operators__.add_74 (TFOpL  (None, 32, 64, 64)  0           ['batch_normalization_156[0][0]',
- ambda)                                                           're_lu_91[0][0]']               
+ ambda)                                                           'activation_152[0][0]']         
                                                                                                   
- re_lu_93 (ReLU)                (None, 32, 64, 64)   0           ['tf.__operators__.add_74[0][0]']
+ activation_154 (Activation)    (None, 32, 64, 64)   0           ['tf.__operators__.add_74[0][0]']
                                                                                                   
- conv2d_157 (Conv2D)            (None, 32, 64, 64)   9248        ['re_lu_93[0][0]']               
+ conv2d_157 (Conv2D)            (None, 32, 64, 64)   9216        ['activation_154[0][0]']         
                                                                                                   
  batch_normalization_157 (Batch  (None, 32, 64, 64)  256         ['conv2d_157[0][0]']             
  Normalization)                                                                                   
                                                                                                   
- re_lu_94 (ReLU)                (None, 32, 64, 64)   0           ['batch_normalization_157[0][0]']
+ activation_155 (Activation)    (None, 32, 64, 64)   0           ['batch_normalization_157[0][0]']
                                                                                                   
- conv2d_158 (Conv2D)            (None, 32, 64, 64)   9248        ['re_lu_94[0][0]']               
+ conv2d_158 (Conv2D)            (None, 32, 64, 64)   9216        ['activation_155[0][0]']         
                                                                                                   
  batch_normalization_158 (Batch  (None, 32, 64, 64)  256         ['conv2d_158[0][0]']             
  Normalization)                                                                                   
                                                                                                   
  tf.__operators__.add_75 (TFOpL  (None, 32, 64, 64)  0           ['batch_normalization_158[0][0]',
- ambda)                                                           're_lu_93[0][0]']               
+ ambda)                                                           'activation_154[0][0]']         
                                                                                                   
- re_lu_95 (ReLU)                (None, 32, 64, 64)   0           ['tf.__operators__.add_75[0][0]']
+ activation_156 (Activation)    (None, 32, 64, 64)   0           ['tf.__operators__.add_75[0][0]']
                                                                                                   
- conv2d_159 (Conv2D)            (None, 32, 64, 64)   9248        ['re_lu_95[0][0]']               
+ conv2d_159 (Conv2D)            (None, 32, 64, 64)   9216        ['activation_156[0][0]']         
                                                                                                   
  batch_normalization_159 (Batch  (None, 32, 64, 64)  256         ['conv2d_159[0][0]']             
  Normalization)                                                                                   
                                                                                                   
- re_lu_96 (ReLU)                (None, 32, 64, 64)   0           ['batch_normalization_159[0][0]']
+ activation_157 (Activation)    (None, 32, 64, 64)   0           ['batch_normalization_159[0][0]']
                                                                                                   
- conv2d_160 (Conv2D)            (None, 32, 64, 64)   9248        ['re_lu_96[0][0]']               
+ conv2d_160 (Conv2D)            (None, 32, 64, 64)   9216        ['activation_157[0][0]']         
                                                                                                   
  batch_normalization_160 (Batch  (None, 32, 64, 64)  256         ['conv2d_160[0][0]']             
  Normalization)                                                                                   
                                                                                                   
  tf.__operators__.add_76 (TFOpL  (None, 32, 64, 64)  0           ['batch_normalization_160[0][0]',
- ambda)                                                           're_lu_95[0][0]']               
+ ambda)                                                           'activation_156[0][0]']         
                                                                                                   
- re_lu_97 (ReLU)                (None, 32, 64, 64)   0           ['tf.__operators__.add_76[0][0]']
+ activation_158 (Activation)    (None, 32, 64, 64)   0           ['tf.__operators__.add_76[0][0]']
                                                                                                   
- conv2d_161 (Conv2D)            (None, 32, 64, 64)   9248        ['re_lu_97[0][0]']               
+ conv2d_161 (Conv2D)            (None, 32, 64, 64)   9216        ['activation_158[0][0]']         
                                                                                                   
  batch_normalization_161 (Batch  (None, 32, 64, 64)  256         ['conv2d_161[0][0]']             
  Normalization)                                                                                   
                                                                                                   
- re_lu_98 (ReLU)                (None, 32, 64, 64)   0           ['batch_normalization_161[0][0]']
+ activation_159 (Activation)    (None, 32, 64, 64)   0           ['batch_normalization_161[0][0]']
                                                                                                   
- conv2d_162 (Conv2D)            (None, 32, 64, 64)   9248        ['re_lu_98[0][0]']               
+ conv2d_162 (Conv2D)            (None, 32, 64, 64)   9216        ['activation_159[0][0]']         
                                                                                                   
  batch_normalization_162 (Batch  (None, 32, 64, 64)  256         ['conv2d_162[0][0]']             
  Normalization)                                                                                   
                                                                                                   
  tf.__operators__.add_77 (TFOpL  (None, 32, 64, 64)  0           ['batch_normalization_162[0][0]',
- ambda)                                                           're_lu_97[0][0]']               
+ ambda)                                                           'activation_158[0][0]']         
                                                                                                   
- re_lu_99 (ReLU)                (None, 32, 64, 64)   0           ['tf.__operators__.add_77[0][0]']
+ activation_160 (Activation)    (None, 32, 64, 64)   0           ['tf.__operators__.add_77[0][0]']
                                                                                                   
- conv2d_163 (Conv2D)            (None, 32, 64, 64)   9248        ['re_lu_99[0][0]']               
+ conv2d_163 (Conv2D)            (None, 32, 64, 64)   9216        ['activation_160[0][0]']         
                                                                                                   
  batch_normalization_163 (Batch  (None, 32, 64, 64)  256         ['conv2d_163[0][0]']             
  Normalization)                                                                                   
                                                                                                   
- re_lu_100 (ReLU)               (None, 32, 64, 64)   0           ['batch_normalization_163[0][0]']
+ activation_161 (Activation)    (None, 32, 64, 64)   0           ['batch_normalization_163[0][0]']
                                                                                                   
- conv2d_164 (Conv2D)            (None, 32, 64, 64)   9248        ['re_lu_100[0][0]']              
+ conv2d_164 (Conv2D)            (None, 32, 64, 64)   9216        ['activation_161[0][0]']         
                                                                                                   
  batch_normalization_164 (Batch  (None, 32, 64, 64)  256         ['conv2d_164[0][0]']             
  Normalization)                                                                                   
                                                                                                   
  tf.__operators__.add_78 (TFOpL  (None, 32, 64, 64)  0           ['batch_normalization_164[0][0]',
- ambda)                                                           're_lu_99[0][0]']               
+ ambda)                                                           'activation_160[0][0]']         
                                                                                                   
- re_lu_101 (ReLU)               (None, 32, 64, 64)   0           ['tf.__operators__.add_78[0][0]']
+ activation_162 (Activation)    (None, 32, 64, 64)   0           ['tf.__operators__.add_78[0][0]']
                                                                                                   
- conv2d_165 (Conv2D)            (None, 32, 64, 64)   9248        ['re_lu_101[0][0]']              
+ conv2d_165 (Conv2D)            (None, 32, 64, 64)   9216        ['activation_162[0][0]']         
                                                                                                   
  batch_normalization_165 (Batch  (None, 32, 64, 64)  256         ['conv2d_165[0][0]']             
  Normalization)                                                                                   
                                                                                                   
- re_lu_102 (ReLU)               (None, 32, 64, 64)   0           ['batch_normalization_165[0][0]']
+ activation_163 (Activation)    (None, 32, 64, 64)   0           ['batch_normalization_165[0][0]']
                                                                                                   
- conv2d_166 (Conv2D)            (None, 32, 64, 64)   9248        ['re_lu_102[0][0]']              
+ conv2d_166 (Conv2D)            (None, 32, 64, 64)   9216        ['activation_163[0][0]']         
                                                                                                   
  batch_normalization_166 (Batch  (None, 32, 64, 64)  256         ['conv2d_166[0][0]']             
  Normalization)                                                                                   
                                                                                                   
  tf.__operators__.add_79 (TFOpL  (None, 32, 64, 64)  0           ['batch_normalization_166[0][0]',
- ambda)                                                           're_lu_101[0][0]']              
+ ambda)                                                           'activation_162[0][0]']         
                                                                                                   
- re_lu_103 (ReLU)               (None, 32, 64, 64)   0           ['tf.__operators__.add_79[0][0]']
+ activation_164 (Activation)    (None, 32, 64, 64)   0           ['tf.__operators__.add_79[0][0]']
                                                                                                   
- conv2d_167 (Conv2D)            (None, 32, 64, 64)   9248        ['re_lu_103[0][0]']              
+ conv2d_167 (Conv2D)            (None, 32, 64, 64)   9216        ['activation_164[0][0]']         
                                                                                                   
  batch_normalization_167 (Batch  (None, 32, 64, 64)  256         ['conv2d_167[0][0]']             
  Normalization)                                                                                   
                                                                                                   
- re_lu_104 (ReLU)               (None, 32, 64, 64)   0           ['batch_normalization_167[0][0]']
+ activation_165 (Activation)    (None, 32, 64, 64)   0           ['batch_normalization_167[0][0]']
                                                                                                   
- conv2d_168 (Conv2D)            (None, 32, 64, 64)   9248        ['re_lu_104[0][0]']              
+ conv2d_168 (Conv2D)            (None, 32, 64, 64)   9216        ['activation_165[0][0]']         
                                                                                                   
  batch_normalization_168 (Batch  (None, 32, 64, 64)  256         ['conv2d_168[0][0]']             
  Normalization)                                                                                   
                                                                                                   
  tf.__operators__.add_80 (TFOpL  (None, 32, 64, 64)  0           ['batch_normalization_168[0][0]',
- ambda)                                                           're_lu_103[0][0]']              
+ ambda)                                                           'activation_164[0][0]']         
                                                                                                   
- re_lu_105 (ReLU)               (None, 32, 64, 64)   0           ['tf.__operators__.add_80[0][0]']
+ activation_166 (Activation)    (None, 32, 64, 64)   0           ['tf.__operators__.add_80[0][0]']
                                                                                                   
- conv2d_169 (Conv2D)            (None, 32, 64, 64)   9248        ['re_lu_105[0][0]']              
+ conv2d_169 (Conv2D)            (None, 32, 64, 64)   9216        ['activation_166[0][0]']         
                                                                                                   
  batch_normalization_169 (Batch  (None, 32, 64, 64)  256         ['conv2d_169[0][0]']             
  Normalization)                                                                                   
                                                                                                   
- re_lu_106 (ReLU)               (None, 32, 64, 64)   0           ['batch_normalization_169[0][0]']
+ activation_167 (Activation)    (None, 32, 64, 64)   0           ['batch_normalization_169[0][0]']
                                                                                                   
- conv2d_170 (Conv2D)            (None, 32, 64, 64)   9248        ['re_lu_106[0][0]']              
+ conv2d_170 (Conv2D)            (None, 32, 64, 64)   9216        ['activation_167[0][0]']         
                                                                                                   
  batch_normalization_170 (Batch  (None, 32, 64, 64)  256         ['conv2d_170[0][0]']             
  Normalization)                                                                                   
                                                                                                   
  tf.__operators__.add_81 (TFOpL  (None, 32, 64, 64)  0           ['batch_normalization_170[0][0]',
- ambda)                                                           're_lu_105[0][0]']              
+ ambda)                                                           'activation_166[0][0]']         
                                                                                                   
- re_lu_107 (ReLU)               (None, 32, 64, 64)   0           ['tf.__operators__.add_81[0][0]']
+ activation_168 (Activation)    (None, 32, 64, 64)   0           ['tf.__operators__.add_81[0][0]']
                                                                                                   
- conv2d_171 (Conv2D)            (None, 32, 64, 64)   9248        ['re_lu_107[0][0]']              
+ conv2d_171 (Conv2D)            (None, 32, 64, 64)   9216        ['activation_168[0][0]']         
                                                                                                   
  batch_normalization_171 (Batch  (None, 32, 64, 64)  256         ['conv2d_171[0][0]']             
  Normalization)                                                                                   
                                                                                                   
- re_lu_108 (ReLU)               (None, 32, 64, 64)   0           ['batch_normalization_171[0][0]']
+ activation_169 (Activation)    (None, 32, 64, 64)   0           ['batch_normalization_171[0][0]']
                                                                                                   
- conv2d_172 (Conv2D)            (None, 32, 64, 64)   9248        ['re_lu_108[0][0]']              
+ conv2d_172 (Conv2D)            (None, 32, 64, 64)   9216        ['activation_169[0][0]']         
                                                                                                   
  batch_normalization_172 (Batch  (None, 32, 64, 64)  256         ['conv2d_172[0][0]']             
  Normalization)                                                                                   
                                                                                                   
  tf.__operators__.add_82 (TFOpL  (None, 32, 64, 64)  0           ['batch_normalization_172[0][0]',
- ambda)                                                           're_lu_107[0][0]']              
+ ambda)                                                           'activation_168[0][0]']         
                                                                                                   
- re_lu_109 (ReLU)               (None, 32, 64, 64)   0           ['tf.__operators__.add_82[0][0]']
+ activation_170 (Activation)    (None, 32, 64, 64)   0           ['tf.__operators__.add_82[0][0]']
                                                                                                   
- conv2d_173 (Conv2D)            (None, 32, 64, 64)   9248        ['re_lu_109[0][0]']              
+ conv2d_173 (Conv2D)            (None, 32, 64, 64)   9216        ['activation_170[0][0]']         
                                                                                                   
  batch_normalization_173 (Batch  (None, 32, 64, 64)  256         ['conv2d_173[0][0]']             
  Normalization)                                                                                   
                                                                                                   
- re_lu_110 (ReLU)               (None, 32, 64, 64)   0           ['batch_normalization_173[0][0]']
+ activation_171 (Activation)    (None, 32, 64, 64)   0           ['batch_normalization_173[0][0]']
                                                                                                   
- conv2d_174 (Conv2D)            (None, 32, 64, 64)   9248        ['re_lu_110[0][0]']              
+ conv2d_174 (Conv2D)            (None, 32, 64, 64)   9216        ['activation_171[0][0]']         
                                                                                                   
  batch_normalization_174 (Batch  (None, 32, 64, 64)  256         ['conv2d_174[0][0]']             
  Normalization)                                                                                   
                                                                                                   
  tf.__operators__.add_83 (TFOpL  (None, 32, 64, 64)  0           ['batch_normalization_174[0][0]',
- ambda)                                                           're_lu_109[0][0]']              
+ ambda)                                                           'activation_170[0][0]']         
                                                                                                   
- re_lu_111 (ReLU)               (None, 32, 64, 64)   0           ['tf.__operators__.add_83[0][0]']
+ activation_172 (Activation)    (None, 32, 64, 64)   0           ['tf.__operators__.add_83[0][0]']
                                                                                                   
- conv2d_175 (Conv2D)            (None, 32, 64, 64)   9248        ['re_lu_111[0][0]']              
+ conv2d_175 (Conv2D)            (None, 32, 64, 64)   9216        ['activation_172[0][0]']         
                                                                                                   
  batch_normalization_175 (Batch  (None, 32, 64, 64)  256         ['conv2d_175[0][0]']             
  Normalization)                                                                                   
                                                                                                   
- re_lu_112 (ReLU)               (None, 32, 64, 64)   0           ['batch_normalization_175[0][0]']
+ activation_173 (Activation)    (None, 32, 64, 64)   0           ['batch_normalization_175[0][0]']
                                                                                                   
- conv2d_176 (Conv2D)            (None, 32, 64, 64)   9248        ['re_lu_112[0][0]']              
+ conv2d_176 (Conv2D)            (None, 32, 64, 64)   9216        ['activation_173[0][0]']         
                                                                                                   
  batch_normalization_176 (Batch  (None, 32, 64, 64)  256         ['conv2d_176[0][0]']             
  Normalization)                                                                                   
                                                                                                   
  tf.__operators__.add_84 (TFOpL  (None, 32, 64, 64)  0           ['batch_normalization_176[0][0]',
- ambda)                                                           're_lu_111[0][0]']              
+ ambda)                                                           'activation_172[0][0]']         
                                                                                                   
- re_lu_113 (ReLU)               (None, 32, 64, 64)   0           ['tf.__operators__.add_84[0][0]']
+ activation_174 (Activation)    (None, 32, 64, 64)   0           ['tf.__operators__.add_84[0][0]']
                                                                                                   
- conv2d_177 (Conv2D)            (None, 32, 64, 64)   9248        ['re_lu_113[0][0]']              
+ conv2d_177 (Conv2D)            (None, 32, 64, 64)   9216        ['activation_174[0][0]']         
                                                                                                   
  batch_normalization_177 (Batch  (None, 32, 64, 64)  256         ['conv2d_177[0][0]']             
  Normalization)                                                                                   
                                                                                                   
- re_lu_114 (ReLU)               (None, 32, 64, 64)   0           ['batch_normalization_177[0][0]']
+ activation_175 (Activation)    (None, 32, 64, 64)   0           ['batch_normalization_177[0][0]']
                                                                                                   
- conv2d_178 (Conv2D)            (None, 32, 64, 64)   9248        ['re_lu_114[0][0]']              
+ conv2d_178 (Conv2D)            (None, 32, 64, 64)   9216        ['activation_175[0][0]']         
                                                                                                   
  batch_normalization_178 (Batch  (None, 32, 64, 64)  256         ['conv2d_178[0][0]']             
  Normalization)                                                                                   
                                                                                                   
  tf.__operators__.add_85 (TFOpL  (None, 32, 64, 64)  0           ['batch_normalization_178[0][0]',
- ambda)                                                           're_lu_113[0][0]']              
+ ambda)                                                           'activation_174[0][0]']         
                                                                                                   
- re_lu_115 (ReLU)               (None, 32, 64, 64)   0           ['tf.__operators__.add_85[0][0]']
+ activation_176 (Activation)    (None, 32, 64, 64)   0           ['tf.__operators__.add_85[0][0]']
                                                                                                   
- conv2d_179 (Conv2D)            (None, 32, 64, 64)   9248        ['re_lu_115[0][0]']              
+ conv2d_179 (Conv2D)            (None, 32, 64, 64)   9216        ['activation_176[0][0]']         
                                                                                                   
  batch_normalization_179 (Batch  (None, 32, 64, 64)  256         ['conv2d_179[0][0]']             
  Normalization)                                                                                   
                                                                                                   
- re_lu_116 (ReLU)               (None, 32, 64, 64)   0           ['batch_normalization_179[0][0]']
+ activation_177 (Activation)    (None, 32, 64, 64)   0           ['batch_normalization_179[0][0]']
                                                                                                   
- conv2d_180 (Conv2D)            (None, 32, 64, 64)   9248        ['re_lu_116[0][0]']              
+ conv2d_180 (Conv2D)            (None, 32, 64, 64)   9216        ['activation_177[0][0]']         
                                                                                                   
  batch_normalization_180 (Batch  (None, 32, 64, 64)  256         ['conv2d_180[0][0]']             
  Normalization)                                                                                   
                                                                                                   
  tf.__operators__.add_86 (TFOpL  (None, 32, 64, 64)  0           ['batch_normalization_180[0][0]',
- ambda)                                                           're_lu_115[0][0]']              
+ ambda)                                                           'activation_176[0][0]']         
                                                                                                   
- re_lu_117 (ReLU)               (None, 32, 64, 64)   0           ['tf.__operators__.add_86[0][0]']
+ activation_178 (Activation)    (None, 32, 64, 64)   0           ['tf.__operators__.add_86[0][0]']
                                                                                                   
- conv2d_181 (Conv2D)            (None, 32, 64, 64)   9248        ['re_lu_117[0][0]']              
+ conv2d_181 (Conv2D)            (None, 32, 64, 64)   9216        ['activation_178[0][0]']         
                                                                                                   
  batch_normalization_181 (Batch  (None, 32, 64, 64)  256         ['conv2d_181[0][0]']             
  Normalization)                                                                                   
                                                                                                   
- re_lu_118 (ReLU)               (None, 32, 64, 64)   0           ['batch_normalization_181[0][0]']
+ activation_179 (Activation)    (None, 32, 64, 64)   0           ['batch_normalization_181[0][0]']
                                                                                                   
- conv2d_182 (Conv2D)            (None, 32, 64, 64)   9248        ['re_lu_118[0][0]']              
+ conv2d_182 (Conv2D)            (None, 32, 64, 64)   9216        ['activation_179[0][0]']         
                                                                                                   
  batch_normalization_182 (Batch  (None, 32, 64, 64)  256         ['conv2d_182[0][0]']             
  Normalization)                                                                                   
                                                                                                   
  tf.__operators__.add_87 (TFOpL  (None, 32, 64, 64)  0           ['batch_normalization_182[0][0]',
- ambda)                                                           're_lu_117[0][0]']              
+ ambda)                                                           'activation_178[0][0]']         
                                                                                                   
- re_lu_119 (ReLU)               (None, 32, 64, 64)   0           ['tf.__operators__.add_87[0][0]']
+ activation_180 (Activation)    (None, 32, 64, 64)   0           ['tf.__operators__.add_87[0][0]']
                                                                                                   
- conv2d_183 (Conv2D)            (None, 32, 64, 64)   9248        ['re_lu_119[0][0]']              
+ conv2d_183 (Conv2D)            (None, 32, 64, 64)   9216        ['activation_180[0][0]']         
                                                                                                   
  batch_normalization_183 (Batch  (None, 32, 64, 64)  256         ['conv2d_183[0][0]']             
  Normalization)                                                                                   
                                                                                                   
- re_lu_120 (ReLU)               (None, 32, 64, 64)   0           ['batch_normalization_183[0][0]']
+ activation_181 (Activation)    (None, 32, 64, 64)   0           ['batch_normalization_183[0][0]']
                                                                                                   
- conv2d_184 (Conv2D)            (None, 32, 64, 64)   9248        ['re_lu_120[0][0]']              
+ conv2d_184 (Conv2D)            (None, 32, 64, 64)   9216        ['activation_181[0][0]']         
                                                                                                   
  batch_normalization_184 (Batch  (None, 32, 64, 64)  256         ['conv2d_184[0][0]']             
  Normalization)                                                                                   
                                                                                                   
  tf.__operators__.add_88 (TFOpL  (None, 32, 64, 64)  0           ['batch_normalization_184[0][0]',
- ambda)                                                           're_lu_119[0][0]']              
+ ambda)                                                           'activation_180[0][0]']         
                                                                                                   
- re_lu_121 (ReLU)               (None, 32, 64, 64)   0           ['tf.__operators__.add_88[0][0]']
+ activation_182 (Activation)    (None, 32, 64, 64)   0           ['tf.__operators__.add_88[0][0]']
                                                                                                   
- conv2d_185 (Conv2D)            (None, 32, 64, 64)   9248        ['re_lu_121[0][0]']              
+ conv2d_185 (Conv2D)            (None, 32, 64, 64)   9216        ['activation_182[0][0]']         
                                                                                                   
  batch_normalization_185 (Batch  (None, 32, 64, 64)  256         ['conv2d_185[0][0]']             
  Normalization)                                                                                   
                                                                                                   
- re_lu_122 (ReLU)               (None, 32, 64, 64)   0           ['batch_normalization_185[0][0]']
+ activation_183 (Activation)    (None, 32, 64, 64)   0           ['batch_normalization_185[0][0]']
                                                                                                   
- conv2d_186 (Conv2D)            (None, 32, 64, 64)   9248        ['re_lu_122[0][0]']              
+ conv2d_186 (Conv2D)            (None, 32, 64, 64)   9216        ['activation_183[0][0]']         
                                                                                                   
  batch_normalization_186 (Batch  (None, 32, 64, 64)  256         ['conv2d_186[0][0]']             
  Normalization)                                                                                   
                                                                                                   
  tf.__operators__.add_89 (TFOpL  (None, 32, 64, 64)  0           ['batch_normalization_186[0][0]',
- ambda)                                                           're_lu_121[0][0]']              
+ ambda)                                                           'activation_182[0][0]']         
                                                                                                   
- re_lu_123 (ReLU)               (None, 32, 64, 64)   0           ['tf.__operators__.add_89[0][0]']
+ activation_184 (Activation)    (None, 32, 64, 64)   0           ['tf.__operators__.add_89[0][0]']
                                                                                                   
- conv2d_187 (Conv2D)            (None, 1, 64, 64)    289         ['re_lu_123[0][0]']              
+ conv2d_187 (Conv2D)            (None, 1, 64, 64)    289         ['activation_184[0][0]']         
                                                                                                   
 ==================================================================================================
-Total params: 6,740,609
-Trainable params: 2,921,281
+Total params: 6,734,753
+Trainable params: 2,915,425
 Non-trainable params: 3,819,328
 __________________________________________________________________________________________________

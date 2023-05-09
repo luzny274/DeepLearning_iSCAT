@@ -71,25 +71,21 @@ class SaveBestModel(tf.keras.callbacks.Callback):
         f.close()
 
 
-class ResNet(tf.keras.Model):
-    def _activation(self, inputs):
-        return tf.keras.layers.Activation(tf.nn.swish)(inputs)
-    
+class ResNet(tf.keras.Model):    
     def _cnn(self, inputs, filters, kernel_size, stride, activation):
         hidden = tf.keras.layers.Conv2D(filters, kernel_size=kernel_size, strides=stride, padding="same", use_bias=False)(inputs)
         hidden = tf.keras.layers.BatchNormalization()(hidden)
-        hidden = self._activation(hidden) if activation else hidden
+        hidden = tf.keras.layers.Activation(tf.nn.swish)(hidden) if activation else hidden
         return hidden
 
     def _block(self, inputs, filters, stride, layer_index):
         hidden = self._cnn(inputs, filters, self.kernel_size, stride, activation=True)
         hidden = self._cnn(hidden, filters, self.kernel_size, 1, activation=False)
-        if stride > 1:
-            residual = self._cnn(inputs, filters, 1, stride, activation=False)
-        else:
-            residual = inputs
+           
+        residual = self._cnn(inputs, filters, 1, stride, activation=False) if stride > 1 else inputs
+        
         hidden = residual + hidden
-        hidden = self._activation(hidden)
+        hidden = tf.keras.layers.Activation(tf.nn.swish)(hidden)
         return hidden
 
     def __init__(self, shape, num_classes, depth, filters_start, kernel_size):
@@ -121,8 +117,6 @@ def main(args):
 
     seed = int(datetime.datetime.now().timestamp()) % 1000000
     tf.keras.utils.set_random_seed(seed)
-
-    tf.keras.backend.image_data_format()
 
     print(tf.keras.backend.image_data_format())
     tf.keras.backend.set_image_data_format('channels_first')

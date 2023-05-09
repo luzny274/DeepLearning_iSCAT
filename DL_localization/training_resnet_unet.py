@@ -21,7 +21,7 @@ import multiprocessing
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--dataset", default=0, type=int, help="Dataset (0/1/2)")
+parser.add_argument("--dataset", default=0, type=int, help="Dataset (0)")
 parser.add_argument("--finetune", default=False, action="store_true", help="Train new/finetune")
 parser.add_argument("--evaluate", default=False, action="store_true", help="Evaluate/train")
 
@@ -30,6 +30,11 @@ class SaveBestModel(tf.keras.callbacks.Callback):
         self.name = name
         self.metric = metric
         self.max = (float(this_max) - 0.5) * 2.0
+
+        
+        f = open(self.name + "_progress.txt", "w")
+        f.write("")
+        f.close()
 
     def get_best(self):
         filename = self.name + ".txt"
@@ -53,7 +58,6 @@ class SaveBestModel(tf.keras.callbacks.Callback):
         f.write(str(vals['val_loss']) + " ; " + str(vals['val_accuracy']))
         f.close()
 
-        # self.model.save(model_filename, include_optimizer=False)
         self.model.save_weights(self.name + "_weights/")
 
 
@@ -62,51 +66,36 @@ class SaveBestModel(tf.keras.callbacks.Callback):
             print("\tSaving...")
             self.set_best(logs)
 
+        f = open(self.name + "_progress.txt", "a")
+        f.write(str(logs['val_loss']) + " ; " + str(logs['val_accuracy']) + "\n")
+        f.close()
 
-class Model(tf.keras.Model):
-    def _activation(self, inputs):
-        if self.activation == "relu":
-            return tf.keras.layers.Activation(tf.nn.relu)(inputs)
-        if self.activation == "lrelu":
-            return tf.keras.layers.Activation(tf.nn.leaky_relu)(inputs)
-        if self.activation == "elu":
-            return tf.keras.layers.Activation(tf.nn.elu)(inputs)
-        if self.activation == "swish":
-            return tf.keras.layers.Activation(tf.nn.swish)(inputs)
-        if self.activation == "gelu":
-            return tf.keras.layers.Activation(tf.nn.gelu)(inputs)
-        raise ValueError("Unknown activation '{}'".format(self.activation))
-
-
-class ResNet(Model):
+class ResNet(tf.keras.Model):    
     def _cnn(self, inputs, filters, kernel_size, stride, activation):
         hidden = tf.keras.layers.Conv2D(filters, kernel_size=kernel_size, strides=stride, padding="same", use_bias=False)(inputs)
         hidden = tf.keras.layers.BatchNormalization()(hidden)
-        hidden = self._activation(hidden) if activation else hidden
+        hidden = tf.keras.layers.Activation(tf.nn.swish)(hidden) if activation else hidden
         return hidden
 
     def _block(self, inputs, filters, stride, layer_index):
         hidden = self._cnn(inputs, filters, self.kernel_size, stride, activation=True)
         hidden = self._cnn(hidden, filters, self.kernel_size, 1, activation=False)
-        if stride > 1:
-            residual = self._cnn(inputs, filters, 1, stride, activation=False)
-        else:
-            residual = inputs
+           
+        residual = self._cnn(inputs, filters, 1, stride, activation=False) if stride > 1 else inputs
+        
         hidden = residual + hidden
-        hidden = self._activation(hidden)
+        hidden = tf.keras.layers.Activation(tf.nn.swish)(hidden)
         return hidden
 
-    def __init__(self, shape, num_classes, activation, depth, filters_start, kernel_size):
+    def __init__(self, shape, num_classes, depth, filters_start, kernel_size):
         self.shape = shape
         self.num_classes = num_classes
-        self.activation = activation
         self.depth = depth
 
         self.filters_start = filters_start
         self.kernel_size = kernel_size
 
         n = (depth - 2) // 6
-
 
         inputs = tf.keras.Input(shape=shape, dtype=tf.float32)
         hidden = self._cnn(inputs, filters_start, kernel_size, 1, activation=True)
@@ -115,41 +104,34 @@ class ResNet(Model):
                 hidden = self._block(hidden, filters_start * (1 << stage), 2 if stage > 0 and block == 0 else 1, (stage * n + block) / (3 * n - 1))
         hidden = tf.keras.layers.GlobalAvgPool2D()(hidden)
         outputs = tf.keras.layers.Dense(num_classes, activation=tf.nn.softmax)(hidden)
+
         super().__init__(inputs, outputs)
 
-
-def main(args):
-    epochs = 30
+def main(args):    
+    # epochs = 200 #30
+    frozen_epochs = 30
+    finetune_epochs = 150
     batch_size = 32
     train_epoch_size = 16384
-    test_epoch_size = 8192
-    # train_epoch_size = 256
-    # test_epoch_size = 128
+    test_epoch_size = 16384
 
     seed = int(datetime.datetime.now().timestamp()) % 1000000
     tf.keras.utils.set_random_seed(seed)
-
-    tf.keras.backend.image_data_format()
 
     print(tf.keras.backend.image_data_format())
     tf.keras.backend.set_image_data_format('channels_first')
     print(tf.keras.backend.image_data_format())
 
-    mode = "dynamic"
-    print("Mode: " + mode)
     print("Dataset: " + str(args.dataset))
 
-    num_classes, frames, res, test_gen = iSCAT_Datasets.getDatasetGen(args.dataset, test_epoch_size, batch_size, verbose=0, mode=mode, regen=False)
+    num_classes, frames, res, test_gen = iSCAT_Datasets.getDatasetGen(args.dataset, test_epoch_size, batch_size, verbose=0, regen=False)
 
-
-    activation = "swish"
     depth = 62
     kernel_size = 3
 
-    backbone_comment = "_dataset-" + str(args.dataset)
-    backbone_name = "backbones/model_resnet_k" + str(kernel_size) + backbone_comment
+    backbone_name = "backbones/model_resnet_k" + str(kernel_size) + "_dataset-" + str(args.dataset)
 
-    backbone = ResNet((frames, res, res), num_classes, activation, depth, frames, kernel_size)
+    backbone = ResNet((frames, res, res), num_classes, depth, frames, kernel_size)
     backbone.load_weights(backbone_name + "_weights/")
     backbone.trainable = False
 
@@ -159,6 +141,13 @@ def main(args):
         outputs=[backbone.get_layer(layer).output for layer in [
                 "activation_60", "activation_40", "activation_20"]]
     )
+
+        
+    def cnn_layer(inputs, filters, kernel_size, stride, activation):
+        hidden = tf.keras.layers.Conv2D(filters, kernel_size=kernel_size, strides=stride, padding="same", use_bias=False)(inputs)
+        hidden = tf.keras.layers.BatchNormalization()(hidden)
+        hidden = tf.keras.layers.Activation(tf.nn.swish)(hidden) if activation else hidden
+        return hidden
 
     filters = [128, 64, 32]
     hidden = backbone.outputs[0]
@@ -171,19 +160,23 @@ def main(args):
         hidden = tf.keras.layers.Conv2DTranspose(channels, kernel_size=2, strides=2, padding="same")(hidden)
         hidden = tf.keras.layers.Concatenate(axis=1)([hidden, conv])
         hidden = tf.keras.layers.BatchNormalization()(hidden)
-        hidden = tf.keras.layers.ReLU()(hidden)
-        hidden = tf.keras.layers.Conv2D(channels, kernel_size=3, padding="same")(hidden)
-        hidden = tf.keras.layers.BatchNormalization()(hidden)
-        hidden = tf.keras.layers.ReLU()(hidden)
+        hidden = tf.keras.layers.Activation(tf.nn.swish)(hidden)
+
+        hidden = cnn_layer(hidden, channels, 3, 1, True)
+        # hidden = tf.keras.layers.Conv2D(channels, kernel_size=3, padding="same")(hidden)
+        # hidden = tf.keras.layers.BatchNormalization()(hidden)
+        # hidden = tf.keras.layers.ReLU()(hidden)
         for i in range(cnn_blocks):
             residual = hidden
-            hidden = tf.keras.layers.Conv2D(channels, kernel_size=3, padding="same")(hidden)
-            hidden = tf.keras.layers.BatchNormalization()(hidden)
-            hidden = tf.keras.layers.ReLU()(hidden)
-            hidden = tf.keras.layers.Conv2D(channels, kernel_size=3, padding="same")(hidden)
-            hidden = tf.keras.layers.BatchNormalization()(hidden)
+            hidden = cnn_layer(hidden, channels, 3, 1, True)
+            hidden = cnn_layer(hidden, channels, 3, 1, False)
+            # hidden = tf.keras.layers.Conv2D(channels, kernel_size=3, padding="same")(hidden)
+            # hidden = tf.keras.layers.BatchNormalization()(hidden)
+            # hidden = tf.keras.layers.ReLU()(hidden)
+            # hidden = tf.keras.layers.Conv2D(channels, kernel_size=3, padding="same")(hidden)
+            # hidden = tf.keras.layers.BatchNormalization()(hidden)
             hidden += residual
-            hidden = tf.keras.layers.ReLU()(hidden)
+            hidden = tf.keras.layers.Activation(tf.nn.swish)(hidden)
 
     outputs = tf.keras.layers.Conv2D(1, kernel_size=3, padding="same", activation=tf.nn.sigmoid)(hidden)
 
@@ -206,18 +199,16 @@ def main(args):
     else:
         raise ValueError("Unsupported loss '{}'".format(loss_type))
 
-    frozen_epochs = int(epochs / 2)
-    finetune_epochs = int(epochs / 2)
     
-    decay_steps = int(train_epoch_size / batch_size * frozen_epochs)
 
-    num_classes, frames, res, train_gen = iSCAT_Datasets.getDatasetGen(args.dataset, train_epoch_size, batch_size, verbose=1, mode=mode, regen=True)
+    num_classes, frames, res, train_gen = iSCAT_Datasets.getDatasetGen(args.dataset, train_epoch_size, batch_size, verbose=1, regen=True)
                     
     model_name = "models/resnet_unet"
 
     save_best_callback = SaveBestModel(name=model_name, metric="val_loss", this_max=False)
     
-    learning_rate = tf.optimizers.schedules.CosineDecay(0.0001, decay_steps, 0.0)
+    decay_steps = int(train_epoch_size / batch_size * frozen_epochs)
+    learning_rate = tf.optimizers.schedules.CosineDecay(0.00005, decay_steps, 0.0)
     model.compile(
         optimizer=tf.optimizers.Adam(learning_rate=learning_rate, jit_compile=False),
         loss=loss,
@@ -233,7 +224,8 @@ def main(args):
     model.fit(x=train_gen, validation_data=test_gen, epochs=frozen_epochs, callbacks=[save_best_callback])
           
     backbone.trainable = True
-    learning_rate = tf.optimizers.schedules.CosineDecay(0.0001, decay_steps, 0.0)
+    decay_steps = int(train_epoch_size / batch_size * finetune_epochs)
+    learning_rate = tf.optimizers.schedules.CosineDecay(0.00005, decay_steps, 0.0)
     model.compile(
         optimizer=tf.optimizers.Adam(learning_rate=learning_rate, jit_compile=False),
         loss=loss,

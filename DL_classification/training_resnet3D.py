@@ -132,7 +132,7 @@ def main(args):
     num_classes, frames, res, test_gen = iSCAT_Datasets.getDatasetGen(args.dataset, test_epoch_size, batch_size, verbose=0, regen=False)
 
     depth = 62
-    filters_start = 8
+    filters_start = 16
     kernel_size = (3, 3, 3)
 
     model_name = "models/model_resnet3d" + "_dataset-" + str(args.dataset)
