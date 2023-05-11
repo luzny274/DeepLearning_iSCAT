@@ -12,3 +12,4 @@ __pycache__
 *.png
 *.gif
 *.apng
+log_dir

@@ -2,6 +2,9 @@
 import os
 os.environ.setdefault("TF_CPP_MIN_LOG_LEVEL", "2")  # Report only TF errors by default
 
+import logging
+logging.getLogger('tensorflow').disabled = True
+
 import iSCAT_Datasets
 
 import argparse
@@ -22,7 +25,7 @@ import multiprocessing
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--dataset", default=0, type=int, help="Dataset (0)")
-parser.add_argument("--finetune", default=False, action="store_true", help="Train new/finetune")
+# parser.add_argument("--finetune", default=False, action="store_true", help="Train new/finetune")
 parser.add_argument("--evaluate", default=False, action="store_true", help="Evaluate/train")
 
 class SaveBestModel(tf.keras.callbacks.Callback):
@@ -107,8 +110,7 @@ class ResNet(tf.keras.Model):
 
         super().__init__(inputs, outputs)
 
-def main(args):    
-    # epochs = 200 #30
+def main(args):
     frozen_epochs = 30
     finetune_epochs = 150
     batch_size = 32
@@ -128,6 +130,8 @@ def main(args):
 
     depth = 62
     kernel_size = 3
+
+    model_name = "models/resnet_unet"
 
     backbone_name = "backbones/model_resnet_k" + str(kernel_size) + "_dataset-" + str(args.dataset)
 
@@ -163,18 +167,10 @@ def main(args):
         hidden = tf.keras.layers.Activation(tf.nn.swish)(hidden)
 
         hidden = cnn_layer(hidden, channels, 3, 1, True)
-        # hidden = tf.keras.layers.Conv2D(channels, kernel_size=3, padding="same")(hidden)
-        # hidden = tf.keras.layers.BatchNormalization()(hidden)
-        # hidden = tf.keras.layers.ReLU()(hidden)
         for i in range(cnn_blocks):
             residual = hidden
             hidden = cnn_layer(hidden, channels, 3, 1, True)
             hidden = cnn_layer(hidden, channels, 3, 1, False)
-            # hidden = tf.keras.layers.Conv2D(channels, kernel_size=3, padding="same")(hidden)
-            # hidden = tf.keras.layers.BatchNormalization()(hidden)
-            # hidden = tf.keras.layers.ReLU()(hidden)
-            # hidden = tf.keras.layers.Conv2D(channels, kernel_size=3, padding="same")(hidden)
-            # hidden = tf.keras.layers.BatchNormalization()(hidden)
             hidden += residual
             hidden = tf.keras.layers.Activation(tf.nn.swish)(hidden)
 
@@ -199,14 +195,10 @@ def main(args):
     else:
         raise ValueError("Unsupported loss '{}'".format(loss_type))
 
+    if args.evaluate:
+        model.load_weights(model_name + "_weights/")
     
-
-    num_classes, frames, res, train_gen = iSCAT_Datasets.getDatasetGen(args.dataset, train_epoch_size, batch_size, verbose=1, regen=True)
-                    
-    model_name = "models/resnet_unet"
-
-    save_best_callback = SaveBestModel(name=model_name, metric="val_loss", this_max=False)
-    
+    #Training stage with frozen backbone
     decay_steps = int(train_epoch_size / batch_size * frozen_epochs)
     learning_rate = tf.optimizers.schedules.CosineDecay(0.00005, decay_steps, 0.0)
     model.compile(
@@ -214,33 +206,60 @@ def main(args):
         loss=loss,
         metrics=[tf.metrics.BinaryAccuracy(name="accuracy")],
     )
-    with open('resnet_frozen_unet_summary.txt','w') as f:
-        print("", file=f)
 
-    def myprint(s):
-        with open('resnet_frozen_unet_summary.txt','a') as f:
-            print(s, file=f)
-    model.summary(print_fn=myprint)
-    model.fit(x=train_gen, validation_data=test_gen, epochs=frozen_epochs, callbacks=[save_best_callback])
-          
-    backbone.trainable = True
-    decay_steps = int(train_epoch_size / batch_size * finetune_epochs)
-    learning_rate = tf.optimizers.schedules.CosineDecay(0.00005, decay_steps, 0.0)
-    model.compile(
-        optimizer=tf.optimizers.Adam(learning_rate=learning_rate, jit_compile=False),
-        loss=loss,
-        metrics=[tf.metrics.BinaryAccuracy(name="accuracy")],
-    )
-    with open('resnet_fntn_unet_summary.txt','w') as f:
-        print("", file=f)
+    if args.evaluate:
+        tf.keras.utils.plot_model(
+            model,
+            to_file='models/Unet_architecture.png',
+            show_shapes=False,
+            show_dtype=False,
+            show_layer_names=True,
+            rankdir='TB',
+            expand_nested=False,
+            dpi=96,
+            layer_range=None,
+            show_layer_activations=False
+        )
 
-    def myprint(s):
-        with open('resnet_fntn_unet_summary.txt','a') as f:
-            print(s, file=f)
-    model.summary(print_fn=myprint)
-    model.fit(x=train_gen, validation_data=test_gen, epochs=finetune_epochs, callbacks=[save_best_callback])
+        model.trainable = False
+        tb_callback = tf.keras.callbacks.TensorBoard("log_dir")
+
+        model.evaluate(test_gen, callbacks=[tb_callback])
+    else:
+
+        num_classes, frames, res, train_gen = iSCAT_Datasets.getDatasetGen(args.dataset, train_epoch_size, batch_size, verbose=1, regen=True)
+                        
+
+        save_best_callback = SaveBestModel(name=model_name, metric="val_loss", this_max=False)
+        
+        
+        with open('resnet_frozen_unet_summary.txt','w') as f:
+            print("", file=f)
+
+        def myprint(s):
+            with open('resnet_frozen_unet_summary.txt','a') as f:
+                print(s, file=f)
+        model.summary(print_fn=myprint)
+        model.fit(x=train_gen, validation_data=test_gen, epochs=frozen_epochs, callbacks=[save_best_callback])
             
-    train_gen.destroy()
+        backbone.trainable = True
+        decay_steps = int(train_epoch_size / batch_size * finetune_epochs)
+        learning_rate = tf.optimizers.schedules.CosineDecay(0.00005, decay_steps, 0.0)
+        model.compile(
+            optimizer=tf.optimizers.Adam(learning_rate=learning_rate, jit_compile=False),
+            loss=loss,
+            metrics=[tf.metrics.BinaryAccuracy(name="accuracy")],
+        )
+        with open('resnet_fntn_unet_summary.txt','w') as f:
+            print("", file=f)
+
+        def myprint(s):
+            with open('resnet_fntn_unet_summary.txt','a') as f:
+                print(s, file=f)
+        model.summary(print_fn=myprint)
+        model.fit(x=train_gen, validation_data=test_gen, epochs=finetune_epochs, callbacks=[save_best_callback])
+                
+        train_gen.destroy()
 
     test_gen.destroy()
 

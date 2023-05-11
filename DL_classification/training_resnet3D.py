@@ -132,13 +132,27 @@ def main(args):
     num_classes, frames, res, test_gen = iSCAT_Datasets.getDatasetGen(args.dataset, test_epoch_size, batch_size, verbose=0, regen=False)
 
     depth = 62
-    filters_start = 16
+    filters_start = 8
     kernel_size = (3, 3, 3)
 
     model_name = "models/model_resnet3d" + "_dataset-" + str(args.dataset)
 
     if args.finetune or args.evaluate:
-        model = tf.keras.models.load_model(model_name + ".h5", custom_objects={"ResNet3D" : ResNet3D})
+        model = ResNet3D((frames, res, res), num_classes, depth, filters_start, kernel_size)
+        model.load_weights(model_name + "_weights/")
+        
+        tf.keras.utils.plot_model(
+            model,
+            to_file='models/3DResNet_architecture.png',
+            show_shapes=False,
+            show_dtype=False,
+            show_layer_names=True,
+            rankdir='TB',
+            expand_nested=False,
+            dpi=96,
+            layer_range=None,
+            show_layer_activations=False
+        )
     else:
         model = ResNet3D((frames, res, res), num_classes, depth, filters_start, kernel_size)
 
@@ -176,7 +190,21 @@ def main(args):
             loss=tf.losses.SparseCategoricalCrossentropy(),
             metrics=[tf.metrics.SparseCategoricalAccuracy(name="accuracy"), mean_deviation, std_deviation],
         )
+        model.trainable = False
         model.evaluate(test_gen)
+
+        probs = model.predict(test_gen.samples)
+        predictions = tf.math.argmax(probs, axis = 1)
+        
+        confusion_matrix = tf.math.confusion_matrix(
+            test_gen.particles_in_sight_cnt,
+            predictions,
+            num_classes=8
+        )
+        print(confusion_matrix)
+
+        class_cnts = tf.math.maximum(1, tf.math.reduce_sum(confusion_matrix, axis=1))
+        print(class_cnts)
     else:
         model.compile(
             optimizer=optimizer,

@@ -93,7 +93,25 @@ def main(args):
 
 
     if args.finetune or args.evaluate:
-        model = tf.keras.models.load_model(model_name + ".h5")
+        model = tf.keras.Sequential([
+            tf.keras.layers.Flatten(input_shape=[frames, res, res]),
+            tf.keras.layers.Dense(hidden_layer, activation=tf.nn.swish),
+            tf.keras.layers.Dense(num_classes, activation=tf.nn.softmax)
+        ])
+        model.load_weights(model_name + "_weights/")
+        
+        tf.keras.utils.plot_model(
+            model,
+            to_file='models/MLP_architecture.png',
+            show_shapes=False,
+            show_dtype=False,
+            show_layer_names=True,
+            rankdir='TB',
+            expand_nested=False,
+            dpi=96,
+            layer_range=None,
+            show_layer_activations=False
+        )
     else:
         model = tf.keras.Sequential([
             tf.keras.layers.Flatten(input_shape=[frames, res, res]),
@@ -129,12 +147,30 @@ def main(args):
     model.summary(print_fn=myprint)
 
     if args.evaluate:
+        os.makedirs("log_dir", exist_ok=True)
+        tb_callback = tf.keras.callbacks.TensorBoard("log_dir")
+        
         model.compile(
             optimizer=optimizer,
             loss=tf.losses.SparseCategoricalCrossentropy(),
             metrics=[tf.metrics.SparseCategoricalAccuracy(name="accuracy"), mean_deviation, std_deviation],
         )
-        model.evaluate(test_gen)
+        model.trainable = False
+        model.evaluate(test_gen, callbacks=[tb_callback])
+
+        probs = model.predict(test_gen.samples)
+        predictions = tf.math.argmax(probs, axis = 1)
+        
+        confusion_matrix = tf.math.confusion_matrix(
+            test_gen.particles_in_sight_cnt,
+            predictions,
+            num_classes=8
+        )
+        print(confusion_matrix)
+
+        class_cnts = tf.math.maximum(1, tf.math.reduce_sum(confusion_matrix, axis=1))
+        print(class_cnts)
+
     else:
         model.compile(
             optimizer=optimizer,
