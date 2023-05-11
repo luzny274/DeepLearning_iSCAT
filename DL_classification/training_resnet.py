@@ -113,7 +113,7 @@ def main(args):
     epochs = 200
     batch_size = 32
     train_epoch_size = 16384
-    test_epoch_size = 16384 #8192
+    test_epoch_size = 16384
 
     seed = int(datetime.datetime.now().timestamp()) % 1000000
     tf.keras.utils.set_random_seed(seed)
@@ -133,8 +133,25 @@ def main(args):
     model_name = "models/model_resnet_k" + str(kernel_size) + "_dataset-" + str(args.dataset)
 
     if args.finetune or args.evaluate:
+        os.makedirs("log_dir", exist_ok=True)
+        tb_callback = tf.keras.callbacks.TensorBoard("log_dir")
+        
         model = ResNet((frames, res, res), num_classes, depth, frames, kernel_size)
         model.load_weights(model_name + "_weights/")
+
+        tf.keras.utils.plot_model(
+            model,
+            to_file='models/2DResNet_architecture.png',
+            show_shapes=False,
+            show_dtype=False,
+            show_layer_names=True,
+            rankdir='TB',
+            expand_nested=False,
+            dpi=96,
+            layer_range=None,
+            show_layer_activations=False
+        )
+
     else:
         model = ResNet((frames, res, res), num_classes, depth, frames, kernel_size)
 
@@ -171,7 +188,21 @@ def main(args):
             loss=tf.losses.SparseCategoricalCrossentropy(),
             metrics=[tf.metrics.SparseCategoricalAccuracy(name="accuracy"), mean_deviation, std_deviation],
         )
-        model.evaluate(test_gen)
+        model.trainable = False
+        model.evaluate(test_gen, callbacks=[tb_callback])
+
+        probs = model.predict(test_gen.samples)
+        predictions = tf.math.argmax(probs, axis = 1)
+        
+        confusion_matrix = tf.math.confusion_matrix(
+            test_gen.particles_in_sight_cnt,
+            predictions,
+            num_classes=8
+        )
+        print(confusion_matrix)
+
+        class_cnts = tf.math.maximum(1, tf.math.reduce_sum(confusion_matrix, axis=1))
+        print(class_cnts)
     else:
         model.compile(
             optimizer=optimizer,
