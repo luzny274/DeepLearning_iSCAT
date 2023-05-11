@@ -213,7 +213,7 @@ def main(args):
             metrics=[tf.metrics.SparseCategoricalAccuracy(name="accuracy"), mean_deviation, std_deviation],
         )
         model.trainable = False
-        # model.evaluate(test_gen)
+        model.evaluate(test_gen)
         
         probs = model.predict(test_gen.samples, batch_size=batch_size)
         predictions = tf.math.argmax(probs, axis = 1)
