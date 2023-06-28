@@ -4,10 +4,6 @@ __pycache__
 *.npy
 *.npz
 
-*.h5
-*_weights*
-*_weights
-
 *.mp4
 *.png
 *.gif
